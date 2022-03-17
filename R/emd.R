@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 emd_matrix <- function (plist, parameter, maxIter) {
@@ -70,7 +70,7 @@ emd_matrix <- function (plist, parameter, maxIter) {
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' emd_heatmap(matrix)
@@ -107,7 +107,7 @@ emd_heatmap <- function(input, parameter) {
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' max_fluc(list, "PEF")
