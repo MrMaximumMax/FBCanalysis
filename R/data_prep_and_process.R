@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 patient_list <- function (path) {
   #Prepare the raw data and get all csv. files from the indicated file path
@@ -500,7 +500,7 @@ patient_list <- function (path) {
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' patient_ts_plot(list,"testpat_1","PEF")
 patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
@@ -537,7 +537,7 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
 patient_boxplot <- function(plist, patients, parameter, normalized) {
@@ -593,7 +593,7 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' patient_hist(list,"testpat_1","PEF")
 patient_hist <- function(plist, Patient_ID, parameter, normalized) {
