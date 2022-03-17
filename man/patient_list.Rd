@@ -17,6 +17,6 @@ Process patient time series data by interpolation options and store data in an o
 }
 \examples{
 list <- patient_list('.../ts_demofiles1') #files can be pulled from GitHub demo files
-(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #Sampling frequency is supposed to be daily
 }
