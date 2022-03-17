@@ -1,12 +1,39 @@
 Package: FBCanalysis
 Title: Develop and evaluate time series data models based on fluctuation based clustering
 Version: 0.0.0.9000
+Date: 2020-03-16
 Authors@R: 
     person("Maximilian", "Koehler", , "maximilian.a.koehler@gmail.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: The package includes tools for performing fluctuation-based 
+    clustering (FBC) on biological time series data, primarily for monitoring 
+    data fluctuations in asthmatics. The package includes functions for 
+    registering and processing time series data, developing matching clustering 
+    models based on Earth Mover's distances, and evaluating the models through 
+    enrichment analysis, stability after random data removal, or other frequently 
+    used cluster stability metrics.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 URL: https://github.com/MrMaximumMax/FBCanalysis
 BugReports: https://github.com/MrMaximumMax/FBCanalysis/issues
+Depends:
+    R (>= 4.1.1)
+Imports: 
+    arsenal,
+    cluster,
+    clValid,
+    dplyr,
+    emdist,
+    FCPS,
+    glmnet,
+    imputeTS,
+    lubridate,
+    mclust,
+    RankAggreg,
+    readr,
+    stats,
+    utils
+Suggests: 
+    rmarkdown,
+    knitr
