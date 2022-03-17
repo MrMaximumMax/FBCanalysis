@@ -59,7 +59,7 @@ init_clValid <- function() {
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles2') #file can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles2)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles2)
 #' #Sampling frequency is twice daily
 #' distmat <- emd_matrix(list, "PEF", maxIter = 5000)
 #' parameters <- init_clValid()
