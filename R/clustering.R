@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' clustering <- clust_matrix(matrix, method = "hierarchical", nclust = 2)
