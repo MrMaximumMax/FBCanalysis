@@ -7,7 +7,7 @@
 znorm(data)
 }
 \arguments{
-\item{data}{Numeric distribution as input; may be stored in an object of type vector, matrix or data frame}
+\item{data}{Numeric distribution; may be stored in an object of type vector, matrix or data frame}
 }
 \value{
 z-normalized distribution of input
