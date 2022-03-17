@@ -1,4 +1,20 @@
 #Generate, process and visualize Earth Mover's Distance data
+
+#' Generate a Earth Mover's Distance Matrix out of time series data list entries
+#'
+#' @param plist List storing patient time series data (also see function: \link{patient_list(path)})
+#' @param parameter Parameter of interest to determine Earth Mover's Distances between distributions
+#' @param maxIter Maximum of iterations to calculate Earth Mover's Distance (default: 500)
+#'
+#' @return Earth Mover's Distance Square Matrix of type matrix
+#'
+#' @import emdist
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' matrix <- emd_matrix(list, "FEV1")
 emd_matrix <- function (plist, parameter, maxIter) {
 
   #Determine number of patients in list
@@ -44,6 +60,20 @@ emd_matrix <- function (plist, parameter, maxIter) {
   rownames(distmat) <- names(plist)
   distmat
 }
+
+#' Visualize an Earth Mover's Distance Square Matrix as a heatmap
+#'
+#' @param input Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list(path)})
+#' @param parameter In case list is input, the parameter of interest from time series data list
+#'
+#' @return Visualized Earth Mover's Distance Matrix as a heatmap
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' matrix <- emd_matrix(list, "FEV1")
+#' emd_heatmap(matrix)
 emd_heatmap <- function(input, parameter) {
 
   #In case input is either of type "matrix" or "double" and no parameter is specified
@@ -65,6 +95,22 @@ emd_heatmap <- function(input, parameter) {
     stop("Incorrect input. Either indicater a distance matrix or list of time series dara")
   }
 }
+
+#' Determine pair of maximum fluctuation difference in a list storing time series data
+#'
+#' @param plist List storing patient time series data (also see function: \link{patient_list(path)})
+#' @param parameter Parameter of interest from time series data list
+#'
+#' @return Console output with Patient_ID pair, corresponding Earth Mover's Distance and visualized boxplot of both time series data distributions
+#'
+#' @import emdist
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' matrix <- emd_matrix(list, "FEV1")
+#' max_fluc(list, "PEF")
 max_fluc <- function(plist, parameter) {
 
   #Calculate EMD matrix out of specified list and parameter

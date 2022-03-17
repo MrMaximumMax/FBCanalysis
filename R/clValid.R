@@ -1,4 +1,11 @@
 #Functions for Cluster validation measure analysis
+
+#' Initialize Cluster Validation Measure Analysis in the context of Fluctuation Based Clustering (FBC) analysis
+#'
+#' @return Object of type list storing cluster method(s) and number of cluster range of interest (to be used for function: \link{clValid_flow})
+#'
+#' @examples
+#' init_clValid
 init_clValid <- function() {
 
   #List the methods to present them to the user
@@ -39,6 +46,25 @@ init_clValid <- function() {
   newList[["max_cl_num"]] <- as.numeric(max_cl_num)
   newList
 }
+
+#' Interactive console workflow to calculate and evaluate cluster validation measures
+#'
+#' @param matrix Earth Mover's Distance Matrix for processed patient time series data (also see functions: \link{emd_matrix}, \link{patient_list})
+#' @param par Object of type list storing clustering methods and cluster range of interest; initialized via function: \link{init_clValid}
+#'
+#' @return Object of type list storing chosen clustering method and number of clusters (can be then used for function \link{clust_matrix})
+#'
+#' @import clValid
+#' @import RankAggreg
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles2') #file can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles2)
+#' #Sampling frequency is twice daily
+#' distmat <- emd_matrix(list, "PEF", maxIter = 5000)
+#' parameters <- init_clValid()
+#' output <- clValid_flow(distmat, parameters)
+#' clustdat <- clust_matrix(distmat, output$method, as.numeric(output$clust_num))
 clValid_flow <- function(matrix, par) {
 
   #Output list to store the finally chosen clustering combination

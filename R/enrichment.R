@@ -1,197 +1,20 @@
 #General functionalities to cluster data and add cluster assignments to ts- and enrichment data
-clust_matrix <- function(matrix, method, nclust, plotclust) {
 
-  #Create a list to store output of clustering in a standardized format, reusable
-  #for further functionalities, regardless with clustering method was applied
-  newlist <- list()
-  #In case user has not specified number of cluster
-  if (missing(nclust)) {
-    #Ask user how many cluster should be used and m
-    nclust <- as.numeric(readline("How many clusters should be defined?: "))
-  }
-
-  if (method == "hierarchical") {
-    #Cluster EMD data hierarchically according to Ward's Minimum Variance method
-    hc <- hclust(as.dist(matrix),method = "ward.D2")
-
-    #In case user has not specified "plotclust" or "plotclust = TRUE"
-    if (missing(plotclust) || plotclust == TRUE) {
-      #Design for node style in dendrogram
-      nodePar <- list(lab.cex = 0.6, pch = c(NA, 19), cex = 0.7, col = "blue")
-      #Plot dendrogram for applied hierarchical clustering
-      plot(as.dendrogram(hc), type = "rectangle", ylab = "Height", nodePar = nodePar,
-           leaflab = "none", main = "Dendrogram, Ward's Min. Var. Method")
-      #Outline number of clusters with visualized rectangles
-      rect.hclust(hc, k = nclust)
-    }
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- cutree(hc , k = nclust)
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Hierarchical (Ward's Minimum Variance)"
-    newlist
-
-  } else if (method == "kmeans") {
-    #Cluster EMD data according to kmeans algorithm
-    clust <- kmeans(matrix, nclust)
-
-    #In case user has not specified "plotclust" or "plotclust = TRUE"
-    if (missing(plotclust) || plotclust == TRUE) {
-      #Visualize two-dimensionally result of kmeans clustering
-      clusplot(matrix, clust$cluster, main = "kmeans Clustering")
-    }
-
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$cluster
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Kmeans"
-    newlist
-
-  } else if (method == "diana") {
-
-    #Check what user has specified on plotclust
-    if (missing(plotclust) || plotclust == TRUE) {
-      condition <- TRUE
-    } else {
-      condition <- FALSE
-    }
-
-    #Apply diana clustering on EMD data
-    clust <- DivisiveAnalysisClustering(matrix, ClusterNo = nclust, PlotTree = condition)
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$Cls
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Diana"
-    newlist
-
-  } else if (method == "fanny") {
-
-    #Apply fanny clustering on EMD data
-    clust <- FannyClustering(matrix, ClusterNo = nclust)
-
-    #In case user has not specified "plotclust" or "plotclust = TRUE"
-    if (missing(plotclust) || plotclust == TRUE) {
-      #Visualize two-dimensionally result of fanny clustering
-      clusplot(fanny(matrix, nclust), main = "fanny clustering")
-    }
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$Cls
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Fanny"
-    newlist
-
-  } else if (method == "som") {
-
-    #Apply Som clustering on EMD data
-    #Currently no cluster visualization available
-    clust <- SOMclustering(matrix, ClusterNo = nclust, PlotIt = FALSE)
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$Cls
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Som"
-    newlist
-
-  } else if (method == "modelbased") {
-
-    #Apply Som clustering on EMD data
-    #Currently no cluster visualization available
-    clust <- ModelBasedClustering(matrix, ClusterNo = nclust, PlotIt = FALSE)
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$Cls
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Modelbased"
-    newlist
-
-  } else if (method == "sota") {
-
-    #Apply Sota clustering on EMD data
-    #Currently no cluster visualization available
-    clust <- SOTAclustering(matrix, ClusterNo = nclust, PlotIt = FALSE)
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$Cls
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Sota"
-    newlist
-
-  } else if (method == "pam") {
-
-    #Apply pam clustering on EMD data
-    clust <- PAMclustering(matrix, ClusterNo = nclust)
-    #In case user has not specified "plotclust" or "plotclust = TRUE"
-    if (missing(plotclust) || plotclust == TRUE) {
-      #Visualize two-dimensionally result of pam clustering
-      clusplot(pam(matrix, nclust), main = "pam clustering")
-    }
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$Cls
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Pam"
-    newlist
-
-  } else if (method == "clara") {
-
-    #Apply clara clustering on EMD data
-    clust <- cluster::clara(matrix, nclust)
-    #In case user has not specified "plotclust" or "plotclust = TRUE"
-    if (missing(plotclust) || plotclust == TRUE) {
-      #Visualize two-dimensionally result of clara clustering
-      clusplot(cluster::clara(matrix, nclust), main = "clara clustering")
-    }
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$cluster
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Clara"
-    newlist
-
-  } else if (method == "agnes") {
-
-    #Apply agnes clustering on EMD data
-    clust <- AgglomerativeNestingClustering(matrix, ClusterNo = nclust)
-    #In case user has not specified "plotclust" or "plotclust = TRUE"
-    if (missing(plotclust) || plotclust == TRUE) {
-      #Visualize two-dimensionally result of clara clustering
-      plot(agnes(matrix, nclust))
-    }
-
-    #Add an object of class "integer" to list, recording which Patient_ID belongs
-    #to which cluster
-    newlist[["Cls"]] <- clust$Cls
-    #Record number of clusters
-    newlist[["nclust"]] <- nclust
-    #Add character to list to record which clustering method was used
-    newlist[["Method"]] <- "Agnes"
-    newlist
-
-  } else {
-    stop("Incorrect input of clustering method")
-  }
-}
+#' Add enrichment data and preprocess for analysis
+#'
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
+#' @param path Path where enrichment csv file is stored
+#'
+#' @return Processed data as object of type data frame; Enrichment data Patient_IDs are matched with Time Series Data List Patient IDs; In case it was indicated, NA values in the enrichment data are filled up by random sampling
+#'
+#' @import utils
+#' @import dplyr
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be pulled from GitHub demo files
 add_enrich <- function(plist, path) {
 
   #Read csv-file on indicated path; empty fields in csv-file are filled up as NA
@@ -276,6 +99,23 @@ add_enrich <- function(plist, path) {
   }
   dat_new
 }
+
+#' Add clustering assignments to enrichment data frame
+#'
+#' @param enrich Preprocessed enrichment data frame (also see function: \link{add_enrich})
+#' @param clustdat Object of type list storing clustering data (also see function: \link{clust_matrix})
+#'
+#' @return Processed enrichment data frame with added column indicating cluster assignments
+#'
+#' @import tibble
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
+#' enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be pulled from GitHub demo files
+#' enr <- add_clust2enrich(enr, clustering)
 add_clust2enrich <- function(enrich, clustdat) {
 
   #Get vector from clustdat list where cluster assignments to patients are stored
@@ -295,6 +135,23 @@ add_clust2enrich <- function(enrich, clustdat) {
   #Combine both data frame
   enrich <- cbind(enrich,new)
 }
+
+#' Add clustering assignments to time series data
+#'
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
+#' @param clustdat Object of type list storing clustering data (also see function: \link{clust_matrix})
+#'
+#' @return Processed data frame storing time series data with added column indicating cluster assignments
+#'
+#' @import tibble
+#' @import dplyr
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
+#' ts <- add_clust2ts(list, clustering)
 add_clust2ts <- function(plist, clustdat) {
 
   #Make one data frame out of all dataframe within time series data list
@@ -327,6 +184,27 @@ add_clust2ts <- function(plist, clustdat) {
   #Make one time series data frame out of all list elements
   assigned <- do.call(rbind,datalist)
 }
+
+#' Observe specific cluster for overview and p-values
+#'
+#' @param ts.dat Processed data frame storing time series data and cluster assignments (also see function: \link{add_clust2ts})
+#' @param enrich Processed data frame storing enrichment data and cluster assignments (also see function: \link{add_clust2enrich})
+#' @param clustno Cluster number of interest
+#'
+#' @return Terminal output presenting summary of time series and enrichment data with corresponding p-values
+#'
+#' @import arsenal
+#' @import dplyr
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
+#' enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be drawn from GitHub demo files
+#' enr <- add_clust2enrich(enr, clustering)
+#' ts <- add_clust2ts(list, clustering)
+#' enr_obs_clust(ts, enr, 1)
 enr_obs_clust <- function(ts.dat, enrich, clustno) {
 
   #Methods only applicable on pre-processed enrichment and time series data
@@ -369,6 +247,17 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   #Length = Number of patients
   n_pat <- length(n_pat[,1])
 
+  #z-norm the ts-data
+  #find the Patient_IDs from the cluster of interest
+  patnames <- filter(ts.dat, Cluster == clustno)
+  patnames <- names(table(patnames[,"Patient_ID"]))
+  #find the parameters for cluster of interest
+  parameters <- colnames(ts.dat)
+  parameters <- gsub('Patient_ID', NA, parameters)
+  parameters <- gsub('Time', NA, parameters)
+  parameters <- gsub('Interpolated', NA, parameters)
+  parameters <- gsub('Cluster', NA, parameters)
+  parameters <- na.omit(parameters)
   #Start an analogous procedure for time series data
   #Remove both Patient_ID and Time so that only time series data, information
   #on interpolation and cluster assignment remain
@@ -388,9 +277,35 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   table_ts[,1] <- gsub("&nbsp;","",as.character(table_ts[,1]))
   cola <- as.data.frame(table_ts[,1])
   colb <- as.data.frame(table_ts[,2])
-  colc <- as.data.frame(table_ts[,5])
-  table_ts <- cbind(cola,colb,colc)
-  colnames(table_ts) <- c("Parameter", " ", "p-value")
+  #Add empty columns; The terminal output is then more convenient to read
+  colc <- as.data.frame(matrix("",ncol = 2, nrow = nrow(cola)))
+  cold <- as.data.frame(table_ts[,5])
+  table_ts <- cbind(cola,colb,colc,cold)
+  colnames(table_ts) <- c("Parameter", " "," ", "z-norm", "p-value")
+  #add the z-normalized values like
+  #Loop over each parameter
+  for (k in 1:length(parameters)) {
+    #Take the current distribution, meaning for the current parameter inside the cluster
+    current_distribution <- ts.dat_in[,parameters[k]]
+    #Z-normalize the chosen distributions
+    current_distribution <- znorm(current_distribution)
+    #Calculate the mean of the z-norm. distribution
+    mn <- as.character(round(mean(current_distribution), digits = 3))
+    #Calculate the std. deviation of the z-norm. distribution
+    stnd <- as.character(round(sd(current_distribution), digits = 3))
+    #Combine them in one character (better to present in the terminal)
+    mnstnd <- paste0(mn, " (", stnd, ")")
+    #Add mean and std. dev. in the summary table
+    table_ts[((3*k)-1),4] <- mnstnd
+    #Find the max. of the z-norm. distribution
+    mx <- as.character(round(max(current_distribution), digits = 3))
+    #Find the min. of the z-norm. distribution
+    min <- as.character(round(min(current_distribution), digits = 3))
+    #Combine them in one character (-"-)
+    mxmin <- paste0(min, " - ",mx)
+    #Add the range in the summary table
+    table_ts[(3*k),4] <- mxmin
+  }
 
   #for summary: number of measurements; number of interpolated data
   #Filter time series data for current cluster and determine length (= number of measurements)
@@ -411,6 +326,26 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   cat("\n\n", "Population data:","\n")
   print(table_enr)
 }
+
+#' Simulate random sampling for NA entries in enrichment data and check stability of resulting p-values for the enrichment parameters
+#'
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
+#' @param path Path where enrichment csv file is stored
+#' @param clustdat Object of type list storing clustering data (also see function: \link{clust_matrix})
+#' @param clustno Cluster number of interest
+#' @param n_sim Number of simulations
+#'
+#' @return Object of type list storing the received p-values for each parameter in a vector and boxplot visualizing the received p-values
+#'
+#' @import arsenal
+#' @import dplyr
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' test <- sim_sample_enr(list,path,clustering,1,100)
+#' sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim)
 sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim) {
 
   #Analogous start as in function: add_enrich()

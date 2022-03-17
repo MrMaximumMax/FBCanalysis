@@ -5,7 +5,7 @@
 #'
 #' Function applicable on any numeric distribution of data and z-normalize them.
 #'
-#' @param data Numeric distribution as input; may be stored in an object of type vector, matrix or data frame
+#' @param data Numeric distribution; may be stored in an object of type vector, matrix or data frame
 #'
 #' @return z-normalized distribution of input
 #'

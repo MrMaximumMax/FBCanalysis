@@ -1,4 +1,19 @@
-#Functions for Jaccard/random data removal
+#Functions for Jaccard index determination/random data removal
+
+#' Remove random data from time series data list
+#'
+#' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
+#' @param removal Amount of data removal (0 = 0%, 1 = 100%)
+#'
+#' @return Object of type list storing patient time series data with indicated amount of data removed randomly
+#'
+#' @import dplyr
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' list_rm <- rnd_dat_rm(testlist, 0.95)
 rnd_dat_rm <- function(plist, removal) {
 
   #Make one time series data frame out of all list elements
@@ -25,10 +40,31 @@ rnd_dat_rm <- function(plist, removal) {
   }
   newlist
 }
+
+#' Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach
+#'
+#' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
+#' @param parameter Parameter of interest in time series data list
+#' @param removal Amount of random data removal to determine Jaccard index
+#' @param n_simu Number of simulations
+#' @param method Clustering method (also see function: \link{clust_matrix})
+#' @param n_clust Number of clusters (also see function: \link{clust_matrix})
+#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix}); default is 5,000 for this function
+#'
+#' @return Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
+#'
+#' @import tibble
+#' @import dplyr
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' output <- sim_jaccard_cognate(list, "PEF", 0.05, 10, "hierarchical", 2, 1000)
 sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clust, Iter) {
   #Simulate random data removal and Jaccard index determination by Cognate Cluster Approach
 
-  #In case, user did not specify maximum for EMD calcilations, the default value is
+  #In case, user did not specify maximum for EMD calculations, the default value is
   #set to a high number (5,000)
   if (missing(Iter)) {
     Iter = 5000
@@ -92,10 +128,32 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
   }
   summary
 }
+
+#' Simulate random data removal from time series data list and determine Jaccard index via Earth Mover's Distance approach
+#'
+#' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
+#' @param parameter Parameter of interest in time series data list
+#' @param removal Amount of random data removal to determine Jaccard index
+#' @param n_simu Number of simulations
+#' @param method Clustering method (also see function: \link{clust_matrix})
+#' @param n_clust Number of clusters (also see function: \link{clust_matrix})
+#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix}); default is 5,000 for this function
+#'
+#' @return Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
+#'
+#' @import tibble
+#' @import dplyr
+#' @import emdist
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' output <- sim_jaccard_emd(list, "PEF", 0.05, 10, "hierarchical", 2, 1000)
 sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, Iter) {
 
   #Simulate random data removal and Jaccard index determination by EMD Approach
-  #In case, user did not specify maximum for EMD calcilations, the default value is
+  #In case, user did not specify maximum for EMD calculations, the default value is
   #set to a high number (5,000)
   if (missing(Iter)) {
     Iter = 5000
@@ -189,6 +247,27 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
   }
   summary
 }
+
+#' Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach for multiple random data removal steps
+#'
+#' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
+#' @param parameter Parameter of interest in time series data list
+#' @param n_simu Number of simulations
+#' @param method Clustering method (also see function: \link{clust_matrix})
+#' @param clust_num Cluster of interest
+#' @param n_clust Number of clusters
+#' @param range Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))
+#'
+#' @return Object of type list storing Jaccard indices for each indicated random data removal step and visualized results in a boxplot
+#'
+#' @import tibble
+#' @import dplyr
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' output <- jaccard_run_cognate(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_clust, range) {
 
   #List to store Jaccard indices for each simulation
@@ -215,6 +294,28 @@ jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_c
           names = range, ylab = "Jaccard index", xlab = "Data removal", ylim = c(0,1))
   jaccard_list
 }
+
+#' Simulate random data removal from time series data list and determine Jaccard index via Earth Mover's Distance approach for multiple random data removal steps
+#'
+#' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
+#' @param parameter Parameter of interest in time series data list
+#' @param n_simu Number of simulations
+#' @param method Clustering method (also see function: \link{clust_matrix})
+#' @param clust_num Cluster of interest
+#' @param n_clust Number of clusters
+#' @param range Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))
+#'
+#' @return Object of type list storing Jaccard indices for each indicated random data removal step and visualized results in a boxplot
+#'
+#' @import tibble
+#' @import dplyr
+#' @import emdist
+#'
+#' @examples
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' #Sampling frequency is supposed to be daily
+#' output <- jaccard_run_emd(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 jaccard_run_emd <- function(plist, parameter, n_simu, method, clust_num, n_clust, range) {
 
   #List to store Jaccard indices for each simulation
