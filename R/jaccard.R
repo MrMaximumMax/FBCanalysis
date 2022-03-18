@@ -313,7 +313,7 @@ jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_c
 #'
 #' @examples
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' output <- jaccard_run_emd(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 jaccard_run_emd <- function(plist, parameter, n_simu, method, clust_num, n_clust, range) {

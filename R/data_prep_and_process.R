@@ -1,5 +1,66 @@
 #General functions to read out, process and observe time series data
 
+#' FBCanalysis: A package for developing and evaluating biomedical time series
+#' data clustering model based on Fluctuation Based Clustering (FBC)
+#'
+#' This R package aims to offer researchers with fast tools for clustering
+#' patient time series data and confirming the distinction using additional
+#' metrics such as population parameter enrichment analysis, stability after
+#' random data removal, and conventional cluster stability measures.
+#'
+#' @section FBCanaylsis functions: \link{add_clust2enrich}
+#'
+#'  \link{addclust_2ts}
+#'
+#'  \link{add_enrich}
+#'
+#'  \link{clust_matrix}
+#'
+#'  \link{clValid_flow}
+#'
+#'  \link{emd_heatmap}
+#'
+#'  \link{emd_matrix}
+#'
+#'  \link{enr_obs_clust}
+#'
+#'  \link{addclust_2ts}
+#'
+#'  \link{init_clValid}
+#'
+#'  \link{jaccard_run_cognate}
+#'
+#'  \link{jaccard_run_emd}
+#'
+#'  \link{max_fluc}
+#'
+#'  \link{patient_boxplot}
+#'
+#'  \link{patient_hist}
+#'
+#'  \link{patient_list}
+#'
+#'  \link{patient_ts_plot}
+#'
+#'  \link{rnd_dat_rm}
+#'
+#'  \link{addclust_2ts}
+#'
+#'  \link{sim_jaccard_cognate}
+#'
+#'  \link{sim_jaccard_emd}
+#'
+#'  \link{sim_sample_enr}
+#'
+#'  \link{znorm}
+#'
+#' @seealso \href{https://github.com/MrMaximumMax/FBCanalysis}{GitHub Repository}
+#'
+#' @docType package
+#' @name FBCanalysis
+NULL
+#> NULL
+
 #' Process patient time series data by interpolation options and store data in an object of type list
 #'
 #' @param path Path where csv file(s) are stored (only folder, not specific file(s))
@@ -489,8 +550,8 @@ patient_list <- function (path) {
 
 #' Visualize patient time series data in a time series plot for indicated parameter
 #'
-#' @param plist List storing patient time series data (also see function: \link{patient_list(path)})
-#' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list(path)})
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
+#' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in list element
 #' @param normalized TRUE/FALSE if z-normalized (TRUE by default)
 #'
@@ -512,7 +573,7 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
   if (missing(normalized) || normalized == TRUE) {
 
     #Plot time on x-axis and z-normalize specified parameter from data frame on y-axis
-    plot(patient_df$Time,znorm(patient_df[, which(names(patient_df) %in% parameter)]),
+    graphics::plot(patient_df$Time,znorm(patient_df[, which(names(patient_df) %in% parameter)]),
          xlab = "Time", ylab = parameter, main = Patient_ID, col = "blue")
 
     #In case "normalized = FALSE"
@@ -525,7 +586,7 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 
 #' Visualize patient(s) time series data in a boxplot for indicated parameter
 #'
-#' @param plist List storing patient time series data (also see function: \link{patient_list(path)})
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param patients Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list(path)})
 #' @param parameter Parameter of interest in list element(s)
 #' @param normalized TRUE/FALSE if z-normalized (TRUE by default)
@@ -582,8 +643,8 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
 
 #' Visualize patient time series data in a histogram for indicated parameter
 #'
-#' @param plist List storing patient time series data (also see function: \link{patient_list(path)})
-#' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list(path)})
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
+#' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in list element
 #' @param normalized TRUE/FALSE if z-normalized (TRUE by default)
 #'
