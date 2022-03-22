@@ -79,6 +79,8 @@ NULL
 #' list <- patient_list('.../ts_demofiles1') #files can be pulled from GitHub demo files
 #' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
+#'
+#' @export
 patient_list <- function (path) {
   #Prepare the raw data and get all csv. files from the indicated file path
   raw.files <- tibble(filename = list.files(path))
@@ -564,6 +566,8 @@ patient_list <- function (path) {
 #' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' patient_ts_plot(list,"testpat_1","PEF")
+#'
+#' @export
 patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 
   #Take specific data frame out of list according to specified Patient_ID
@@ -601,6 +605,8 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 #' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
+#'
+#' @export
 patient_boxplot <- function(plist, patients, parameter, normalized) {
 
   #In case boxplot for only one patient
@@ -657,6 +663,8 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
 #' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' patient_hist(list,"testpat_1","PEF")
+#'
+#' @export
 patient_hist <- function(plist, Patient_ID, parameter, normalized) {
 
   #Take data frame out of list for specified Patient_ID

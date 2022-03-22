@@ -15,6 +15,9 @@
 #' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be pulled from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/enrichment)
+#'
+#' @export
 add_enrich <- function(plist, path) {
 
   #Read csv-file on indicated path; empty fields in csv-file are filled up as NA
@@ -115,7 +118,10 @@ add_enrich <- function(plist, path) {
 #' #Sampling frequency is supposed to be daily
 #' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
 #' enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be pulled from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/enrichment)
 #' enr <- add_clust2enrich(enr, clustering)
+#'
+#' @export
 add_clust2enrich <- function(enrich, clustdat) {
 
   #Get vector from clustdat list where cluster assignments to patients are stored
@@ -152,6 +158,8 @@ add_clust2enrich <- function(enrich, clustdat) {
 #' #Sampling frequency is supposed to be daily
 #' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
 #' ts <- add_clust2ts(list, clustering)
+#'
+#' @export
 add_clust2ts <- function(plist, clustdat) {
 
   #Make one data frame out of all dataframe within time series data list
@@ -202,9 +210,12 @@ add_clust2ts <- function(plist, clustdat) {
 #' #Sampling frequency is supposed to be daily
 #' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
 #' enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be drawn from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/enrichment)
 #' enr <- add_clust2enrich(enr, clustering)
 #' ts <- add_clust2ts(list, clustering)
 #' enr_obs_clust(ts, enr, 1)
+#'
+#' @export
 enr_obs_clust <- function(ts.dat, enrich, clustno) {
 
   #Methods only applicable on pre-processed enrichment and time series data
@@ -344,8 +355,12 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
 #' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
 #' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
+#' path <- '.../enrichment.csv' #Enrichment file can be pulled from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/enrichment)
 #' test <- sim_sample_enr(list,path,clustering,1,100)
 #' sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim)
+#'
+#' @export
 sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim) {
 
   #Analogous start as in function: add_enrich()

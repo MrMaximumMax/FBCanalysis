@@ -5,7 +5,9 @@
 #' @return Object of type list storing cluster method(s) and number of cluster range of interest (to be used for function: \link{clValid_flow})
 #'
 #' @examples
-#' init_clValid
+#' init_clValid()
+#'
+#' @export
 init_clValid <- function() {
 
   #List the methods to present them to the user
@@ -65,6 +67,8 @@ init_clValid <- function() {
 #' parameters <- init_clValid()
 #' output <- clValid_flow(distmat, parameters)
 #' clustdat <- clust_matrix(distmat, output$method, as.numeric(output$clust_num))
+#'
+#' @export
 clValid_flow <- function(matrix, par) {
 
   #Output list to store the finally chosen clustering combination
