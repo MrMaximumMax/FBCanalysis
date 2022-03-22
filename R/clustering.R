@@ -19,6 +19,8 @@
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' clustering <- clust_matrix(matrix, method = "hierarchical", nclust = 2)
+#'
+#' @export
 clust_matrix <- function(matrix, method, nclust, plotclust) {
 
   #Create a list to store output of clustering in a standardized format, reusable

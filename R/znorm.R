@@ -12,6 +12,8 @@
 #' @examples
 #' random_distribution <- runif(n = 50, min = 1, max = 10)
 #' znorm_distribution <- znorm(random_distribution)
+#'
+#' @export
 znorm <- function (data) {
   data.mean <- mean(data)
   data.dev <- sd(data)

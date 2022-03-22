@@ -15,6 +15,8 @@
 #' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
+#'
+#' @export
 emd_matrix <- function (plist, parameter, maxIter) {
 
   #Determine number of patients in list
@@ -63,7 +65,7 @@ emd_matrix <- function (plist, parameter, maxIter) {
 
 #' Visualize an Earth Mover's Distance Square Matrix as a heatmap
 #'
-#' @param input Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list(path)})
+#' @param input Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list})
 #' @param parameter In case list is input, the parameter of interest from time series data list
 #'
 #' @return Visualized Earth Mover's Distance Matrix as a heatmap
@@ -74,6 +76,8 @@ emd_matrix <- function (plist, parameter, maxIter) {
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' emd_heatmap(matrix)
+#'
+#' @export
 emd_heatmap <- function(input, parameter) {
 
   #In case input is either of type "matrix" or "double" and no parameter is specified
@@ -98,7 +102,7 @@ emd_heatmap <- function(input, parameter) {
 
 #' Determine pair of maximum fluctuation difference in a list storing time series data
 #'
-#' @param plist List storing patient time series data (also see function: \link{patient_list(path)})
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest from time series data list
 #'
 #' @return Console output with Patient_ID pair, corresponding Earth Mover's Distance and visualized boxplot of both time series data distributions
@@ -111,6 +115,8 @@ emd_heatmap <- function(input, parameter) {
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' max_fluc(list, "PEF")
+#'
+#' @export
 max_fluc <- function(plist, parameter) {
 
   #Calculate EMD matrix out of specified list and parameter
