@@ -7,9 +7,9 @@
 patient_hist(plist, Patient_ID, parameter, normalized)
 }
 \arguments{
-\item{plist}{List storing patient time series data (also see function: \link{patient_list(path)})}
+\item{plist}{List storing patient time series data (also see function: \link{patient_list})}
 
-\item{Patient_ID}{Patient_ID referring to a list element (also see function: \link{patient_list(path)})}
+\item{Patient_ID}{Patient_ID referring to a list element (also see function: \link{patient_list})}
 
 \item{parameter}{Parameter of interest in list element}
 
@@ -26,4 +26,5 @@ list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from
 #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #Sampling frequency is supposed to be daily
 patient_hist(list,"testpat_1","PEF")
+
 }

@@ -7,7 +7,7 @@
 patient_boxplot(plist, patients, parameter, normalized)
 }
 \arguments{
-\item{plist}{List storing patient time series data (also see function: \link{patient_list(path)})}
+\item{plist}{List storing patient time series data (also see function: \link{patient_list})}
 
 \item{patients}{Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list(path)})}
 
@@ -26,4 +26,5 @@ list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from
 #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #Sampling frequency is supposed to be daily
 patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
+
 }

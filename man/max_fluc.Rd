@@ -4,12 +4,14 @@
 \alias{max_fluc}
 \title{Determine pair of maximum fluctuation difference in a list storing time series data}
 \usage{
-max_fluc(plist, parameter)
+max_fluc(plist, parameter, maxIter)
 }
 \arguments{
-\item{plist}{List storing patient time series data (also see function: \link{patient_list(path)})}
+\item{plist}{List storing patient time series data (also see function: \link{patient_list})}
 
 \item{parameter}{Parameter of interest from time series data list}
+
+\item{maxIter}{Maximum of iterations to apply for calculation of Earth Mover's Distannce (also see function: \link{emd_matrix})}
 }
 \value{
 Console output with Patient_ID pair, corresponding Earth Mover's Distance and visualized boxplot of both time series data distributions
@@ -23,4 +25,5 @@ list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from
 #Sampling frequency is supposed to be daily
 matrix <- emd_matrix(list, "FEV1")
 max_fluc(list, "PEF")
+
 }

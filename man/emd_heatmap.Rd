@@ -7,7 +7,7 @@
 emd_heatmap(input, parameter)
 }
 \arguments{
-\item{input}{Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list(path)})}
+\item{input}{Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list})}
 
 \item{parameter}{In case list is input, the parameter of interest from time series data list}
 }
@@ -23,4 +23,5 @@ list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from
 #Sampling frequency is supposed to be daily
 matrix <- emd_matrix(list, "FEV1")
 emd_heatmap(matrix)
+
 }

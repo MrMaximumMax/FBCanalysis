@@ -25,4 +25,5 @@ distmat <- emd_matrix(list, "PEF", maxIter = 5000)
 parameters <- init_clValid()
 output <- clValid_flow(distmat, parameters)
 clustdat <- clust_matrix(distmat, output$method, as.numeric(output$clust_num))
+
 }

@@ -27,6 +27,9 @@ Simulate random sampling for NA entries in enrichment data and check stability o
 list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
 #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #Sampling frequency is supposed to be daily
+path <- '.../enrichment.csv' #Enrichment file can be pulled from GitHub demo files
+#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/enrichment)
 test <- sim_sample_enr(list,path,clustering,1,100)
 sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim)
+
 }

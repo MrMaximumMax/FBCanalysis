@@ -22,4 +22,5 @@ list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from
 #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
 #Sampling frequency is supposed to be daily
 list_rm <- rnd_dat_rm(testlist, 0.95)
+
 }

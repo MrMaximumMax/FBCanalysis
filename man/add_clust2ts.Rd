@@ -23,4 +23,5 @@ list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from
 #Sampling frequency is supposed to be daily
 clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
 ts <- add_clust2ts(list, clustering)
+
 }

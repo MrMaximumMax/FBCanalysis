@@ -13,5 +13,6 @@ Object of type list storing cluster method(s) and number of cluster range of int
 Initialize Cluster Validation Measure Analysis in the context of Fluctuation Based Clustering (FBC) analysis
 }
 \examples{
-init_clValid
+init_clValid()
+
 }

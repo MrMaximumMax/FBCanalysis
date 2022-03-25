@@ -25,7 +25,9 @@ list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from
 #Sampling frequency is supposed to be daily
 clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
 enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be drawn from GitHub demo files
+#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/enrichment)
 enr <- add_clust2enrich(enr, clustering)
 ts <- add_clust2ts(list, clustering)
 enr_obs_clust(ts, enr, 1)
+
 }
