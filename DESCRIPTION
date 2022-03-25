@@ -33,6 +33,7 @@ Imports:
     RankAggreg,
     readr,
     stats,
+    tibble,
     utils
 Suggests: 
     rmarkdown,
