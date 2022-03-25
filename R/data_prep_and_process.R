@@ -171,7 +171,7 @@ patient_list <- function (path) {
     #Make the filter from the Patient_ID's vector for current Patient_ID
     filter <- patnames[i]
     #Filter for current Patient_ID
-    patdat <- filter(raw.data, Patient_ID %in% filter)
+    patdat <- dplyr::filter(raw.data, Patient_ID %in% filter)
     #In case user has chosen dmy time format
     if (question3 == 1) {
       patdat$Time <- dmy(patdat$Time)
@@ -220,7 +220,7 @@ patient_list <- function (path) {
       #Create a second time sequence
       newdates_2 <- data.frame(Time = seq(firstdate_2, lastdate_2, by = "day"))
       #Combine both sequences
-      newdates <- full_join(newdates,newdates_2)
+      newdates <- full_join(newdates,newdates_2, by = "Time")
     }
     if (question4 == 2) {
       #Make a daily sequence out of first and last date
@@ -235,7 +235,7 @@ patient_list <- function (path) {
       #Make a second weekly sequence out of the new dates
       newdates_2 <- data.frame(Time = seq(firstdate_2, lastdate_2, by = "week"))
       #Combine both sequences to a complete biweekly sequence
-      newdates <- full_join(newdates,newdates_2)
+      newdates <- full_join(newdates,newdates_2, by = "Time")
     }
     if (question4 == 4) {
       #Make a weekly sequence out of first and last date
@@ -250,7 +250,7 @@ patient_list <- function (path) {
       #Make a second monthly sequence out of these new dates
       newdates_2 <- data.frame(Time = seq(firstdate_2, lastdate_2, by = "month"))
       #Combine both sequences to a twice monthly sequence
-      newdates <- full_join(newdates,newdates_2)
+      newdates <- full_join(newdates,newdates_2, by = "Time")
     }
     if (question4 == 6) {
       #Make a monthly sequence out of first and last date
@@ -265,7 +265,7 @@ patient_list <- function (path) {
       #Make a second sequence out of these new date
       newdates_2 <- data.frame(Time = seq(firstdate_2, lastdate_2, by = "quarter"))
       #Combine both sequences to a twice a quarter sequence
-      newdates <- full_join(newdates,newdates_2)
+      newdates <- full_join(newdates,newdates_2, by = "Time")
     }
     if (question4 == 8) {
       #Make a quarterly seaquence out of first and last date
@@ -311,6 +311,9 @@ patient_list <- function (path) {
       }
       #Combine both complete and incomplete data again
       patdat <- rbind(patdat2,patdat1)
+      #Add the Patient_ID to each cell in Patient_ID column so that it remains
+      #assignable
+      patdat[,"Patient_ID"] <- filter
       #Sort patient data by time and add to the list as an entry wit list item
       #name is Patient_ID
       datalist[[filter]] <- patdat[order(patdat$Time),]
@@ -329,12 +332,13 @@ patient_list <- function (path) {
         }
       }
       patdat <- rbind(patdat2,patdat1)
+      patdat[,"Patient_ID"] <- filter
       datalist[[filter]] <- patdat[order(patdat$Time),]
     }
     #In case the user indicated Polynomial regression/L1 regularization
-    #Remark here (as in 309); Usecase 3,4,5 were created in an isolated manner
+    #Remark here (as in 162); Usecase 3,4,5 were created in an isolated manner
     #even though that is not the most elegant solution; Here likewise, there has
-    #been the issue that after a few for-loop-runs where glmnet could not recognize
+    #been the issue that after a for-loop-runs where glmnet could not recognize
     #the defined alpha value that has been defined in an object of type numeric
     #before; These issues did not occur when alpha was indicated as a fixed number
     #within the glmnet(...) function
@@ -345,7 +349,7 @@ patient_list <- function (path) {
       #sequence to train the models via glmnet
       patdat[,"Seq"] <- 1:nrow(patdat)
       #Filter for existing data = Training data
-      patdat1 <- filter(patdat, Interpolated == FALSE)
+      patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
       #Polynomial degress to try out are number of data points - 1
       pol_degrees <- length(complete.cases(patdat))-1
       #Loop through each parameters individually and find out best polynomial
@@ -383,7 +387,7 @@ patient_list <- function (path) {
         }
         #Search lowest MSE from matrix
         best_pol_deg <- which.min(regularization_mat[,2])
-        #As in line 513 quiet the warning messages
+        #As in line 368 quiet the warning messages
         options(warn=-1)
         X <- matrix(patdat1[,"Seq"],ncol = 1);
         for (m in (c(2:best_pol_deg))){
@@ -400,7 +404,7 @@ patient_list <- function (path) {
         #find the indexes within the data distribution where NA values are found
         na_in_dat <- sum(is.na(patdat[,current_par]))
         na_index <- which(is.na(patdat[,current_par]))
-        #Similar as in line 513 and 535
+        #Similar as in line 368
         options(warn=-1)
         for (o in 1:na_in_dat) {
           #Go to current NA values and let predict the corresponding value at
@@ -412,22 +416,25 @@ patient_list <- function (path) {
           }
           patdat[,current_par][seq_miss] <- predict(Y, newx = tNA, exact = TRUE, s = cvfit$lambda.min, x=X, y=patdat1[,current_par], maxit = MaxIt)
         }
-        #Quiet warning again
+        #Quiet warning again (see line 368)
         options(warn=-1)
         #Remove the sequence column (not relevant for later analyses anymore)
         patdat[,"Seq"] <- NULL
+        #Add the Patient_ID to each cell in Patient_ID column so that it remains
+        #assignable
+        patdat[,"Patient_ID"] <- filter
         #Add the currently processed patient data to the list
         datalist[[filter]] <- patdat
         #Update the progress bar
       }
     }
     #In case the user indicated Polynomial regression/L1 regularization
-    #Similar remarks as in line 309 and 484; The only difference here is that
+    #Similar remarks as in line 338; The only difference here is that
     #now glmnet uses a value of 1; Besides this, the approach is similar
     if (usecase == 4) {
       patdat <- patdat[order(patdat$Time),]
       patdat[,"Seq"] <- 1:nrow(patdat)
-      patdat1 <- filter(patdat, Interpolated == FALSE)
+      patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
       pol_degrees <- length(complete.cases(patdat))-1
       for (j in 1:length(parameters)) {
         current_par <- parameters[j]
@@ -470,17 +477,18 @@ patient_list <- function (path) {
         }
         options(warn=-1)
         patdat[,"Seq"] <- NULL
+        patdat[,"Patient_ID"] <- filter
         datalist[[filter]] <- patdat
       }
     }
     #In case the user indicated Polynomial regression/L1 regularization
-    #Similar remarks as in line 309 and 484; The only difference here is that
+    #Similar remarks as in line 338; The only difference here is that
     #now glmnet uses the indicated alpha for elastic net that has been added to
-    #the environment (see line 309); Besides this, the approach is similar
+    #the environment (see line 338); Besides this, the approach is similar
     if (usecase == 5) {
       patdat <- patdat[order(patdat$Time),]
       patdat[,"Seq"] <- 1:nrow(patdat)
-      patdat1 <- filter(patdat, Interpolated == FALSE)
+      patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
       pol_degrees <- length(complete.cases(patdat))-1
       for (j in 1:length(parameters)) {
         current_par <- parameters[j]
@@ -523,6 +531,7 @@ patient_list <- function (path) {
         }
         options(warn=-1)
         patdat[,"Seq"] <- NULL
+        patdat[,"Patient_ID"] <- filter
         datalist[[filter]] <- patdat
         setTxtProgressBar(pb, i)
       }
@@ -532,7 +541,12 @@ patient_list <- function (path) {
       #Order current patient data by time
       patdat <- patdat[order(patdat$Time),]
       #Perform linear interpolation on NA values
-      patdat <- na_interpolation(patdat, option = "linear")
+      for (j in 1:length(parameters)) {
+      patdat[,parameters[j]] <- na_interpolation(patdat[,parameters[j]], option = "linear")
+      }
+      #Add the Patient_ID to each cell in Patient_ID column so that it remains
+      #assignable
+      patdat[,"Patient_ID"] <- filter
       #Add to list
       datalist[[filter]] <- patdat
     }
@@ -541,7 +555,12 @@ patient_list <- function (path) {
       #Order current patient data by time
       patdat <- patdat[order(patdat$Time),]
       #Perform cubic c spline interpolation on NA values
-      patdat <- na_interpolation(patdat, option = "spline")
+      for (j in 1:length(parameters)) {
+        patdat[,parameters[j]] <- na_interpolation(patdat[,parameters[j]], option = "spline")
+      }
+      #Add the Patient_ID to each cell in Patient_ID column so that it remains
+      #assignable
+      patdat[,"Patient_ID"] <- filter
       #Add to list
       datalist[[filter]] <- patdat
     }
@@ -629,7 +648,7 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
     #Transform whole list to one data frame
     patient_df <- do.call("rbind", plist)
     #Filter data frame for specified Patient_ID's
-    dat <- patient_df %>% filter(Patient_ID %in% patients)
+    dat <- patient_df %>% dplyr::filter(Patient_ID %in% patients)
 
     #In case "normalized" not specified or "normalized = TRUE"
     if (missing(normalized) || normalized == TRUE) {

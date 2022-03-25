@@ -60,13 +60,12 @@ init_clValid <- function() {
 #' @import RankAggreg
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles2') #file can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles2)
-#' #Sampling frequency is twice daily
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
+#' #Sampling frequency is supposed to be daily
 #' distmat <- emd_matrix(list, "PEF", maxIter = 5000)
 #' parameters <- init_clValid()
 #' output <- clValid_flow(distmat, parameters)
-#' clustdat <- clust_matrix(distmat, output$method, as.numeric(output$clust_num))
 #'
 #' @export
 clValid_flow <- function(matrix, par) {
@@ -117,7 +116,7 @@ clValid_flow <- function(matrix, par) {
     question_r2 <- as.character(readline("Let Cross-Entropy search for ideal method? (y/n): "))
     #If yes
     if (question_r2 == "y") {
-      #Apply RankAggreg for Cross Entropy search on suoper list with Spearman's footrule
+      #Apply RankAggreg for Cross Entropy search on super list with Spearman's footrule
       if(require("RankAggreg")) {
         CEWS <- RankAggreg(x=res$ranks, k=5, weights=res$weights, seed=123, verbose=FALSE)
         cat("\n\n")
@@ -125,43 +124,8 @@ clValid_flow <- function(matrix, par) {
         print(CEWS)
         cat("\n\n")
       }
-      #Fifth question
-      new_question <- as.character(readline("Do you want to take best result (y/n)?: "))
-      #If yes
-      if(new_question == "y") {
-        #Take result from CEWS list
-        split <- CEWS$top.list[1]
-        #Split the character by "-"
-        split <- strsplit(split, "-")
-        #Add both clustering method string and number to output list
-        output_list[["method"]] <- split[[1]][1]
-        output_list[["clust_num"]] <- as.numeric(split[[1]][2])
-      } else {
-        #Empty line
-        cat("\n")
-        #Present in a matrix the previously analysed clustering methods
-        present = matrix(0, nrow = 2, ncol = length(par$cl_methods))
-        #Assign numbers to the methods so that the user can choose method by number
-        present[1,] <- c(1:length(par$cl_methods))
-        present[2,] <- par$cl_methods
-        #Print clustering methods to user
-        print(present)
-        cat("\n\n")
-        #Choose number for clustering combination
-        new_question <- as.integer(readline("Which of your analyzed methods should be used instead (please indicate number)?: "))
-        #Add clustering method to output list
-        output_list[["method"]] <- par$cl_methods[new_question]
-        #Choose number of cluster
-        next_question <- as.integer(readline("How many clusters should be applied?: "))
-        #Add number of clusters to output list
-        output_list[["clust_num"]] <- as.numeric(next_question)
-      }
-      #Now generate EMD matrix clustering data in standardized format to use
-      #for further functions regarding random data removal and enrichment
-      #analysis
-      final_output <- clust_matrix(matrix, method = output_list$method, nclust = output_list$clust_num)
     }
-  } else {
+  }
     #Empty line
     cat("\n")
     #Present in a matrix the previously analysed clustering methods
@@ -173,7 +137,7 @@ clValid_flow <- function(matrix, par) {
     print(present)
     cat("\n\n")
     #Choose number for clustering combination
-    new_question <- as.integer(readline("Which of your analyzed methods should be ussed instead (please indicate number)?: "))
+    new_question <- as.integer(readline("Which of your analyzed methods should be used (please indicate number)?: "))
     #Add clustering method to output list
     output_list[["method"]] <- par$cl_methods[new_question]
     #Choose number of cluster
@@ -181,5 +145,5 @@ clValid_flow <- function(matrix, par) {
     #Add number of clusters to output list
     output_list[["clust_num"]] <- as.numeric(next_question)
     final_output <- clust_matrix(matrix, method = output_list$method, nclust = output_list$clust_num)
-  }
 }
+

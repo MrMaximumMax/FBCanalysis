@@ -57,7 +57,7 @@ add_enrich <- function(plist, path) {
   #Check which patients are in enrich but not ts and throw them out
   throw <- as.vector(dplyr::setdiff(names_enr,names_ts))
   #Throw out Patient_ID's that do not appear in time series data list
-  dat_new1 <- filter(dat, !Patient_ID %in% throw)
+  dat_new1 <- dplyr::filter(dat, !Patient_ID %in% throw)
 
   #Check which patients are in ts but not enrich and add them with NAs
   add <- dplyr::setdiff(names_ts,names_enr)
@@ -177,13 +177,13 @@ add_clust2ts <- function(plist, clustdat) {
   #For-loop for every cluster
   for (i in 1:max(new[,"Cluster"])) {
     #Filter for current cluster number
-    compare <- filter(new, Cluster %in% i)
+    compare <- dplyr::filter(new, Cluster %in% i)
     #Remove column "Cluster"
     compare[,"Cluster"] <- NULL
     #Make a vector, only containing the Patient_ID's for current cluster
     compare <- as.character(compare[,1])
     #Filter time series data frame for Patient_ID's from current cluster
-    new2 <- filter(ts_df, Patient_ID %in% compare)
+    new2 <- dplyr::filter(ts_df, Patient_ID %in% compare)
     #Add a new column "Cluster" to time series data frame storing cluster number
     new2[,"Cluster"] <- i
     #Add current cluster time series data to list
@@ -226,9 +226,9 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   enrich[,"Patient_ID"] <- NULL
   #Split the data so that p-values can be calculated
   #(in cluster = 0 vs. not in cluster = 1)
-  enrich_in <- filter(enrich, Cluster == clustno)
+  enrich_in <- dplyr::filter(enrich, Cluster == clustno)
   enrich_in[,"Cluster"] <- 0
-  enrich_out <- filter(enrich, Cluster != clustno)
+  enrich_out <- dplyr::filter(enrich, Cluster != clustno)
   enrich_out[,"Cluster"] <- 1
   #Now bind them both together again
   enrich_new <- rbind(enrich_in,enrich_out)
@@ -254,13 +254,12 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
 
   #Count how many patients are in currently observed cluster
   #Filter for current cluster
-  n_pat <- filter(enrich, Cluster %in% clustno)
+  n_pat <- dplyr::filter(enrich, Cluster %in% clustno)
   #Length = Number of patients
   n_pat <- length(n_pat[,1])
 
-  #z-norm the ts-data
   #find the Patient_IDs from the cluster of interest
-  patnames <- filter(ts.dat, Cluster == clustno)
+  patnames <- dplyr::filter(ts.dat, Cluster == clustno)
   patnames <- names(table(patnames[,"Patient_ID"]))
   #find the parameters for cluster of interest
   parameters <- colnames(ts.dat)
@@ -276,12 +275,13 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   ts.dat[,"Time"] <- NULL
   #Split the data so that p-values can be calculated
   #(in cluster = 0 vs. not in cluster = 1)
-  ts.dat_in <- filter(ts.dat, Cluster == clustno)
+  ts.dat_in <- dplyr::filter(ts.dat, Cluster == clustno)
   ts.dat_in[,"Cluster"] <- 0
-  ts.dat_out <- filter(ts.dat, Cluster != clustno)
+  ts.dat_out <- dplyr::filter(ts.dat, Cluster != clustno)
   ts.dat_out[,"Cluster"] <- 1
   #Now bind them both together again
   ts.dat_new <- rbind(ts.dat_in,ts.dat_out)
+  #Make an evaluation by cluster in and out with arsenal functionality
   table_ts <- tableby(Cluster ~., data = ts.dat_new)
   #Similar procedure as above (line 978)
   table_ts <- as.data.frame(summary(table_ts))
@@ -300,14 +300,6 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
     current_distribution <- ts.dat_in[,parameters[k]]
     #Z-normalize the chosen distributions
     current_distribution <- znorm(current_distribution)
-    #Calculate the mean of the z-norm. distribution
-    mn <- as.character(round(mean(current_distribution), digits = 3))
-    #Calculate the std. deviation of the z-norm. distribution
-    stnd <- as.character(round(sd(current_distribution), digits = 3))
-    #Combine them in one character (better to present in the terminal)
-    mnstnd <- paste0(mn, " (", stnd, ")")
-    #Add mean and std. dev. in the summary table
-    table_ts[((3*k)-1),4] <- mnstnd
     #Find the max. of the z-norm. distribution
     mx <- as.character(round(max(current_distribution), digits = 3))
     #Find the min. of the z-norm. distribution
@@ -320,11 +312,11 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
 
   #for summary: number of measurements; number of interpolated data
   #Filter time series data for current cluster and determine length (= number of measurements)
-  n_mes <- filter(ts.dat, Cluster %in% clustno)
+  n_mes <- dplyr::filter(ts.dat, Cluster %in% clustno)
   n_val <- length(n_mes[,1])
   #Filter and determine length for both interpolated and non-interpolated data
-  n_real <- length(filter(n_mes, Interpolated == FALSE)[,1])
-  n_inter <- length(filter(n_mes, Interpolated == TRUE)[,1])
+  n_real <- length(dplyr::filter(n_mes, Interpolated == FALSE)[,1])
+  n_inter <- length(dplyr::filter(n_mes, Interpolated == TRUE)[,1])
   #Determine the ratio interpolated vs. non-interpolated data
   inter_ratio <- round(100*(n_inter/(n_inter + n_real)), digits = 4)
   #Printed feedback on observation of current cluster for user with previously
@@ -401,7 +393,7 @@ sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim) {
   #Check which patients are in enrich but not ts and throw them out
   throw <- as.vector(dplyr::setdiff(names_enr,names_ts))
   #Throw out Patient_ID's that do not appear in time series data list
-  dat_new1 <- filter(dat, !Patient_ID %in% throw)
+  dat_new1 <- dplyr::filter(dat, !Patient_ID %in% throw)
 
   #Check which patients are in ts but not enrich and add them with NAs
   add <- dplyr::setdiff(names_ts,names_enr)
@@ -453,9 +445,9 @@ sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim) {
     dat_new_add[,"Patient_ID"] <- NULL
     #Split the data so that p-values can be calculated
     #(in cluster = 0 vs. not in cluster = 1)
-    enrich_in <- filter(dat_new_add, Cluster == clustno)
+    enrich_in <- dplyr::filter(dat_new_add, Cluster == clustno)
     enrich_in[,"Cluster"] <- 0
-    enrich_out <- filter(dat_new_add, Cluster != clustno)
+    enrich_out <- dplyr::filter(dat_new_add, Cluster != clustno)
     enrich_out[,"Cluster"] <- 1
     #Now bind them both together again
     enrich_new <- rbind(enrich_in,enrich_out)

@@ -104,6 +104,7 @@ emd_heatmap <- function(input, parameter) {
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest from time series data list
+#' @param maxIter Maximum of iterations to apply for calculation of Earth Mover's Distannce (also see function: \link{emd_matrix})
 #'
 #' @return Console output with Patient_ID pair, corresponding Earth Mover's Distance and visualized boxplot of both time series data distributions
 #'
@@ -117,10 +118,10 @@ emd_heatmap <- function(input, parameter) {
 #' max_fluc(list, "PEF")
 #'
 #' @export
-max_fluc <- function(plist, parameter) {
+max_fluc <- function(plist, parameter, maxIter) {
 
   #Calculate EMD matrix out of specified list and parameter
-  distmat <- emd_matrix(plist, parameter)
+  distmat <- emd_matrix(plist, parameter, maxIter = maxIter)
   #Determine matrix position where highest EMD was find in distmat
   max_pair <- as.vector(which(distmat==max(distmat), arr.ind = TRUE))
   #Take colname for first and second index from max_pair (= Patient-pair)

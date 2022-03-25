@@ -10,8 +10,8 @@
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
 #' #Sampling frequency is supposed to be daily
 #' list_rm <- rnd_dat_rm(testlist, 0.95)
 #'
@@ -36,7 +36,7 @@ rnd_dat_rm <- function(plist, removal) {
   #For each Patient_ID
   for (i in 1:length(patnames)) {
     #Filter the time series data frame by current Patient_ID
-    new_df <- filter(df, Patient_ID %in% patnames[i])
+    new_df <- dplyr::filter(df, Patient_ID %in% patnames[i])
     #Add the current new data frame to the list
     newlist[[patnames[i]]] <- new_df
   }
@@ -59,8 +59,8 @@ rnd_dat_rm <- function(plist, removal) {
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
 #' #Sampling frequency is supposed to be daily
 #' output <- sim_jaccard_cognate(list, "PEF", 0.05, 10, "hierarchical", 2, 1000)
 #'
@@ -71,7 +71,7 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
   #In case, user did not specify maximum for EMD calculations, the default value is
   #set to a high number (5,000)
   if (missing(Iter)) {
-    Iter = 5000
+    Iter <- 5000
   }
   #Make a gold standard EMD matrix for complete data without data removal
   distmat_complete <- emd_matrix(plist, parameter, maxIter = Iter)
@@ -107,14 +107,14 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
     #data removal cluster to determine cognate cluster
     for (m in 1:n_clust) {
       #filter for current gold standard cluster
-      overlap1 <- filter(combined, all_dat == m)
+      overlap1 <- dplyr::filter(combined, all_dat == m)
       #Make a vector to store all calculated Jaccard indices; Highest Jaccard
       #index then represents the cognate cluster
       jaccard_vector <- vector()
       #For-loop to filter for each data removal cluster
       for (n in 1:n_clust) {
         #Filter for data removal cluster
-        overlap2 <- filter(combined, data_removal == n)
+        overlap2 <- dplyr::filter(combined, data_removal == n)
         #Find intersection between current gold standard cluster and current
         #data removal cluster
         common <- nrow(intersect(overlap1, overlap2))
@@ -150,8 +150,8 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
 #' #Sampling frequency is supposed to be daily
 #' output <- sim_jaccard_emd(list, "PEF", 0.05, 10, "hierarchical", 2, 1000)
 #'
@@ -162,7 +162,7 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
   #In case, user did not specify maximum for EMD calculations, the default value is
   #set to a high number (5,000)
   if (missing(Iter)) {
-    Iter = 5000
+    Iter <-  5000
   }
   #Make a gold standard EMD matrix for complete data without data removal
   distmat_complete <- emd_matrix(plist, parameter, maxIter = Iter)
@@ -182,7 +182,7 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
   #For each cluster
   for (t in 1:n_clust) {
     #Take the Patient_ID's from current cluster according to clustering data output
-    patnames <- filter(compare, dat_complete$Cls == t)[,1]
+    patnames <- dplyr::filter(compare, dat_complete$Cls == t)[,1]
     #Make data frame out of time series data list (to be used later to extract distributions)
     distribution <- do.call(rbind,plist)
     #List to store normalized distributions of each Patient_ID for gold standard
@@ -190,7 +190,7 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
     #For each Patient_ID in time series data list
     for (u in 1:length(patnames)) {
       #Filter for current Patient_ID to receive current distribution
-      distr_a <- filter(distribution, Patient_ID %in% patnames[u])
+      distr_a <- dplyr::filter(distribution, Patient_ID %in% patnames[u])
       #Normalize current distribution
       norm_a <- ((distr_a[,parameter] - min(distr_a[,parameter]))/(max(distr_a[,parameter]) - min(distr_a[,parameter])))
       #Add current distribution to list
@@ -238,9 +238,9 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
     #For each cluster calculate Jaccard index from current simulation
     for (m in 1:n_clust) {
       #Filter for cluster in gold standard
-      overlap1 <- filter(combined, all_dat == m)
+      overlap1 <- dplyr::filter(combined, all_dat == m)
       #Filter for cluster after random data removal
-      overlap2 <- filter(combined, data_removal == m)
+      overlap2 <- dplyr::filter(combined, data_removal == m)
       #Determine intersection between gold standard and random data removal
       common <- nrow(intersect(overlap1, overlap2))
       #Determine unification quantity
@@ -270,8 +270,8 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
 #' #Sampling frequency is supposed to be daily
 #' output <- jaccard_run_cognate(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 #'
@@ -287,7 +287,7 @@ jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_c
   for (i in 1:n) {
     #Simulate random data removal and Jaccard index determination by cognate cluster
     #approach n_simu times and add Jaccard indices for each cluster to list
-    jaccard_list[[as.character(range[i])]] <- sim_jaccard_cognate(testlist, parameter, range[i], n_simu = n_simu, method = method, n_clust = n_clust)
+    jaccard_list[[as.character(range[i])]] <- sim_jaccard_cognate(plist, parameter, range[i], n_simu = n_simu, method = method, n_clust = n_clust)
   }
   #Plotlist to easily visualize boxplots for each step
   plotlist = list()
@@ -320,8 +320,8 @@ jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_c
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' (https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
+#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
 #' #Sampling frequency is supposed to be daily
 #' output <- jaccard_run_emd(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 #'
@@ -337,7 +337,7 @@ jaccard_run_emd <- function(plist, parameter, n_simu, method, clust_num, n_clust
   for (i in 1:n) {
     #Simulate random data removal and Jaccard index determination by cognate cluster
     #approach n_simu times and add Jaccard indices for each cluster to list
-    jaccard_list[[as.character(range[i])]] <- sim_jaccard_emd(testlist, parameter, range[i], n_simu = n_simu, method = method, n_clust = n_clust)
+    jaccard_list[[as.character(range[i])]] <- sim_jaccard_emd(plist, parameter, range[i], n_simu = n_simu, method = method, n_clust = n_clust)
   }
   #Plotlist to easily visualize boxplots for each step
   plotlist = list()
