@@ -1,0 +1,11 @@
+Patient_ID,Gender,Location,Age,BMI
+b301,M,City,10,26
+patient_ID_32,M,City,12,27
+testpat_2,,,16,
+a100,M,Countryside,8,20
+a300,M,,7,22
+a301,M,Countryside,12,
+ed_433,,Countryside,15,
+ID_2,F,,,22
+testpat_1,F,Countryside,9,24
+Newpatient,F,Countryside,12,22
