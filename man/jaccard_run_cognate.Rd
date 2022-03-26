@@ -36,9 +36,7 @@ Object of type list storing Jaccard indices for each indicated random data remov
 Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach for multiple random data removal steps
 }
 \examples{
-list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
-#Sampling frequency is supposed to be daily
+list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 output <- jaccard_run_cognate(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 
 }

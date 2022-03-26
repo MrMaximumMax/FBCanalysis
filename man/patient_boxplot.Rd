@@ -22,8 +22,7 @@ Visualized patient(s) time series data in a boxplot for indicated parameter
 Visualize patient(s) time series data in a boxplot for indicated parameter
 }
 \examples{
-list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
 

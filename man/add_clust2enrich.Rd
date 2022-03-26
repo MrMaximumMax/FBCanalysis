@@ -18,12 +18,10 @@ Processed enrichment data frame with added column indicating cluster assignments
 Add clustering assignments to enrichment data frame
 }
 \examples{
-list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
-enr <- add_enrich(list, '.../enrichment_dat.csv') #file can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/enrichment)
+enr <- add_enrich(list, 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
 enr <- add_clust2enrich(enr, clustering)
 
 }

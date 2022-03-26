@@ -18,8 +18,7 @@ Processed data frame storing time series data with added column indicating clust
 Add clustering assignments to time series data
 }
 \examples{
-list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
 ts <- add_clust2ts(list, clustering)

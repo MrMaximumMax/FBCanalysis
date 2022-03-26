@@ -4,7 +4,7 @@
 \alias{patient_list}
 \title{Process patient time series data by interpolation options and store data in an object of type list}
 \usage{
-patient_list(path)
+patient_list(path, GitHub)
 }
 \arguments{
 \item{path}{Path where csv file(s) are stored (only folder, not specific file(s))}
@@ -16,8 +16,7 @@ Object of type list storing patient time series data
 Process patient time series data by interpolation options and store data in an object of type list
 }
 \examples{
-list <- patient_list('.../ts_demofiles1') #files can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 
 }

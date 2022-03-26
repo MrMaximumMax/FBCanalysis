@@ -4,12 +4,14 @@
 \alias{emd_heatmap}
 \title{Visualize an Earth Mover's Distance Square Matrix as a heatmap}
 \usage{
-emd_heatmap(input, parameter)
+emd_heatmap(input, parameter, maxIter)
 }
 \arguments{
 \item{input}{Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list})}
 
 \item{parameter}{In case list is input, the parameter of interest from time series data list}
+
+\item{Iter}{In case input is time series data list, incate maxIter to calculate EMD matrix (also see function: \link{emd_matrix})}
 }
 \value{
 Visualized Earth Mover's Distance Matrix as a heatmap
@@ -18,8 +20,7 @@ Visualized Earth Mover's Distance Matrix as a heatmap
 Visualize an Earth Mover's Distance Square Matrix as a heatmap
 }
 \examples{
-list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 matrix <- emd_matrix(list, "FEV1")
 emd_heatmap(matrix)

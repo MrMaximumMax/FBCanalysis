@@ -4,10 +4,10 @@
 \alias{max_fluc}
 \title{Determine pair of maximum fluctuation difference in a list storing time series data}
 \usage{
-max_fluc(plist, parameter, maxIter)
+max_fluc(input, parameter, maxIter)
 }
 \arguments{
-\item{plist}{List storing patient time series data (also see function: \link{patient_list})}
+\item{input}{Either a list storing time series data or EMD martrix (also see functions: \link{patient_list}, \link{emd_matrix})}
 
 \item{parameter}{Parameter of interest from time series data list}
 
@@ -20,10 +20,8 @@ Console output with Patient_ID pair, corresponding Earth Mover's Distance and vi
 Determine pair of maximum fluctuation difference in a list storing time series data
 }
 \examples{
-list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #Sampling frequency is supposed to be daily
-matrix <- emd_matrix(list, "FEV1")
 max_fluc(list, "PEF")
 
 }
