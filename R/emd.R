@@ -11,8 +11,7 @@
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #'
@@ -67,21 +66,21 @@ emd_matrix <- function (plist, parameter, maxIter) {
 #'
 #' @param input Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list})
 #' @param parameter In case list is input, the parameter of interest from time series data list
+#' @param Iter In case input is time series data list, incate maxIter to calculate EMD matrix (also see function: \link{emd_matrix})
 #'
 #' @return Visualized Earth Mover's Distance Matrix as a heatmap
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' emd_heatmap(matrix)
 #'
 #' @export
-emd_heatmap <- function(input, parameter) {
+emd_heatmap <- function(input, parameter, maxIter) {
 
   #In case input is either of type "matrix" or "double" and no parameter is specified
-  if (missing(parameter) & typeof(input) == "matrix" || typeof(input) == "double") {
+  if (missing (maxIter) & missing(parameter) & typeof(input) == "matrix" || typeof(input) == "double") {
     #Apply heatmap on input, disable any further functionalities (e.g dendrogram),
     #remain order of matrix data entries and scale font size of legend
     heatmap(input, Colv = NA, Rowv = NA, scale = "column", cexRow = 0.7, cexCol = 0.7)
@@ -91,7 +90,10 @@ emd_heatmap <- function(input, parameter) {
     #Calculate EMD matrix on data from for specified parameter and then apply heatmap
     #on EMD matrix, disable any further functionalities (e.g. dendrogram), remain
     #order of matrix data entries and scale font size of legend
-    heatmap((emd_matrix(input, parameter)), Colv = NA, Rowv = NA, scale = "column",
+    if (missing(maxIter)) {
+      Iter <- 5000
+    }
+    heatmap((emd_matrix(input, parameter, maxIter = Iter)), Colv = NA, Rowv = NA, scale = "column",
             cexRow = 0.7, cexCol = 0.7)
     #In case type of input is neither "matrix", "double" nor "list", stop and give
     #feedback to user
@@ -102,7 +104,7 @@ emd_heatmap <- function(input, parameter) {
 
 #' Determine pair of maximum fluctuation difference in a list storing time series data
 #'
-#' @param plist List storing patient time series data (also see function: \link{patient_list})
+#' @param input Either a list storing time series data or EMD martrix (also see functions: \link{patient_list}, \link{emd_matrix})
 #' @param parameter Parameter of interest from time series data list
 #' @param maxIter Maximum of iterations to apply for calculation of Earth Mover's Distannce (also see function: \link{emd_matrix})
 #'
@@ -111,17 +113,20 @@ emd_heatmap <- function(input, parameter) {
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
-#' matrix <- emd_matrix(list, "FEV1")
 #' max_fluc(list, "PEF")
 #'
 #' @export
-max_fluc <- function(plist, parameter, maxIter) {
+max_fluc <- function(input, parameter, maxIter) {
 
+  #In case input is either of type "matrix" or "double" and no parameter is specified
+  if (missing (maxIter) & missing(parameter) & typeof(input) == "matrix" || typeof(input) == "double") {
+    distmat <- input
+  } else {
   #Calculate EMD matrix out of specified list and parameter
-  distmat <- emd_matrix(plist, parameter, maxIter = maxIter)
+  distmat <- emd_matrix(input, parameter, maxIter = maxIter)
+  }
   #Determine matrix position where highest EMD was find in distmat
   max_pair <- as.vector(which(distmat==max(distmat), arr.ind = TRUE))
   #Take colname for first and second index from max_pair (= Patient-pair)
@@ -135,5 +140,5 @@ max_fluc <- function(plist, parameter, maxIter) {
   #Store patient names in vector
   patients <- c(pat1, pat2)
   #Visualize boxplot for patients and specified parameter
-  patient_boxplot(plist, patients, parameter)
+  patient_boxplot(input, patients, parameter)
 }

@@ -76,12 +76,14 @@ NULL
 #' @import utils
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #'
 #' @export
-patient_list <- function (path) {
+patient_list <- function (path, GitHub) {
+  #The GitHub functionality was included for demo so that the user can take the
+  #provided csv file from the GitHub repository
+  if (missing(GitHub) || GitHub == FALSE) {
   #Prepare the raw data and get all csv. files from the indicated file path
   raw.files <- tibble(filename = list.files(path))
   #List all the files
@@ -92,7 +94,11 @@ patient_list <- function (path) {
     rowwise() %>%
     do(., read_csv(file=.$filepath, show_col_types = FALSE))
   #Change object type of raw.data to data.frame
-  raw.data <- as.data.frame(raw.data)
+  raw.data <- as.data.frame(raw.data) }
+  else {
+    raw.data <- read.csv(path) #This would be a GitHub raw path to one csv file
+    #only feasible for a single csv file so far
+  }
   #First terminal output to present the user the available columns
   cat("\n\n")
   #Show the data frame with the first 5 lines as well as column names
@@ -581,8 +587,7 @@ patient_list <- function (path) {
 #' @import graphics
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' patient_ts_plot(list,"testpat_1","PEF")
 #'
@@ -620,8 +625,7 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 #' @import graphics
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
 #'
@@ -678,8 +682,7 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
 #' @import graphics
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be pulled from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo_and_testfiles/ts_demofiles1)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' patient_hist(list,"testpat_1","PEF")
 #'

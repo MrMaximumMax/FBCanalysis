@@ -10,8 +10,7 @@
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' list_rm <- rnd_dat_rm(testlist, 0.95)
 #'
@@ -59,8 +58,7 @@ rnd_dat_rm <- function(plist, removal) {
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' output <- sim_jaccard_cognate(list, "PEF", 0.05, 10, "hierarchical", 2, 1000)
 #'
@@ -150,10 +148,8 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
-#' #Sampling frequency is supposed to be daily
-#' output <- sim_jaccard_emd(list, "PEF", 0.05, 10, "hierarchical", 2, 1000)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' output <- sim_jaccard_emd(list, "PEF", 0.05, 10, "hierarchical", 2, 100)
 #'
 #' @export
 sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, Iter) {
@@ -228,7 +224,12 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
       }
       #Add cluster with lowest EMD to gold standard from distances vector to
       #current Patient_ID
+      #Check up; EMD might be 0 if data removal did not affect it at all
+      if (min(distances) == 0) {
+        assignments[q,2] <- compare[q,2]
+      } else {
       assignments[q,2] <- which(distances == min(distances))
+      }
     }
     #Order the assignments data frame and bind with gold standard cluster assignments
     compare2 <- assignments[order(assignments[,1]),]
@@ -242,9 +243,9 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
       #Filter for cluster after random data removal
       overlap2 <- dplyr::filter(combined, data_removal == m)
       #Determine intersection between gold standard and random data removal
-      common <- nrow(intersect(overlap1, overlap2))
+      common <- length(intersect(overlap1[,1], overlap2[,1]))
       #Determine unification quantity
-      all <- nrow(union(overlap1, overlap2))
+      all <- length(union(overlap1[,1], overlap2[,1]))
       #Calculate Jaccard index
       jaccard <- common/all
       #Store jaccard index for current simulation and current cluster in summary
@@ -270,9 +271,7 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
-#' #Sampling frequency is supposed to be daily
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' output <- jaccard_run_cognate(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 #'
 #' @export
@@ -320,8 +319,7 @@ jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_c
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' output <- jaccard_run_emd(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 #'

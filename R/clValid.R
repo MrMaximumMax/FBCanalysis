@@ -60,8 +60,7 @@ init_clValid <- function() {
 #' @import RankAggreg
 #'
 #' @examples
-#' list <- patient_list('.../ts_demofiles1') #Just folder; files can be retrieved from GitHub demo files
-#' #(https://github.com/MrMaximumMax/FBCanalysis/tree/master/demo/phys)
+#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' distmat <- emd_matrix(list, "PEF", maxIter = 5000)
 #' parameters <- init_clValid()
