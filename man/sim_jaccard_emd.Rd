@@ -28,7 +28,9 @@ Object of type matrix storing received Jaccard indices for indicated amount of r
 Simulate random data removal from time series data list and determine Jaccard index via Earth Mover's Distance approach
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 output <- sim_jaccard_emd(list, "PEF", 0.05, 10, "hierarchical", 2, 100)
 
 }

@@ -9,7 +9,7 @@ patient_boxplot(plist, patients, parameter, normalized)
 \arguments{
 \item{plist}{List storing patient time series data (also see function: \link{patient_list})}
 
-\item{patients}{Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list(path)})}
+\item{patients}{Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list})}
 
 \item{parameter}{Parameter of interest in list element(s)}
 
@@ -22,7 +22,9 @@ Visualized patient(s) time series data in a boxplot for indicated parameter
 Visualize patient(s) time series data in a boxplot for indicated parameter
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
 

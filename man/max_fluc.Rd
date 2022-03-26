@@ -20,7 +20,9 @@ Console output with Patient_ID pair, corresponding Earth Mover's Distance and vi
 Determine pair of maximum fluctuation difference in a list storing time series data
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 max_fluc(list, "PEF")
 

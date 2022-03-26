@@ -18,8 +18,11 @@ Processed data as object of type data frame; Enrichment data Patient_IDs are mat
 Add enrichment data and preprocess for analysis
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
-enr <- add_enrich(list, 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
+enr <- add_enrich(list,
+'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
 
 }

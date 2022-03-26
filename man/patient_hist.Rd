@@ -22,7 +22,9 @@ Visualized patient time series data in a histogram for indicated parameter
 Visualize patient time series data in a histogram for indicated parameter
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list("
+https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 patient_hist(list,"testpat_1","PEF")
 

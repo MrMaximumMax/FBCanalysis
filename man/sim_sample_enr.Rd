@@ -24,7 +24,9 @@ Object of type list storing the received p-values for each parameter in a vector
 Simulate random sampling for NA entries in enrichment data and check stability of resulting p-values for the enrichment parameters
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 path <- 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv'
 test <- sim_sample_enr(list,path,clustering,1,100)

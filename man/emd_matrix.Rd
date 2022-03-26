@@ -7,7 +7,7 @@
 emd_matrix(plist, parameter, maxIter)
 }
 \arguments{
-\item{plist}{List storing patient time series data (also see function: \link{patient_list(path)})}
+\item{plist}{List storing patient time series data (also see function: \link{patient_list})}
 
 \item{parameter}{Parameter of interest to determine Earth Mover's Distances between distributions}
 
@@ -20,7 +20,9 @@ Earth Mover's Distance Square Matrix of type matrix
 Generate a Earth Mover's Distance Matrix out of time series data list entries
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 matrix <- emd_matrix(list, "FEV1")
 

@@ -18,7 +18,9 @@ Object of type list storing patient time series data with indicated amount of da
 Remove random data from time series data list
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 list_rm <- rnd_dat_rm(testlist, 0.95)
 

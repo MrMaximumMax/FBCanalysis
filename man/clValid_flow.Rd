@@ -18,7 +18,9 @@ Object of type list storing chosen clustering method and number of clusters (can
 Interactive console workflow to calculate and evaluate cluster validation measures
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 distmat <- emd_matrix(list, "PEF", maxIter = 5000)
 parameters <- init_clValid()

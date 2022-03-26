@@ -20,7 +20,9 @@ Visualized Earth Mover's Distance Matrix as a heatmap
 Visualize an Earth Mover's Distance Square Matrix as a heatmap
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 matrix <- emd_matrix(list, "FEV1")
 emd_heatmap(matrix)

@@ -22,7 +22,9 @@ Visualized patient time series data in a time series plot for indicated paramete
 Visualize patient time series data in a time series plot for indicated parameter
 }
 \examples{
-list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+list <- patient_list(
+"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 patient_ts_plot(list,"testpat_1","PEF")
 
