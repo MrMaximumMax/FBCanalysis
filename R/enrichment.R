@@ -11,9 +11,12 @@
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
-#' enr <- add_enrich(list, 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
+#' enr <- add_enrich(list,
+#' 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
 #'
 #' @export
 add_enrich <- function(plist, path) {
@@ -111,10 +114,13 @@ add_enrich <- function(plist, path) {
 #' @import tibble
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
-#' enr <- add_enrich(list, 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
+#' enr <- add_enrich(list,
+#' 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
 #' enr <- add_clust2enrich(enr, clustering)
 #'
 #' @export
@@ -149,7 +155,9 @@ add_clust2enrich <- function(enrich, clustdat) {
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
 #' ts <- add_clust2ts(list, clustering)
@@ -200,10 +208,13 @@ add_clust2ts <- function(plist, clustdat) {
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' clustering <- clust_matrix(matrix, method = "kmeans", nclust = 3)
-#' enr <- add_enrich(list, 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
+#' enr <- add_enrich(list,
+#' 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
 #' enr <- add_clust2enrich(enr, clustering)
 #' ts <- add_clust2ts(list, clustering)
 #' enr_obs_clust(ts, enr, 1)
@@ -337,7 +348,9 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
 #' @import dplyr
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' path <- 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv'
 #' test <- sim_sample_enr(list,path,clustering,1,100)

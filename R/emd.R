@@ -2,7 +2,7 @@
 
 #' Generate a Earth Mover's Distance Matrix out of time series data list entries
 #'
-#' @param plist List storing patient time series data (also see function: \link{patient_list(path)})
+#' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest to determine Earth Mover's Distances between distributions
 #' @param maxIter Maximum of iterations to calculate Earth Mover's Distance (default: 500)
 #'
@@ -11,7 +11,9 @@
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #'
@@ -71,7 +73,9 @@ emd_matrix <- function (plist, parameter, maxIter) {
 #' @return Visualized Earth Mover's Distance Matrix as a heatmap
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' matrix <- emd_matrix(list, "FEV1")
 #' emd_heatmap(matrix)
@@ -113,7 +117,9 @@ emd_heatmap <- function(input, parameter, maxIter) {
 #' @import emdist
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' max_fluc(list, "PEF")
 #'

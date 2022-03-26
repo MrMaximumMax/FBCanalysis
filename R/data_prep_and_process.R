@@ -64,6 +64,7 @@ NULL
 #' Process patient time series data by interpolation options and store data in an object of type list
 #'
 #' @param path Path where csv file(s) are stored (only folder, not specific file(s))
+#' @param GitHub Set TRUE when csv file comes form GitHub (FALSE by default)
 #'
 #' @return Object of type list storing patient time series data
 #'
@@ -76,7 +77,9 @@ NULL
 #' @import utils
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #'
 #' @export
@@ -587,7 +590,9 @@ patient_list <- function (path, GitHub) {
 #' @import graphics
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' patient_ts_plot(list,"testpat_1","PEF")
 #'
@@ -615,7 +620,7 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 #' Visualize patient(s) time series data in a boxplot for indicated parameter
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
-#' @param patients Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list(path)})
+#' @param patients Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in list element(s)
 #' @param normalized TRUE/FALSE if z-normalized (TRUE by default)
 #'
@@ -625,7 +630,9 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 #' @import graphics
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list(
+#' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
 #'
@@ -682,7 +689,9 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
 #' @import graphics
 #'
 #' @examples
-#' list <- patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv", GitHub = TRUE)
+#' list <- patient_list("
+#' https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
+#' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' patient_hist(list,"testpat_1","PEF")
 #'
