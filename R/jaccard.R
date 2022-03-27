@@ -226,7 +226,7 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
         norm_b <- as.matrix(as.data.frame(table((distr_b[,parameter] - min(distr_b[,parameter]))/(max(distr_b[,parameter]) - min(distr_b[,parameter])))))
         #Calculate EMD between current random data removal distribution and
         #current gold standard distribution to distances vector
-        distances[r] <- emd(norm_b, as.matrix(as.data.frame(table(masterlist[[r]]))))
+        distances[r] <- emd(norm_b, as.matrix(as.data.frame(table(masterlist[[r]]))), maxIter = Iter)
       }
       #Add cluster with lowest EMD to gold standard from distances vector to
       #current Patient_ID
