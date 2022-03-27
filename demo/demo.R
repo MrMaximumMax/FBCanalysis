@@ -13,7 +13,7 @@ library(clValid)
 library(mclust)
 
 #get the FBCanalysis package
-install.packages("devtools")
+install.packages(c("devtools","processx"))
 devtools::install_github("MrMaximumMax/FBCanalysis")
 library(FBCanalysis)
 
