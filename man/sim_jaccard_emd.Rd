@@ -2,7 +2,7 @@
 % Please edit documentation in R/jaccard.R
 \name{sim_jaccard_emd}
 \alias{sim_jaccard_emd}
-\title{Simulate random data removal for a selection of removal amounts with indicated
+\title{Simulate random data removal for a removal amount with indicated
 number of simulations from time series data list and determine Jaccard
 index for all clusters via Earth Mover's distance cluster assignment
 approach.}
@@ -28,10 +28,24 @@ sim_jaccard_emd(plist, parameter, removal, n_simu, method, n_clust, Iter)
 Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
 }
 \description{
-Simulate random data removal for a selection of removal amounts with indicated
+Simulate random data removal for a removal amount with indicated
 number of simulations from time series data list and determine Jaccard
 index for all clusters via Earth Mover's distance cluster assignment
 approach.
+}
+\details{
+This method represents a novel approach and potential complementary
+method to \link{sim_jaccard_cognate}. First, clustering is performed on complete
+data without removal, servinng as Gold Standard clusters. For every Gold Standard
+cluster then, all time series data from all patients is z-normalized and then
+assumed to be as one Gold Standard distribution. Subsequently, random data is
+removed form the time series data. Each leaky data distribution is then compared
+via Earth Mover's Distance to each Gold Standard Distribution. The Gold Standard
+cluster distribution to which the observed leaky distribution exhibits the
+lowest Earth Mover's Distance gets the assignment. This process is repeated until
+every leaky time series data distribution is assigned to a cluster. Afterwards,
+the Jaccard indices are calculated, comparing cluster members with complete
+and leaky data, for each cluster.
 }
 \examples{
 list <- patient_list(
@@ -39,4 +53,9 @@ list <- patient_list(
 GitHub = TRUE)
 output <- sim_jaccard_emd(list, "PEF", 0.05, 10, "hierarchical", 2, 100)
 
+}
+\references{
+Yossi Rubner, Carlo Tomasi, and Leonidas J Guibas. A metric for
+distributions with applications to image databases. In Sixth International
+Conference on Computer Vision (IEEE Cat. No. 98CH36271), pages 59–66. IEEE, 1998.
 }

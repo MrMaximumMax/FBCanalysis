@@ -21,6 +21,21 @@ Earth Mover's Distance Square Matrix of type matrix
 Generate an Earth Mover's Distance Matrix for time series data distributions
 pairs out of a preprocessed time series data list.
 }
+\details{
+the function may compute the EMD for each Patient ID pairi,j using the
+normalized distributions. EMD is a distance measure between two probability
+distributions over a region D. Informally, if the distributions are viewed as
+two distinct methods of accumulating a certain quantity of earth gravel across
+the region D. EMD is the smallest cost associated with converting one pile to another,
+where the cost is supposed to equal the quantity of material transferred multiplied
+by the distance traveled. A unit of labor is defined in this context as conveying
+a unit of earth across a unit of ground distance. A distribution may be described
+as a collection of clusters, each of which is defined by its mean or mode and the
+proportion of the distribution that belongs to it. This representation is referred
+to as the distribution’s signature. Both signatures may be of varying sizes.
+Simple distributions, for example, have lower signatures than complex distributions.
+(also see \link{emd} for further details)
+}
 \examples{
 list <- patient_list(
 "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
@@ -28,4 +43,10 @@ GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 matrix <- emd_matrix(list, "FEV1")
 
+}
+\references{
+Yossi Rubner, Carlo Tomasi, and Leonidas J Guibas. A metric for
+distributions with applications to image databases. In Sixth International
+Conference on Computer Vi- sion (IEEE Cat. No. 98CH36271), pages 59–66.
+IEEE, 1998.
 }

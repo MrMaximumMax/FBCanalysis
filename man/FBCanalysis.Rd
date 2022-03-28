@@ -9,52 +9,85 @@ data clustering model based on Fluctuation Based Clustering (FBC)}
 This R package aims to offer researchers with fast tools for clustering
 patient time series data and confirming the distinction using additional
 metrics such as population parameter enrichment analysis, stability after
-random data removal, and conventional cluster stability measures.
+random data removal, and conventional cluster stability measures. The package
+attempts to conveniently apply computational methods and capabilities for
+developing and evaluating unsupervised clustering models with the goal of
+data-drivenly categorizing asthmatic patients according to their illness dynamics.
 }
-\section{FBCanaylsis functions}{
- \link{add_clust2enrich}
+\details{
+clustering may be used within the proposed package to identify significant
+diverse groupings in a patient population, and enrichment analysis is used to
+examine any possible correlations with clinically relevant characteristics.
 
-\link{addclust_2ts}
+The R package thus aims to offer researchers with fast tools for clustering
+patient time series data and confirming the distinction using additional metrics
+such as population parameter enrichment analysis, stability after random data
+removal, and conventional cluster stability measures
+}
+\section{Time series data preparation and visualization functions}{
 
-\link{add_enrich}
-
-\link{clust_matrix}
-
-\link{clValid_flow}
-
-\link{emd_heatmap}
-
-\link{emd_matrix}
-
-\link{enr_obs_clust}
-
-\link{addclust_2ts}
-
-\link{init_clValid}
-
-\link{jaccard_run_cognate}
-
-\link{jaccard_run_emd}
-
-\link{max_fluc}
-
-\link{patient_boxplot}
-
-\link{patient_hist}
 
 \link{patient_list}
 
 \link{patient_ts_plot}
 
-\link{rnd_dat_rm}
+\link{patient_boxplot}
 
-\link{addclust_2ts}
+\link{patient_hist}
+}
+
+\section{Earth Mover's Distance processing functions}{
+
+
+\link{emd_matrix}
+
+\link{emd_heatmap}
+
+\link{max_fluc}
+}
+
+\section{Clustering to determine heterogeneous groups}{
+
+
+\link{clust_matrix}
+}
+
+\section{Enrichment analysis functions}{
+
+
+\link{add_enrich}
+
+\link{add_clust2enrich}
+
+\link{add_clust2ts}
+
+\link{enr_obs_clust}
+
+\link{sim_sample_enr}
+}
+
+\section{Determine cluster stability upon random data removal}{
+
 
 \link{sim_jaccard_cognate}
 
 \link{sim_jaccard_emd}
 
-\link{sim_sample_enr}
+\link{jaccard_run_cognate}
+
+\link{jaccard_run_emd}
+}
+
+\section{Cluster stability measure validation}{
+
+
+\link{init_clValid}
+
+\link{clValid_flow}
+}
+
+\section{Helper function}{
+
 
 \link{znorm}
 }

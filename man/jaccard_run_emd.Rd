@@ -31,6 +31,14 @@ Simulate amount of random data removal from time series data list and determine
 Jaccard index via Earth Mover's Distance approach for multiple random data
 removal steps for a specific cluster of interest.
 }
+\details{
+See \link{sim_jaccard_emd} for more detailed approach on Jaccard
+index determination. The difference in this function is that now only one cluster
+is observed für multiple amoiunts of random data removal where for each data
+removal step defined the resulting Jaccard indices are stored in a list object.
+Furthermore, a boxplot visualization is generated, in the style of recent
+publications.
+}
 \examples{
 list <- patient_list(
 "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
@@ -38,4 +46,10 @@ GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 output <- jaccard_run_emd(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 
+
+}
+\references{
+Yossi Rubner, Carlo Tomasi, and Leonidas J Guibas. A metric for
+distributions with applications to image databases. In Sixth International
+Conference on Computer Vision (IEEE Cat. No. 98CH36271), pages 59–66. IEEE, 1998.
 }

@@ -27,6 +27,17 @@ Simulate random sampling for NA entries in enrichment data and
 check stability of resulting p-values for the enrichment parameters for an
 indicated number of random sampling simulations.
 }
+\details{
+It allows the sampling in NA entries to be repeated for each parameter
+in the enriched data set. The primary objective here is to validate the random
+sampling process for missing data by running many simulations and comparing the
+resultant p-values. An enrichment data frame with NA elements is saved as a
+simulation foundation. This data frame will always serve as the foundation
+for any subsequent simulations added. Following that, the program runs through
+each NA item in the dataset and generates a random sample of the current
+parameter’s distribution. After completing this step for each parameter, the
+function generates the associated p-values as explained in \link{enr_obs_clust}.
+}
 \examples{
 list <- patient_list(
 "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",

@@ -25,6 +25,44 @@ series data for overview and p-values. The p-values are calculated by a
 Wilcox Rank Sum test for continuous data and a Fisher's Exact Test for
 categorical enrichment data.
 }
+\details{
+There are two techniques to compute the p-value for continuous or
+categorical data, according to past work. In order to determine the relevant
+p-value inside a cluster of interest, the data distribution within the cluster
+should be compared to the data distribution outside the cluster. Prior to
+conducting the related probability tests, one data processing step is performed,
+namely the construction of two data distributions, one including only data
+included inside the cluster and another comprising data from outside the cluster,
+for the purpose of comparing them.
+
+The Mann-Whitney Test, sometimes referred to as the Wilcoxon rank-sum test (WRS),
+is used to measure the significance of continuous variables within the observed
+distribution. The WRS is used to test if the central tendency of two independent
+samples is different. When the t-test for independent samples does not meet the
+requirements, the WRS is used. The null hypothesis H0 states that the populations’
+distributions are equal. H1 is the alternative hypothesis meaning that the
+distributions are not equal. The test is consistent under the broader formulation
+only when the following happens under H1.
+
+The hypergeometric test or Fisher’s exact test (FET) is used to analyse categorical
+variables within the enriched data set. It is a statistical significance test for
+contingency tables that is employed in the study of them. The test is helpful for
+categorical data derived from object classification. It is used to assess the
+importance of associations and inconsistencies between classes. The FET is often
+used in conjunction with a 2 × 2 contingency table that represents two categories
+for a variable, as well as assignment inside or outside of the cluster. The p-value
+is calculated as if the table’s margins are fixed. This results in a hypergeometric
+distribution of the numbers in the table cells under the null hypothesis of
+independence. A hypergeometric distribution is a discrete probability distribution
+that describes the probability of k successes, defined as random draws for which
+the object drawn has a specified feature in n draws without replacement from a
+finite population of size N containing exactly K objects with that feature, where
+each draw is either successful or unsuccessful. The test is only practicable for
+normal computations in the presence of a 2 × 2 contingency table. However, the
+test’s idea may be extended to the situation of a m × n table in general.
+Statistics programs provide a Monte Carlo approach for approximating the more
+general case.
+}
 \examples{
 list <- patient_list(
 "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
@@ -37,4 +75,22 @@ enr <- add_clust2enrich(enr, clustering)
 ts <- add_clust2ts(list, clustering)
 enr_obs_clust(ts, enr, 1)
 
+}
+\references{
+Siegel Sidney. Nonparametric statistics for the behavioral sciences.
+The Journal of Nervous and Mental Disease, 125(3):497, 1957.
+
+Kinley Larntz. Small-sample comparisons of exact levels for chi-squared
+goodness-of-fit statistics. Journal of the American Statistical Association,
+73(362):253–263, 1978.
+
+Cyrus R Mehta and Nitin R Patel. A network algorithm for performing fisher’s
+exact test in r× c contingency tables. Journal of the American Statistical Association,
+78(382):427–434, 1983.
+
+Aravind Subramanian, Pablo Tamayo, Vamsi K Mootha, Sayan Mukherjee, Benjamin
+L Ebert, Michael A Gillette, Amanda Paulovich, Scott L Pomeroy, Todd R Golub,
+Eric S Lander, et al. Gene set enrichment analysis: a knowledge-based approach
+for interpreting genome-wide expression profiles. Proceedings of the National
+Academy of Sciences, 102(43):15545–15550, 2005.
 }

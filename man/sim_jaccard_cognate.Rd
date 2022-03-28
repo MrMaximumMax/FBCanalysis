@@ -2,7 +2,7 @@
 % Please edit documentation in R/jaccard.R
 \name{sim_jaccard_cognate}
 \alias{sim_jaccard_cognate}
-\title{Simulate random data removal for a selection of removal amounts with indicated
+\title{Simulate random data removal for a removal amount with indicated
 number of simulations from time series data list and determine Jaccard
 index for all cluster via Cognate Cluster cluster assignment approach}
 \usage{
@@ -27,9 +27,19 @@ sim_jaccard_cognate(plist, parameter, removal, n_simu, method, n_clust, Iter)
 Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
 }
 \description{
-Simulate random data removal for a selection of removal amounts with indicated
+Simulate random data removal for a removal amount with indicated
 number of simulations from time series data list and determine Jaccard
 index for all cluster via Cognate Cluster cluster assignment approach
+}
+\details{
+The cognate cluster approach works in the manner that first a Gold
+Standard cluster is determined meaning the cluster assignments without any
+data removal. Subsequently, random data is removed from the original, complete
+data and clustering is performed again on the leaky data. The cluster determined
+to be cognate to the Gold Standard cluster is the one with the highest overlap
+in cluster members, meaning hte cluster with highest acheived Jaccard index.
+Afterwards, the Jaccard indices are calculated, comparing cluster members
+with complete and leaky data, for each cluster.
 }
 \examples{
 list <- patient_list(
@@ -38,4 +48,10 @@ GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 output <- sim_jaccard_cognate(list, "PEF", 0.05, 10, "hierarchical", 2, 1000)
 
+}
+\references{
+Anja Jochmann, Luca Artusio, Hoda Sharifian, Angela Jamalzadeh,
+Louise J Fleming, Andrew Bush, Urs Frey, and Edgar Delgado-Eckert.
+Fluctuation-based clustering reveals phenotypes of patients with different
+asthma severity. ERJ open research, 6(2), 2020.
 }

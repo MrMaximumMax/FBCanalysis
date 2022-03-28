@@ -39,10 +39,25 @@ Simulate amount of random data removal from time series data list and determine
 Jaccard index via Cognate Cluster approach for multiple random data removal steps
 for a specific cluster of interest.
 }
+\details{
+See \link{sim_jaccard_cognate} for more detailed approach on Jaccard
+index determination. The difference in this function is that now only one cluster
+is observed für multiple amoiunts of random data removal where for each data
+removal step defined the resulting Jaccard indices are stored in a list object.
+Furthermore, a boxplot visualization is generated, in the style of recent
+publications.
+}
 \examples{
 list <- patient_list(
 "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
 GitHub = TRUE)
 output <- jaccard_run_cognate(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
 
+
+}
+\references{
+Anja Jochmann, Luca Artusio, Hoda Sharifian, Angela Jamalzadeh,
+Louise J Fleming, Andrew Bush, Urs Frey, and Edgar Delgado-Eckert.
+Fluctuation-based clustering reveals phenotypes of patients with different
+asthma severity. ERJ open research, 6(2), 2020.
 }

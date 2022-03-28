@@ -18,7 +18,14 @@ Based Clustering (FBC) analysis. The call initialized a interactive console
 workflow where the user may indicate the clustering techniques of interest
 as well as the cluster numbers of interest.
 }
+\details{
+See \link{clust_matrix} for more details on possible clustering techniques
+}
 \examples{
 init_clValid()
 
+}
+\references{
+Guy Brock, Vasyl Pihur, Susmita Datta, and Somnath Datta. clvalid:
+An r package for cluster validation. Journal of Statistical Software, 25:1–22, 2008.
 }
