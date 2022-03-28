@@ -12,7 +12,7 @@ init_clValid <- function() {
 
   #List the methods to present them to the user
   methods <- as.data.frame(c("hierarchical", "kmeans", "diana", "fanny", "som", "modelbased", "sota",
-                             "pam", "clara", "agnes"))
+                             "pam", "clara"))
   #Corresponding numbers to methods so that user can choose easily which method(s) to apply
   num <- as.data.frame(c(1:10))
   #Combine methods and corresponding numbers
