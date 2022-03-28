@@ -1,7 +1,7 @@
 #General functions to read out, process and observe time series data
 
 #' FBCanalysis: A package for developing and evaluating biomedical time series
-#' data clustering model based on Fluctuation Based Clustering (FBC)
+#' data clustering models based on Fluctuation Based Clustering (FBC)
 #'
 #' This R package aims to offer researchers with fast tools for clustering
 #' patient time series data and confirming the distinction using additional
