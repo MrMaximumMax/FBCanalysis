@@ -1,6 +1,7 @@
 #Generate, process and visualize Earth Mover's Distance data
 
-#' Generate a Earth Mover's Distance Matrix out of time series data list entries
+#' Generate an Earth Mover's Distance Matrix for time series data distributions
+#' pairs out of a preprocessed time series data list.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest to determine Earth Mover's Distances between distributions
@@ -106,7 +107,8 @@ emd_heatmap <- function(input, parameter, maxIter) {
   }
 }
 
-#' Determine pair of maximum fluctuation difference in a list storing time series data
+#' Determine the pair of maximum fluctuation difference on time series data distribution
+#' from a preprocessed list or Earth Mover's Distance square matrix.
 #'
 #' @param input Either a list storing time series data or EMD martrix (also see functions: \link{patient_list}, \link{emd_matrix})
 #' @param parameter Parameter of interest from time series data list

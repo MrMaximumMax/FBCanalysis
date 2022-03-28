@@ -61,10 +61,16 @@
 NULL
 #> NULL
 
-#' Process patient time series data by interpolation options and store data in an object of type list
+#' Process patient time series data by interpolation options and store data in
+#' an object of type list. The processing involves the introduction of a standardized
+#' time format and a check if the time series is complete. In case of an in-
+#' complete time series data, interpolation via random quartile sampling, linear
+#' interpolation, cubic c spline interpolation or optimized combined polynomial
+#' regression and regularization can be performed. The processing is guided by
+#' an interactive workflow in the console.
 #'
 #' @param path Path where csv file(s) are stored (only folder, not specific file(s))
-#' @param GitHub Set TRUE when csv file comes form GitHub (FALSE by default)
+#' @param GitHub Set TRUE when csv file comes form GitHub (FALSE by default); only in demo needed
 #'
 #' @return Object of type list storing patient time series data
 #'
@@ -578,7 +584,8 @@ patient_list <- function (path, GitHub) {
   datalist
 }
 
-#' Visualize patient time series data in a time series plot for indicated parameter
+#' Visualize patient time series data from a preprocessed in a time series plot
+#' for an indicated parameter, either as normalized or non-normalized.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list})
@@ -617,7 +624,8 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
   }
 }
 
-#' Visualize patient(s) time series data in a boxplot for indicated parameter
+#' Visualize patient(s) time series from a preprocessed list with in a boxplot,
+#' either as normalized or non-normalized for an indicated parameter.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param patients Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list})
@@ -677,7 +685,8 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
   }
 }
 
-#' Visualize patient time series data in a histogram for indicated parameter
+#' Visualize patient time series data from a preprocessed in a histogram
+#' for indicated parameter either normalized or non-normalized.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list})

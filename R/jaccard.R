@@ -1,6 +1,6 @@
 #Functions for Jaccard index determination/random data removal
 
-#' Remove random data from time series data list
+#' Remove a specific amount of data randomly from a time series data list.
 #'
 #' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
 #' @param removal Amount of data removal (0 = 0%, 1 = 100%)
@@ -44,7 +44,9 @@ rnd_dat_rm <- function(plist, removal) {
   newlist
 }
 
-#' Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach
+#' Simulate random data removal for a selection of removal amounts with indicated
+#' number of simulations from time series data list and determine Jaccard
+#' index for all cluster via Cognate Cluster cluster assignment approach
 #'
 #' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in time series data list
@@ -135,7 +137,10 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
   summary
 }
 
-#' Simulate random data removal from time series data list and determine Jaccard index via Earth Mover's Distance approach
+#' Simulate random data removal for a selection of removal amounts with indicated
+#' number of simulations from time series data list and determine Jaccard
+#' index for all clusters via Earth Mover's distance cluster assignment
+#' approach.
 #'
 #' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in time series data list
@@ -261,7 +266,9 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
   summary
 }
 
-#' Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach for multiple random data removal steps
+#' Simulate amount of random data removal from time series data list and determine
+#' Jaccard index via Cognate Cluster approach for multiple random data removal steps
+#' for a specific cluster of interest.
 #'
 #' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in time series data list
@@ -310,7 +317,9 @@ jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_c
   jaccard_list
 }
 
-#' Simulate random data removal from time series data list and determine Jaccard index via Earth Mover's Distance approach for multiple random data removal steps
+#' Simulate amount of random data removal from time series data list and determine
+#' Jaccard index via Earth Mover's Distance approach for multiple random data
+#' removal steps for a specific cluster of interest.
 #'
 #' @param plist Object of type list storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in time series data list

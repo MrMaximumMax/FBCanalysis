@@ -1,6 +1,9 @@
 #Functions for Cluster validation measure analysis
 
-#' Initialize Cluster Validation Measure Analysis in the context of Fluctuation Based Clustering (FBC) analysis
+#' Initialize Cluster Validation Measure Analysis in the context of Fluctuation
+#' Based Clustering (FBC) analysis. The call initialized a interactive console
+#' workflow where the user may indicate the clustering techniques of interest
+#' as well as the cluster numbers of interest.
 #'
 #' @return Object of type list storing cluster method(s) and number of cluster range of interest (to be used for function: \link{clValid_flow})
 #'
@@ -50,6 +53,12 @@ init_clValid <- function() {
 }
 
 #' Interactive console workflow to calculate and evaluate cluster validation measures
+#' which have been determined previously by the call \link{init_clValid}. The call
+#' guides through internal cluster measures, cluster stability measure where the
+#' results of the measured will be presented and summarized in the console. Finally,
+#' a summary and optimized rank for the measures on the inidcated clustering
+#' techniques can be shown and a Cross Entropy Monte Carlo Search Algorithm can
+#' choose the ideal clustering model by applyinng Spearman's footrule distance.
 #'
 #' @param matrix Earth Mover's Distance Matrix for processed patient time series data (also see functions: \link{emd_matrix}, \link{patient_list})
 #' @param par Object of type list storing clustering methods and cluster range of interest; initialized via function: \link{init_clValid}

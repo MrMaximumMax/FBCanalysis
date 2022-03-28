@@ -1,6 +1,8 @@
 #Function to cluster Earth Mover's Distance Matrix
 
-#' Cluster Earth Mover Distance Square Matrix data
+#' Cluster Earth Mover Distance Square Matrix data and record cluster assignments
+#' for involved Patient_IDs for a specified clustering technique and number of
+#' clusters.
 #'
 #' @param matrix Object of type matrix storing Earth Mover's Distances for patient time series data distribution pairs
 #' @param method Clustering method (hierarchical, kmeans, diana, fanny, som, modelbased, sota, pam, clara)

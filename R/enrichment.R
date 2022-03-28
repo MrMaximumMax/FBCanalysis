@@ -1,6 +1,7 @@
 #General functionalities to cluster data and add cluster assignments to ts- and enrichment data
 
-#' Add enrichment data and preprocess for analysis
+#' Add enrichment data from a csv file, match with Patient ID entries from a
+#' previously generated time series data list and preprocess for further analysis.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param path Path where enrichment csv file is stored
@@ -104,7 +105,8 @@ add_enrich <- function(plist, path) {
   dat_new
 }
 
-#' Add clustering assignments to enrichment data frame
+#' Add clustering assignments from clustering output to preprocessed enrichment
+#' data frame.
 #'
 #' @param enrich Preprocessed enrichment data frame (also see function: \link{add_enrich})
 #' @param clustdat Object of type list storing clustering data (also see function: \link{clust_matrix})
@@ -144,7 +146,8 @@ add_clust2enrich <- function(enrich, clustdat) {
   enrich <- cbind(enrich,new)
 }
 
-#' Add clustering assignments to time series data
+#' Add clustering assignments from clustering output to time series data list
+#' and store the data in a data frame.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param clustdat Object of type list storing clustering data (also see function: \link{clust_matrix})
@@ -196,7 +199,10 @@ add_clust2ts <- function(plist, clustdat) {
   assigned <- do.call(rbind,datalist)
 }
 
-#' Observe specific cluster for overview and p-values
+#' Observe a specific cluster of interest on preporcessed enrichment and time
+#' series data for overview and p-values. The p-values are calculated by a
+#' Wilcox Rank Sum test for continuous data and a Fisher's Exact Test for
+#' categorical enrichment data.
 #'
 #' @param ts.dat Processed data frame storing time series data and cluster assignments (also see function: \link{add_clust2ts})
 #' @param enrich Processed data frame storing enrichment data and cluster assignments (also see function: \link{add_clust2enrich})
@@ -334,7 +340,9 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   print(table_enr)
 }
 
-#' Simulate random sampling for NA entries in enrichment data and check stability of resulting p-values for the enrichment parameters
+#' Simulate random sampling for NA entries in enrichment data and
+#' check stability of resulting p-values for the enrichment parameters for an
+#' indicated number of random sampling simulations.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param path Path where enrichment csv file is stored
