@@ -6,51 +6,71 @@
 #' This R package aims to offer researchers with fast tools for clustering
 #' patient time series data and confirming the distinction using additional
 #' metrics such as population parameter enrichment analysis, stability after
-#' random data removal, and conventional cluster stability measures.
+#' random data removal, and conventional cluster stability measures. The package
+#' attempts to conveniently apply computational methods and capabilities for
+#' developing and evaluating unsupervised clustering models with the goal of
+#' data-drivenly categorizing asthmatic patients according to their illness dynamics.
 #'
-#' @section FBCanaylsis functions: \link{add_clust2enrich}
+#' clustering may be used within the proposed package to identify significant
+#' diverse groupings in a patient population, and enrichment analysis is used to
+#' examine any possible correlations with clinically relevant characteristics.
 #'
-#'  \link{addclust_2ts}
+#' The R package thus aims to offer researchers with fast tools for clustering
+#' patient time series data and confirming the distinction using additional metrics
+#' such as population parameter enrichment analysis, stability after random data
+#' removal, and conventional cluster stability measures
 #'
-#'  \link{add_enrich}
-#'
-#'  \link{clust_matrix}
-#'
-#'  \link{clValid_flow}
-#'
-#'  \link{emd_heatmap}
-#'
-#'  \link{emd_matrix}
-#'
-#'  \link{enr_obs_clust}
-#'
-#'  \link{addclust_2ts}
-#'
-#'  \link{init_clValid}
-#'
-#'  \link{jaccard_run_cognate}
-#'
-#'  \link{jaccard_run_emd}
-#'
-#'  \link{max_fluc}
-#'
-#'  \link{patient_boxplot}
-#'
-#'  \link{patient_hist}
+#' @section Time series data preparation and visualization functions:
 #'
 #'  \link{patient_list}
 #'
 #'  \link{patient_ts_plot}
 #'
-#'  \link{rnd_dat_rm}
+#'  \link{patient_boxplot}
 #'
-#'  \link{addclust_2ts}
+#'  \link{patient_hist}
+#'
+#' @section Earth Mover's Distance processing functions:
+#'
+#'  \link{emd_matrix}
+#'
+#'  \link{emd_heatmap}
+#'
+#'  \link{max_fluc}
+#'
+#' @section Clustering to determine heterogeneous groups:
+#'
+#'  \link{clust_matrix}
+#'
+#' @section Enrichment analysis functions:
+#'
+#'  \link{add_enrich}
+#'
+#'  \link{add_clust2enrich}
+#'
+#'  \link{add_clust2ts}
+#'
+#'  \link{enr_obs_clust}
+#'
+#'  \link{sim_sample_enr}
+#'
+#' @section Determine cluster stability upon random data removal:
 #'
 #'  \link{sim_jaccard_cognate}
 #'
 #'  \link{sim_jaccard_emd}
 #'
-#'  \link{sim_sample_enr}
+#'  \link{jaccard_run_cognate}
+#'
+#'  \link{jaccard_run_emd}
+#'
+#' @section Cluster stability measure validation:
+#'
+#'  \link{init_clValid}
+#'
+#'  \link{clValid_flow}
+#'
+#' @section Helper function:
 #'
 #'  \link{znorm}
 #'
@@ -60,14 +80,8 @@
 #' @name FBCanalysis
 NULL
 #> NULL
-
 #' Process patient time series data by interpolation options and store data in
-#' an object of type list. The processing involves the introduction of a standardized
-#' time format and a check if the time series is complete. In case of an in-
-#' complete time series data, interpolation via random quartile sampling, linear
-#' interpolation, cubic c spline interpolation or optimized combined polynomial
-#' regression and regularization can be performed. The processing is guided by
-#' an interactive workflow in the console.
+#' an object of type list.
 #'
 #' @param path Path where csv file(s) are stored (only folder, not specific file(s))
 #' @param GitHub Set TRUE when csv file comes form GitHub (FALSE by default); only in demo needed
@@ -81,6 +95,66 @@ NULL
 #' @import dplyr
 #' @import readr
 #' @import utils
+#'
+#' @details Prior to undertaking an analysis using one of the FBC procedures,
+#' it is necessary to adequately process and prepare the relevant time series data.
+#' The function then creates an interactive flow using the console in R Studio.
+#' To begin, the method retrieves all csv files in the provided folder, indicating
+#' that it is capable of handling multiple files. The function extracts all csv files
+#' from the given directory and merges them into a single raw data frame. The user
+#' then indicates which column represents Patient ID and time for adequate processing.
+#' The csv files are merged, columns are selected where the Patient ID column will
+#' be renamed ”Patient_ID” and the time column will be titled ”Time”. This
+#' standardization approach is critical for subsequent features because it enables
+#' the easy detection of time series data and the consistent computation and
+#' processing of data, for example z-normalization.
+#'
+#' The user should also indicate in the interactive console the time formate which
+#' will be standardized with the help of \link{lubridate}. This is crucial because
+#' the technique can now filter the raw data by Patient ID, extract the start and
+#' end timestamps for each Patient ID, and then align the data if any records are
+#' missing while maintaining the indicated sample frequency.
+#'
+#' The user may choose between seven approaches: L1 Regularization/Least absolute
+#' shrinkage and selection operator (LASSO) Regression, L2 Regularization/Ridge
+#' Regression, Elastic Net Regularization, Linear interpolation, Cubic C2 interpolation
+#' or, according to recent articles, fill in missing values using the highest or
+#' lowest quartile of measurements in the given time series data distribution.
+#'
+#' The Regression and Regularization techniques generate adequate polynomials for
+#' each possible degree n-1 (where n is the total number of data points). Afterwards,
+#' cross-validation (from \link{glmnet}) is applied to determine the lambda value
+#' for the lowest MSE of the model. Afterwards, the model with polynomial degree
+#' for the lowest MSE is chosen and the missing data is interpolated with the
+#' regularized model.
+#'
+#' It is also possible to apply a simple linear interpolation in between missing
+#' time series data points. It may be the easiest option to employ straight lines
+#' between neighboring points (also see \link{na_interpolation}). Nevertheless,
+#' these basic spline polynomials may be notoriously inexact. Cubic spline polynomials
+#' mostly provide better results.
+#'
+#' Another option for the user is to apply the interpolation by using a cubic C spline.
+#' It implies that the composite function S must be twice continuously differentiable
+#' from all boundaries or subintervals (also see \link{na_interpolation}).
+#'
+#' Without regression, regularization or interpolation, the user may opt to sample
+#' missing values within time series data by randomly choosing a value from the
+#' greatest or lowest quartile readings from each patient distribution. The R
+#' function then loops over each NA element in the time series data distribution
+#' of a patient for the specified parameter and randomly samples a value for the
+#' chosen quartile until the data frame is complete.
+#'
+#' @references Jerome Friedman, Trevor Hastie, Rob Tibshirani, Balasubramanian
+#' Narasimhan, Ken- neth Tay, Noah Simon, and Junyang Qian. Package ‘glmnet’.
+#' Journal of Statistical Software. 2010a, 33(1), 2021.
+#'
+#' Hui Zou and Trevor Hastie. Regularization and variable selection via the elastic net.
+#' Journal of the royal statistical society: series B (statistical methodology),
+#' 67(2):301– 320, 2005.
+#'
+#' Steffen Moritz and Thomas Bartz-Beielstein. imputets: time series missing value
+#' imputation in r. R J., 9(1):207, 2017.
 #'
 #' @examples
 #' list <- patient_list(

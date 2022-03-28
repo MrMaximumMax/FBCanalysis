@@ -15,6 +15,91 @@
 #' @import FCPS
 #' @import cluster
 #'
+#' @details Hierarchical clustering describes a general agglomerative hierarchical
+#' clustering approach in which the optimum value of an objective function is used
+#' to choose which pair of clusters should merge at each step (see \link{hclust} for
+#' more details).
+#'
+#' K-means clustering is a vector quantization technique that divides
+#' a set of n observations into k groups, with each observation belonging to the cluster
+#' with the closest mean or centroid (see \link{kmeans} for more details).
+#'
+#' The divisive analytic method (DIANA) constructs a hierarchical clustering structure,
+#' starting with a single huge cluster containing all n observations. Clusters are further
+#' split until each has a single observation. At each step, the cluster with the
+#' largest diameter is selected, where the diameter of a cluster is defined as the
+#' biggest difference between any two of its observations (see \link{diana} for
+#' more details).
+#'
+#' While partitioning around medoids (PAM) is comparable to k-means, it is considered
+#' more robust since it allows for the use of dissimilarities other than euclidean
+#' distance. As with k-means, the number of clusters is determined in advance, and
+#' an initial set of cluster centers is required to begin the process (see \link{pam}
+#' for more details).
+#'
+#' Clustering large applications (CLARA) is a system that involves sampling to apply
+#' PAM to a sequence of sub-datasets. When the number of observations is big, this
+#' results in shorter run times. It is substantially faster than other partitioning
+#' algorithms such as PAM at handling huge datasets. Internally, this is performed by
+#' examining fixed-size sub-datasets, which results in linear rather than quadratic
+#' time and storage requirements for n (see \link{clara} for more details).
+#'
+#' FANNY explains a fuzzy analysis clustering method. Each observation is distributed
+#' through-out the numerous groups in a fuzzy clustering (see \link{fanny} for more
+#' details).
+#'
+#' Self-organizing maps (SOM) are a widespread unsupervised learning technique used
+#' by com- putational biologists and academics in machine learning. SOM is a neural
+#' network-based system that is well-known for its ability to map and display
+#' two-dimensional data (see \link{SOMclustering} for more details).
+#'
+#' Modelbased clusterinng fits the data to a statistical model composed of a finite
+#' mixture of Gaussian distributions. Each mixture component represents a cluster,
+#' and the maximum like- lihood method, or estimation maximum (EM), is used to
+#' determine the mixture components and group memberships (see \link{ModelBasedClustering}
+#' for more details).
+#'
+#' SOTA, self-organizing tree algorithm, denotes an unsupervised network with a
+#' hierarchical and divisive binary tree topology. It is a fast approach, which
+#' makes it suitable for clustering a large number of elements. It combines the
+#' advantages of hierarchical clustering with those of SOMs. The algorithm chooses
+#' the most diverse node and separates it into two nodes referred as cells (see
+#' \link{sota} for more details).
+#'
+#' @references Joe H Ward Jr. Hierarchical grouping to optimize an objective function.
+#' Journal of the American statistical association, 58(301):236–244, 1963.
+#'
+#' Stephane Tuffery. Data mining and statistics for decision making. John Wiley
+#' & Sons, 2011.
+#'
+#' Fionn Murtagh. A survey of recent advances in hierarchical clustering algorithms.
+#' The computer journal, 26(4):354–359, 1983.
+#'
+#' Fionn Murtagh. Clustering in massive data sets. In Handbook of massive data sets,
+#' pages 501–543. Springer, 2002.
+#'
+#' Greg Hamerly and Charles Elkan. Alternatives to the k-means algorithm that find
+#' better clusterings. In Proceedings of the eleventh international conference on
+#' Information and knowledge management, pages 600–607, 2002.
+#'
+#' R Wehrens and J Kruisselbrink. kohonen: Supervised and unsupervised self-organising
+#' maps r package version 3.0. 10, 2019.
+#'
+#' Leonard Kaufman and Peter J Rousseeuw. Finding groups in data: an introduction
+#' to cluster analysis. John Wiley & Sons, 2009.
+#'
+#' Mark Van der Laan, Katherine Pollard, and Jennifer Bryan. A new partitioning
+#' around medoids algorithm. Journal of Statistical Computation and Simulation,
+#' 73(8):575–584, 2003.
+#'
+#' Chris Fraley and Adrian E Raftery. Model-based clustering, discriminant analysis,
+#' and density estimation. Journal of the American statistical Association,
+#' 97(458):611–631, 2002.
+#'
+#' Javier Herrero, Alfonso Valencia, and Joaquın Dopazo. A hierarchical unsupervised
+#' growing neural network for clustering gene expression patterns.
+#' Bioinformatics, 17(2):126–136, 2001.
+#'
 #' @examples
 #' list <- patient_list(
 #' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",

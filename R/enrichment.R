@@ -11,6 +11,28 @@
 #' @import utils
 #' @import dplyr
 #'
+#' @details the enrichment csv file should have a column including the Patient ID.
+#' Additionally, the user specifies the list in which time series data is saved.
+#' This is advantageous since the function can now do matching, i.e. determine
+#' which Patient IDs occur in both the enrichment dataset and time series datalist.
+#' So for a result, any Patient ID that appears in the enrichment dataset but
+#' does not exist in the time series datalist will be deleted from the enrichment
+#' dataset, as it cannot be used in any further investigation. Nonetheless,
+#' Patient IDs from the time series data that do not appear in the enrichment dataset
+#' will be added to the enrichment dataset, but each new parameter will be featureless,
+#' so added as NA value.
+#'
+#' If the user selects option 1 (leave missing values as NA), no further processing
+#' of the input occurs. The enrichment data set will be added to the environment as
+#' a data frame. In this situation, the NA values from the enrichment dataset will be
+#' included in the summary indicating, for example, that a certain cluster has a given
+#' percentage of missing values. This may also lead to some additional findings, such
+#' as that a specific parameter considerably enriches a cluster yet many data is absent.
+#' If the user selects option 2 (sample missing values), the function loops over each
+#' NA entry and selects a random value from the whole distribution for the parameter
+#' for which the data is missing. This cycle is repeated until the whole dataset has
+#' been processed and the data will be added as a data frame to the environment.
+#'
 #' @examples
 #' list <- patient_list(
 #' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
@@ -213,6 +235,60 @@ add_clust2ts <- function(plist, clustdat) {
 #' @import arsenal
 #' @import dplyr
 #'
+#' @details There are two techniques to compute the p-value for continuous or
+#' categorical data, according to past work. In order to determine the relevant
+#' p-value inside a cluster of interest, the data distribution within the cluster
+#' should be compared to the data distribution outside the cluster. Prior to
+#' conducting the related probability tests, one data processing step is performed,
+#' namely the construction of two data distributions, one including only data
+#' included inside the cluster and another comprising data from outside the cluster,
+#' for the purpose of comparing them.
+#'
+#' The Mann-Whitney Test, sometimes referred to as the Wilcoxon rank-sum test (WRS),
+#' is used to measure the significance of continuous variables within the observed
+#' distribution. The WRS is used to test if the central tendency of two independent
+#' samples is different. When the t-test for independent samples does not meet the
+#' requirements, the WRS is used. The null hypothesis H0 states that the populations’
+#' distributions are equal. H1 is the alternative hypothesis meaning that the
+#' distributions are not equal. The test is consistent under the broader formulation
+#' only when the following happens under H1.
+#'
+#' The hypergeometric test or Fisher’s exact test (FET) is used to analyse categorical
+#' variables within the enriched data set. It is a statistical significance test for
+#' contingency tables that is employed in the study of them. The test is helpful for
+#' categorical data derived from object classification. It is used to assess the
+#' importance of associations and inconsistencies between classes. The FET is often
+#' used in conjunction with a 2 × 2 contingency table that represents two categories
+#' for a variable, as well as assignment inside or outside of the cluster. The p-value
+#' is calculated as if the table’s margins are fixed. This results in a hypergeometric
+#' distribution of the numbers in the table cells under the null hypothesis of
+#' independence. A hypergeometric distribution is a discrete probability distribution
+#' that describes the probability of k successes, defined as random draws for which
+#' the object drawn has a specified feature in n draws without replacement from a
+#' finite population of size N containing exactly K objects with that feature, where
+#' each draw is either successful or unsuccessful. The test is only practicable for
+#' normal computations in the presence of a 2 × 2 contingency table. However, the
+#' test’s idea may be extended to the situation of a m × n table in general.
+#' Statistics programs provide a Monte Carlo approach for approximating the more
+#' general case.
+#'
+#' @references Siegel Sidney. Nonparametric statistics for the behavioral sciences.
+#' The Journal of Nervous and Mental Disease, 125(3):497, 1957.
+#'
+#' Kinley Larntz. Small-sample comparisons of exact levels for chi-squared
+#' goodness-of-fit statistics. Journal of the American Statistical Association,
+#' 73(362):253–263, 1978.
+#'
+#' Cyrus R Mehta and Nitin R Patel. A network algorithm for performing fisher’s
+#' exact test in r× c contingency tables. Journal of the American Statistical Association,
+#' 78(382):427–434, 1983.
+#'
+#' Aravind Subramanian, Pablo Tamayo, Vamsi K Mootha, Sayan Mukherjee, Benjamin
+#' L Ebert, Michael A Gillette, Amanda Paulovich, Scott L Pomeroy, Todd R Golub,
+#' Eric S Lander, et al. Gene set enrichment analysis: a knowledge-based approach
+#' for interpreting genome-wide expression profiles. Proceedings of the National
+#' Academy of Sciences, 102(43):15545–15550, 2005.
+#'
 #' @examples
 #' list <- patient_list(
 #' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
@@ -354,6 +430,16 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
 #'
 #' @import arsenal
 #' @import dplyr
+#'
+#' @details It allows the sampling in NA entries to be repeated for each parameter
+#' in the enriched data set. The primary objective here is to validate the random
+#' sampling process for missing data by running many simulations and comparing the
+#' resultant p-values. An enrichment data frame with NA elements is saved as a
+#' simulation foundation. This data frame will always serve as the foundation
+#' for any subsequent simulations added. Following that, the program runs through
+#' each NA item in the dataset and generates a random sample of the current
+#' parameter’s distribution. After completing this step for each parameter, the
+#' function generates the associated p-values as explained in \link{enr_obs_clust}.
 #'
 #' @examples
 #' list <- patient_list(

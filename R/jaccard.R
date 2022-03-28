@@ -44,7 +44,7 @@ rnd_dat_rm <- function(plist, removal) {
   newlist
 }
 
-#' Simulate random data removal for a selection of removal amounts with indicated
+#' Simulate random data removal for a removal amount with indicated
 #' number of simulations from time series data list and determine Jaccard
 #' index for all cluster via Cognate Cluster cluster assignment approach
 #'
@@ -55,6 +55,20 @@ rnd_dat_rm <- function(plist, removal) {
 #' @param method Clustering method (also see function: \link{clust_matrix})
 #' @param n_clust Number of clusters (also see function: \link{clust_matrix})
 #' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix}); default is 5,000 for this function
+#'
+#' @details The cognate cluster approach works in the manner that first a Gold
+#' Standard cluster is determined meaning the cluster assignments without any
+#' data removal. Subsequently, random data is removed from the original, complete
+#' data and clustering is performed again on the leaky data. The cluster determined
+#' to be cognate to the Gold Standard cluster is the one with the highest overlap
+#' in cluster members, meaning hte cluster with highest acheived Jaccard index.
+#' Afterwards, the Jaccard indices are calculated, comparing cluster members
+#' with complete and leaky data, for each cluster.
+#'
+#' @references Anja Jochmann, Luca Artusio, Hoda Sharifian, Angela Jamalzadeh,
+#' Louise J Fleming, Andrew Bush, Urs Frey, and Edgar Delgado-Eckert.
+#' Fluctuation-based clustering reveals phenotypes of patients with different
+#' asthma severity. ERJ open research, 6(2), 2020.
 #'
 #' @return Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
 #'
@@ -137,7 +151,7 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
   summary
 }
 
-#' Simulate random data removal for a selection of removal amounts with indicated
+#' Simulate random data removal for a removal amount with indicated
 #' number of simulations from time series data list and determine Jaccard
 #' index for all clusters via Earth Mover's distance cluster assignment
 #' approach.
@@ -151,6 +165,23 @@ sim_jaccard_cognate <- function(plist, parameter, removal, n_simu, method, n_clu
 #' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix}); default is 5,000 for this function
 #'
 #' @return Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
+#'
+#' @details This method represents a novel approach and potential complementary
+#' method to \link{sim_jaccard_cognate}. First, clustering is performed on complete
+#' data without removal, servinng as Gold Standard clusters. For every Gold Standard
+#' cluster then, all time series data from all patients is z-normalized and then
+#' assumed to be as one Gold Standard distribution. Subsequently, random data is
+#' removed form the time series data. Each leaky data distribution is then compared
+#' via Earth Mover's Distance to each Gold Standard Distribution. The Gold Standard
+#' cluster distribution to which the observed leaky distribution exhibits the
+#' lowest Earth Mover's Distance gets the assignment. This process is repeated until
+#' every leaky time series data distribution is assigned to a cluster. Afterwards,
+#' the Jaccard indices are calculated, comparing cluster members with complete
+#' and leaky data, for each cluster.
+#'
+#' @references Yossi Rubner, Carlo Tomasi, and Leonidas J Guibas. A metric for
+#' distributions with applications to image databases. In Sixth International
+#' Conference on Computer Vision (IEEE Cat. No. 98CH36271), pages 59–66. IEEE, 1998.
 #'
 #' @import tibble
 #' @import dplyr
@@ -283,11 +314,24 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
 #' @import tibble
 #' @import dplyr
 #'
+#' @details See \link{sim_jaccard_cognate} for more detailed approach on Jaccard
+#' index determination. The difference in this function is that now only one cluster
+#' is observed für multiple amoiunts of random data removal where for each data
+#' removal step defined the resulting Jaccard indices are stored in a list object.
+#' Furthermore, a boxplot visualization is generated, in the style of recent
+#' publications.
+#'
+#' @references Anja Jochmann, Luca Artusio, Hoda Sharifian, Angela Jamalzadeh,
+#' Louise J Fleming, Andrew Bush, Urs Frey, and Edgar Delgado-Eckert.
+#' Fluctuation-based clustering reveals phenotypes of patients with different
+#' asthma severity. ERJ open research, 6(2), 2020.
+#'
 #' @examples
 #' list <- patient_list(
 #' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
 #' GitHub = TRUE)
 #' output <- jaccard_run_cognate(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
+#'
 #'
 #' @export
 jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_clust, range) {
@@ -335,12 +379,24 @@ jaccard_run_cognate <- function(plist, parameter, n_simu, method, clust_num, n_c
 #' @import dplyr
 #' @import emdist
 #'
+#' @details See \link{sim_jaccard_emd} for more detailed approach on Jaccard
+#' index determination. The difference in this function is that now only one cluster
+#' is observed für multiple amoiunts of random data removal where for each data
+#' removal step defined the resulting Jaccard indices are stored in a list object.
+#' Furthermore, a boxplot visualization is generated, in the style of recent
+#' publications.
+#'
+#' @references Yossi Rubner, Carlo Tomasi, and Leonidas J Guibas. A metric for
+#' distributions with applications to image databases. In Sixth International
+#' Conference on Computer Vision (IEEE Cat. No. 98CH36271), pages 59–66. IEEE, 1998.
+#'
 #' @examples
 #' list <- patient_list(
 #' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
 #' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' output <- jaccard_run_emd(list,"PEF",10,"hierarchical",1,3,c(0.005,0.01,0.05,0.1,0.2))
+#'
 #'
 #' @export
 jaccard_run_emd <- function(plist, parameter, n_simu, method, clust_num, n_clust, range) {

@@ -7,6 +7,11 @@
 #'
 #' @return Object of type list storing cluster method(s) and number of cluster range of interest (to be used for function: \link{clValid_flow})
 #'
+#' @details See \link{clust_matrix} for more details on possible clustering techniques
+#'
+#' @references Guy Brock, Vasyl Pihur, Susmita Datta, and Somnath Datta. clvalid:
+#' An r package for cluster validation. Journal of Statistical Software, 25:1–22, 2008.
+#'
 #' @examples
 #' init_clValid()
 #'
@@ -53,12 +58,7 @@ init_clValid <- function() {
 }
 
 #' Interactive console workflow to calculate and evaluate cluster validation measures
-#' which have been determined previously by the call \link{init_clValid}. The call
-#' guides through internal cluster measures, cluster stability measure where the
-#' results of the measured will be presented and summarized in the console. Finally,
-#' a summary and optimized rank for the measures on the inidcated clustering
-#' techniques can be shown and a Cross Entropy Monte Carlo Search Algorithm can
-#' choose the ideal clustering model by applyinng Spearman's footrule distance.
+#' which have been determined previously by the call \link{init_clValid}.
 #'
 #' @param matrix Earth Mover's Distance Matrix for processed patient time series data (also see functions: \link{emd_matrix}, \link{patient_list})
 #' @param par Object of type list storing clustering methods and cluster range of interest; initialized via function: \link{init_clValid}
@@ -67,6 +67,51 @@ init_clValid <- function() {
 #'
 #' @import clValid
 #' @import RankAggreg
+#'
+#' @details The call guides through an interactive workflow and generates cluster
+#' evaluation measures, stores and lists, visualizes corresponding plots and lets
+#' the user decide which technique is the prefered one. Once the user has chosen
+#' his favourite, the flow continues to the function \link{clust_matrix} and generates
+#' the respective clustering output. The internal cluster validation methods utilize
+#' just the dataset and the clustering partition as input and evaluates the
+#' clustering’s quality by using intrinsic information included in the data.
+#'
+#' The call calculates Connectivity, Silhouette width and Dunn index. Connectivity
+#' describes the connectness to neighbors of particular clustering partition and
+#' should be minimized. Silhouette width defines the average silhouette value for
+#' each observation and should be maximized. The Dunnn index is a definition for
+#' Ratio of shortest distance between non-cluster observation and greatest intra-cluster
+#' distance and should be maximized likewise.
+#'
+#' Furthermore, cluster stability measures are available, namely Average proportion
+#' of non-overlap (APN), Average distance (AD), Average distance between means (ADM)
+#' and Figure of merit (FOM). APN is the average proportion of observations that are
+#' not clustered using complete and leaky data. AD defines the average distance in
+#' observations for both complete and leaky data. ADM deals with the average distance
+#' between cluster centers in complete and leaky data. FOM is a measure for average intra-
+#' cluster variance in leaky data. All measures should be minimized. Furthermore,
+#' Rank Aggregation may be performed. It approaches to provide a generic and flexible
+#' framework for objectively integrating several ordered lists in a suitable and
+#' efficient way. The used technique for evaluating clustering the rank is by a
+#' Cross-entropy approach, which is incorporating Spearman’s footrule distance measure.
+#' In the end a recommendation for the best fitting clustering model is given.
+#'
+#' @references Guy Brock, Vasyl Pihur, Susmita Datta, and Somnath Datta. clvalid:
+#' An r package for cluster validation. Journal of Statistical Software, 25:1–22, 2008.
+#'
+#' Julia Handl, Joshua Knowles, and Douglas B Kell. Computational cluster validation
+#' in post-genomic data analysis. Bioinformatics, 21(15):3201–3212, 2005.
+#'
+#' Peter J Rousseeuw. Silhouettes: a graphical aid to the interpretation and
+#' validation of cluster analysis. Journal of computational and applied mathematics,
+#' 20:53–65, 1987.
+#'
+#' Joseph C Dunn. Well-separated clusters and optimal fuzzy partitions. Journal of
+#' cybernetics, 4(1):95–104, 1974.
+#'
+#' Vasyl Pihur, Susmita Datta, and Somnath Datta. Weighted rank aggregation of
+#' cluster validation measures: a monte carlo cross-entropy approach. Bioinformatics,
+#' 23(13):1607–1615, 2007.
 #'
 #' @examples
 #' list <- patient_list(
