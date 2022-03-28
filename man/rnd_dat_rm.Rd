@@ -2,7 +2,7 @@
 % Please edit documentation in R/jaccard.R
 \name{rnd_dat_rm}
 \alias{rnd_dat_rm}
-\title{Remove random data from time series data list}
+\title{Remove a specific amount of data randomly from a time series data list.}
 \usage{
 rnd_dat_rm(plist, removal)
 }
@@ -15,7 +15,7 @@ rnd_dat_rm(plist, removal)
 Object of type list storing patient time series data with indicated amount of data removed randomly
 }
 \description{
-Remove random data from time series data list
+Remove a specific amount of data randomly from a time series data list.
 }
 \examples{
 list <- patient_list(

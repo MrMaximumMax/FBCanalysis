@@ -2,7 +2,8 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_boxplot}
 \alias{patient_boxplot}
-\title{Visualize patient(s) time series data in a boxplot for indicated parameter}
+\title{Visualize patient(s) time series from a preprocessed list with in a boxplot,
+either as normalized or non-normalized for an indicated parameter.}
 \usage{
 patient_boxplot(plist, patients, parameter, normalized)
 }
@@ -19,7 +20,8 @@ patient_boxplot(plist, patients, parameter, normalized)
 Visualized patient(s) time series data in a boxplot for indicated parameter
 }
 \description{
-Visualize patient(s) time series data in a boxplot for indicated parameter
+Visualize patient(s) time series from a preprocessed list with in a boxplot,
+either as normalized or non-normalized for an indicated parameter.
 }
 \examples{
 list <- patient_list(

@@ -2,7 +2,8 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_hist}
 \alias{patient_hist}
-\title{Visualize patient time series data in a histogram for indicated parameter}
+\title{Visualize patient time series data from a preprocessed in a histogram
+for indicated parameter either normalized or non-normalized.}
 \usage{
 patient_hist(plist, Patient_ID, parameter, normalized)
 }
@@ -19,7 +20,8 @@ patient_hist(plist, Patient_ID, parameter, normalized)
 Visualized patient time series data in a histogram for indicated parameter
 }
 \description{
-Visualize patient time series data in a histogram for indicated parameter
+Visualize patient time series data from a preprocessed in a histogram
+for indicated parameter either normalized or non-normalized.
 }
 \examples{
 list <- patient_list("

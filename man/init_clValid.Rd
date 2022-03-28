@@ -2,7 +2,10 @@
 % Please edit documentation in R/clValid.R
 \name{init_clValid}
 \alias{init_clValid}
-\title{Initialize Cluster Validation Measure Analysis in the context of Fluctuation Based Clustering (FBC) analysis}
+\title{Initialize Cluster Validation Measure Analysis in the context of Fluctuation
+Based Clustering (FBC) analysis. The call initialized a interactive console
+workflow where the user may indicate the clustering techniques of interest
+as well as the cluster numbers of interest.}
 \usage{
 init_clValid()
 }
@@ -10,7 +13,10 @@ init_clValid()
 Object of type list storing cluster method(s) and number of cluster range of interest (to be used for function: \link{clValid_flow})
 }
 \description{
-Initialize Cluster Validation Measure Analysis in the context of Fluctuation Based Clustering (FBC) analysis
+Initialize Cluster Validation Measure Analysis in the context of Fluctuation
+Based Clustering (FBC) analysis. The call initialized a interactive console
+workflow where the user may indicate the clustering techniques of interest
+as well as the cluster numbers of interest.
 }
 \examples{
 init_clValid()

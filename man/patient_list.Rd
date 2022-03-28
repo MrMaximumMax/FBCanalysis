@@ -2,20 +2,32 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_list}
 \alias{patient_list}
-\title{Process patient time series data by interpolation options and store data in an object of type list}
+\title{Process patient time series data by interpolation options and store data in
+an object of type list. The processing involves the introduction of a standardized
+time format and a check if the time series is complete. In case of an in-
+complete time series data, interpolation via random quartile sampling, linear
+interpolation, cubic c spline interpolation or optimized combined polynomial
+regression and regularization can be performed. The processing is guided by
+an interactive workflow in the console.}
 \usage{
 patient_list(path, GitHub)
 }
 \arguments{
 \item{path}{Path where csv file(s) are stored (only folder, not specific file(s))}
 
-\item{GitHub}{Set TRUE when csv file comes form GitHub (FALSE by default)}
+\item{GitHub}{Set TRUE when csv file comes form GitHub (FALSE by default); only in demo needed}
 }
 \value{
 Object of type list storing patient time series data
 }
 \description{
-Process patient time series data by interpolation options and store data in an object of type list
+Process patient time series data by interpolation options and store data in
+an object of type list. The processing involves the introduction of a standardized
+time format and a check if the time series is complete. In case of an in-
+complete time series data, interpolation via random quartile sampling, linear
+interpolation, cubic c spline interpolation or optimized combined polynomial
+regression and regularization can be performed. The processing is guided by
+an interactive workflow in the console.
 }
 \examples{
 list <- patient_list(

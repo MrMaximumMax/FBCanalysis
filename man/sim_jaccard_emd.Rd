@@ -2,7 +2,10 @@
 % Please edit documentation in R/jaccard.R
 \name{sim_jaccard_emd}
 \alias{sim_jaccard_emd}
-\title{Simulate random data removal from time series data list and determine Jaccard index via Earth Mover's Distance approach}
+\title{Simulate random data removal for a selection of removal amounts with indicated
+number of simulations from time series data list and determine Jaccard
+index for all clusters via Earth Mover's distance cluster assignment
+approach.}
 \usage{
 sim_jaccard_emd(plist, parameter, removal, n_simu, method, n_clust, Iter)
 }
@@ -25,7 +28,10 @@ sim_jaccard_emd(plist, parameter, removal, n_simu, method, n_clust, Iter)
 Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
 }
 \description{
-Simulate random data removal from time series data list and determine Jaccard index via Earth Mover's Distance approach
+Simulate random data removal for a selection of removal amounts with indicated
+number of simulations from time series data list and determine Jaccard
+index for all clusters via Earth Mover's distance cluster assignment
+approach.
 }
 \examples{
 list <- patient_list(

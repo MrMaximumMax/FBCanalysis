@@ -2,7 +2,10 @@
 % Please edit documentation in R/enrichment.R
 \name{enr_obs_clust}
 \alias{enr_obs_clust}
-\title{Observe specific cluster for overview and p-values}
+\title{Observe a specific cluster of interest on preporcessed enrichment and time
+series data for overview and p-values. The p-values are calculated by a
+Wilcox Rank Sum test for continuous data and a Fisher's Exact Test for
+categorical enrichment data.}
 \usage{
 enr_obs_clust(ts.dat, enrich, clustno)
 }
@@ -17,7 +20,10 @@ enr_obs_clust(ts.dat, enrich, clustno)
 Terminal output presenting summary of time series and enrichment data with corresponding p-values
 }
 \description{
-Observe specific cluster for overview and p-values
+Observe a specific cluster of interest on preporcessed enrichment and time
+series data for overview and p-values. The p-values are calculated by a
+Wilcox Rank Sum test for continuous data and a Fisher's Exact Test for
+categorical enrichment data.
 }
 \examples{
 list <- patient_list(

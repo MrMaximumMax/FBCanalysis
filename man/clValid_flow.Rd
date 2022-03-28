@@ -2,7 +2,13 @@
 % Please edit documentation in R/clValid.R
 \name{clValid_flow}
 \alias{clValid_flow}
-\title{Interactive console workflow to calculate and evaluate cluster validation measures}
+\title{Interactive console workflow to calculate and evaluate cluster validation measures
+which have been determined previously by the call \link{init_clValid}. The call
+guides through internal cluster measures, cluster stability measure where the
+results of the measured will be presented and summarized in the console. Finally,
+a summary and optimized rank for the measures on the inidcated clustering
+techniques can be shown and a Cross Entropy Monte Carlo Search Algorithm can
+choose the ideal clustering model by applyinng Spearman's footrule distance.}
 \usage{
 clValid_flow(matrix, par)
 }
@@ -16,6 +22,12 @@ Object of type list storing chosen clustering method and number of clusters (can
 }
 \description{
 Interactive console workflow to calculate and evaluate cluster validation measures
+which have been determined previously by the call \link{init_clValid}. The call
+guides through internal cluster measures, cluster stability measure where the
+results of the measured will be presented and summarized in the console. Finally,
+a summary and optimized rank for the measures on the inidcated clustering
+techniques can be shown and a Cross Entropy Monte Carlo Search Algorithm can
+choose the ideal clustering model by applyinng Spearman's footrule distance.
 }
 \examples{
 list <- patient_list(

@@ -2,7 +2,9 @@
 % Please edit documentation in R/clustering.R
 \name{clust_matrix}
 \alias{clust_matrix}
-\title{Cluster Earth Mover Distance Square Matrix data}
+\title{Cluster Earth Mover Distance Square Matrix data and record cluster assignments
+for involved Patient_IDs for a specified clustering technique and number of
+clusters.}
 \usage{
 clust_matrix(matrix, method, nclust, plotclust)
 }
@@ -19,7 +21,9 @@ clust_matrix(matrix, method, nclust, plotclust)
 Object of type list storing cluster data and clustering assignments for the Patient_IDs from the Earth Mover's Distance matrix
 }
 \description{
-Cluster Earth Mover Distance Square Matrix data
+Cluster Earth Mover Distance Square Matrix data and record cluster assignments
+for involved Patient_IDs for a specified clustering technique and number of
+clusters.
 }
 \examples{
 list <- patient_list(

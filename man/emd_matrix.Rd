@@ -2,7 +2,8 @@
 % Please edit documentation in R/emd.R
 \name{emd_matrix}
 \alias{emd_matrix}
-\title{Generate a Earth Mover's Distance Matrix out of time series data list entries}
+\title{Generate an Earth Mover's Distance Matrix for time series data distributions
+pairs out of a preprocessed time series data list.}
 \usage{
 emd_matrix(plist, parameter, maxIter)
 }
@@ -17,7 +18,8 @@ emd_matrix(plist, parameter, maxIter)
 Earth Mover's Distance Square Matrix of type matrix
 }
 \description{
-Generate a Earth Mover's Distance Matrix out of time series data list entries
+Generate an Earth Mover's Distance Matrix for time series data distributions
+pairs out of a preprocessed time series data list.
 }
 \examples{
 list <- patient_list(

@@ -2,7 +2,9 @@
 % Please edit documentation in R/jaccard.R
 \name{sim_jaccard_cognate}
 \alias{sim_jaccard_cognate}
-\title{Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach}
+\title{Simulate random data removal for a selection of removal amounts with indicated
+number of simulations from time series data list and determine Jaccard
+index for all cluster via Cognate Cluster cluster assignment approach}
 \usage{
 sim_jaccard_cognate(plist, parameter, removal, n_simu, method, n_clust, Iter)
 }
@@ -25,7 +27,9 @@ sim_jaccard_cognate(plist, parameter, removal, n_simu, method, n_clust, Iter)
 Object of type matrix storing received Jaccard indices for indicated amount of random data removal for all clusters
 }
 \description{
-Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach
+Simulate random data removal for a selection of removal amounts with indicated
+number of simulations from time series data list and determine Jaccard
+index for all cluster via Cognate Cluster cluster assignment approach
 }
 \examples{
 list <- patient_list(

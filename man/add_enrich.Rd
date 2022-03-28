@@ -2,7 +2,8 @@
 % Please edit documentation in R/enrichment.R
 \name{add_enrich}
 \alias{add_enrich}
-\title{Add enrichment data and preprocess for analysis}
+\title{Add enrichment data from a csv file, match with Patient ID entries from a
+previously generated time series data list and preprocess for further analysis.}
 \usage{
 add_enrich(plist, path)
 }
@@ -15,7 +16,8 @@ add_enrich(plist, path)
 Processed data as object of type data frame; Enrichment data Patient_IDs are matched with Time Series Data List Patient IDs; In case it was indicated, NA values in the enrichment data are filled up by random sampling
 }
 \description{
-Add enrichment data and preprocess for analysis
+Add enrichment data from a csv file, match with Patient ID entries from a
+previously generated time series data list and preprocess for further analysis.
 }
 \examples{
 list <- patient_list(

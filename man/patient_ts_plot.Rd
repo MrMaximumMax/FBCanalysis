@@ -2,7 +2,8 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_ts_plot}
 \alias{patient_ts_plot}
-\title{Visualize patient time series data in a time series plot for indicated parameter}
+\title{Visualize patient time series data from a preprocessed in a time series plot
+for an indicated parameter, either as normalized or non-normalized.}
 \usage{
 patient_ts_plot(plist, Patient_ID, parameter, normalized)
 }
@@ -19,7 +20,8 @@ patient_ts_plot(plist, Patient_ID, parameter, normalized)
 Visualized patient time series data in a time series plot for indicated parameter
 }
 \description{
-Visualize patient time series data in a time series plot for indicated parameter
+Visualize patient time series data from a preprocessed in a time series plot
+for an indicated parameter, either as normalized or non-normalized.
 }
 \examples{
 list <- patient_list(

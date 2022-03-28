@@ -2,7 +2,8 @@
 % Please edit documentation in R/enrichment.R
 \name{add_clust2ts}
 \alias{add_clust2ts}
-\title{Add clustering assignments to time series data}
+\title{Add clustering assignments from clustering output to time series data list
+and store the data in a data frame.}
 \usage{
 add_clust2ts(plist, clustdat)
 }
@@ -15,7 +16,8 @@ add_clust2ts(plist, clustdat)
 Processed data frame storing time series data with added column indicating cluster assignments
 }
 \description{
-Add clustering assignments to time series data
+Add clustering assignments from clustering output to time series data list
+and store the data in a data frame.
 }
 \examples{
 list <- patient_list(

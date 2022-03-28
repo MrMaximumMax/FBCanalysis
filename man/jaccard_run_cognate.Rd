@@ -2,7 +2,9 @@
 % Please edit documentation in R/jaccard.R
 \name{jaccard_run_cognate}
 \alias{jaccard_run_cognate}
-\title{Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach for multiple random data removal steps}
+\title{Simulate amount of random data removal from time series data list and determine
+Jaccard index via Cognate Cluster approach for multiple random data removal steps
+for a specific cluster of interest.}
 \usage{
 jaccard_run_cognate(
   plist,
@@ -33,7 +35,9 @@ jaccard_run_cognate(
 Object of type list storing Jaccard indices for each indicated random data removal step and visualized results in a boxplot
 }
 \description{
-Simulate random data removal from time series data list and determine Jaccard index via Cognate Cluster approach for multiple random data removal steps
+Simulate amount of random data removal from time series data list and determine
+Jaccard index via Cognate Cluster approach for multiple random data removal steps
+for a specific cluster of interest.
 }
 \examples{
 list <- patient_list(

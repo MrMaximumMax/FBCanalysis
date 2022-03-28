@@ -2,7 +2,8 @@
 % Please edit documentation in R/enrichment.R
 \name{add_clust2enrich}
 \alias{add_clust2enrich}
-\title{Add clustering assignments to enrichment data frame}
+\title{Add clustering assignments from clustering output to preprocessed enrichment
+data frame.}
 \usage{
 add_clust2enrich(enrich, clustdat)
 }
@@ -15,7 +16,8 @@ add_clust2enrich(enrich, clustdat)
 Processed enrichment data frame with added column indicating cluster assignments
 }
 \description{
-Add clustering assignments to enrichment data frame
+Add clustering assignments from clustering output to preprocessed enrichment
+data frame.
 }
 \examples{
 list <- patient_list(

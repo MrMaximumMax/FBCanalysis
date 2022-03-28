@@ -2,7 +2,8 @@
 % Please edit documentation in R/emd.R
 \name{max_fluc}
 \alias{max_fluc}
-\title{Determine pair of maximum fluctuation difference in a list storing time series data}
+\title{Determine the pair of maximum fluctuation difference on time series data distribution
+from a preprocessed list or Earth Mover's Distance square matrix.}
 \usage{
 max_fluc(input, parameter, maxIter)
 }
@@ -17,7 +18,8 @@ max_fluc(input, parameter, maxIter)
 Console output with Patient_ID pair, corresponding Earth Mover's Distance and visualized boxplot of both time series data distributions
 }
 \description{
-Determine pair of maximum fluctuation difference in a list storing time series data
+Determine the pair of maximum fluctuation difference on time series data distribution
+from a preprocessed list or Earth Mover's Distance square matrix.
 }
 \examples{
 list <- patient_list(

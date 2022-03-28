@@ -2,7 +2,9 @@
 % Please edit documentation in R/enrichment.R
 \name{sim_sample_enr}
 \alias{sim_sample_enr}
-\title{Simulate random sampling for NA entries in enrichment data and check stability of resulting p-values for the enrichment parameters}
+\title{Simulate random sampling for NA entries in enrichment data and
+check stability of resulting p-values for the enrichment parameters for an
+indicated number of random sampling simulations.}
 \usage{
 sim_sample_enr(plist, path, clustdat, clustno, n_sim)
 }
@@ -21,7 +23,9 @@ sim_sample_enr(plist, path, clustdat, clustno, n_sim)
 Object of type list storing the received p-values for each parameter in a vector and boxplot visualizing the received p-values
 }
 \description{
-Simulate random sampling for NA entries in enrichment data and check stability of resulting p-values for the enrichment parameters
+Simulate random sampling for NA entries in enrichment data and
+check stability of resulting p-values for the enrichment parameters for an
+indicated number of random sampling simulations.
 }
 \examples{
 list <- patient_list(
