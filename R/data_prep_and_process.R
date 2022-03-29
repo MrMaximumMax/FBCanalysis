@@ -38,7 +38,7 @@
 #'
 #'  \link{max_fluc}
 #'
-#' @section Clustering to determine heterogeneous groups:
+#' @section Clustering techniques:
 #'
 #'  \link{clust_matrix}
 #'
@@ -225,13 +225,15 @@ patient_list <- function (path, GitHub) {
   #time series and eventually fill missing times up with NA
   question4 <- readline("What's the sampling frequency (please indicate number)?: ")
   #Present the user the possible options fill up missing data and let him decide
-  cat("\n\n", "Sample missing values from top quantile", "\t", "(1)", "\n",
-      "Sample missing values with bottom quantile", "\t", "(2)", "\n\n",
-      "Interpolate missing values and apply L1 Regularization / Lasso Regression (3)", "\n",
-      "Interpolate missing values and apply L2 Regulariztation / Ridge Regression (4)","\n",
-      "Interpolate missing values and apply Elastic Net on Regression and Regularization (5)", "\n\n",
-      "Interpolate missing values by Linear Spline (6)", "\n",
-      "Interpolate missing values by Cubic C2 Spline (7)", "\n\n")
+  cat("\n\n", "Sample missing values from First quartile", "\t", "(1)", "\n",
+      "Sample missing values from Third quartile", "\t", "(2)", "\n\n",
+      "Sample missing values from 5th percentile", "\t", (3), "\n",
+      "Sample missing values from 95th percentile", "\t", (4), "\n\n",
+      "Interpolate missing values and apply L1 Regularization / Lasso Regression (5)", "\n",
+      "Interpolate missing values and apply L2 Regulariztation / Ridge Regression (6)","\n",
+      "Interpolate missing values and apply Elastic Net on Regression and Regularization (7)", "\n\n",
+      "Interpolate missing values by Linear Spline (8)", "\n",
+      "Interpolate missing values by Cubic C2 Spline (9)", "\n\n")
   #Store the option that the user has chosen
   usecase <- readline("Select measure for filling up NA values: ")
   #Extract the individual Patient_IDs from raw.data frame to the filter the
@@ -391,7 +393,7 @@ patient_list <- function (path, GitHub) {
         lookup <- patdat1[,parameters[j]]
         #Extract the top quantile of the data
         top_quantile <- quantile(lookup)[3]
-        lookup <- subset(lookup, lookup > top_quantile)
+        lookup <- subset(lookup, lookup => top_quantile)
         #Go through each NA entry
         for (k in 1:nrow(patdat2)) {
           #Randomly samople from top quantile
@@ -415,7 +417,38 @@ patient_list <- function (path, GitHub) {
         #Take here bottom quantile instead
         bottom_quantile <- quantile(lookup)[2]
         #Here smaller than...
-        lookup <- subset(lookup, lookup < bottom_quantile)
+        lookup <- subset(lookup, lookup <= bottom_quantile)
+        for (k in 1:nrow(patdat2)) {
+          patdat2[k,parameters[j]] <- sample(lookup, 1)
+        }
+      }
+      patdat <- rbind(patdat2,patdat1)
+      patdat[,"Patient_ID"] <- filter
+      datalist[[filter]] <- patdat[order(patdat$Time),]
+    }
+    #Analogous to previous cases but with percentiles instead of quartiles
+    if (usecase == 3) {
+      for (j in 1:length(parameters)) {
+        lookup <- patdat1[,parameters[j]]
+        #Take here bottom quantile instead
+        quantile <- quantile(lookup, probs = 0.05)
+        #Here smaller than...
+        lookup <- subset(lookup, lookup <= bottom_quantile)
+        for (k in 1:nrow(patdat2)) {
+          patdat2[k,parameters[j]] <- sample(lookup, 1)
+        }
+      }
+      patdat <- rbind(patdat2,patdat1)
+      patdat[,"Patient_ID"] <- filter
+      datalist[[filter]] <- patdat[order(patdat$Time),]
+    }
+    if (usecase == 4) {
+      for (j in 1:length(parameters)) {
+        lookup <- patdat1[,parameters[j]]
+        #Take here bottom quantile instead
+        bottom_quantile <- quantile(lookup, probs = 0.95)
+        #Here larger than...
+        lookup <- subset(lookup, lookup >= bottom_quantile)
         for (k in 1:nrow(patdat2)) {
           patdat2[k,parameters[j]] <- sample(lookup, 1)
         }
@@ -431,7 +464,7 @@ patient_list <- function (path, GitHub) {
     #the defined alpha value that has been defined in an object of type numeric
     #before; These issues did not occur when alpha was indicated as a fixed number
     #within the glmnet(...) function
-    if (usecase == 3) {
+    if (usecase == 5) {
       #Order the current patient data by time
       patdat <- patdat[order(patdat$Time),]
       #Add a new line which indicates that the time is now an equally spaced
@@ -520,7 +553,7 @@ patient_list <- function (path, GitHub) {
     #In case the user indicated Polynomial regression/L1 regularization
     #Similar remarks as in line 338; The only difference here is that
     #now glmnet uses a value of 1; Besides this, the approach is similar
-    if (usecase == 4) {
+    if (usecase == 6) {
       patdat <- patdat[order(patdat$Time),]
       patdat[,"Seq"] <- 1:nrow(patdat)
       patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
@@ -574,7 +607,7 @@ patient_list <- function (path, GitHub) {
     #Similar remarks as in line 338; The only difference here is that
     #now glmnet uses the indicated alpha for elastic net that has been added to
     #the environment (see line 338); Besides this, the approach is similar
-    if (usecase == 5) {
+    if (usecase == 7) {
       patdat <- patdat[order(patdat$Time),]
       patdat[,"Seq"] <- 1:nrow(patdat)
       patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
@@ -626,7 +659,7 @@ patient_list <- function (path, GitHub) {
       }
     }
     #In case the user opted linear interpolation
-    if (usecase == 6) {
+    if (usecase == 8) {
       #Order current patient data by time
       patdat <- patdat[order(patdat$Time),]
       #Perform linear interpolation on NA values
@@ -640,7 +673,7 @@ patient_list <- function (path, GitHub) {
       datalist[[filter]] <- patdat
     }
     #In case the user opted cubic spline interpolation
-    if (usecase == 7) {
+    if (usecase == 9) {
       #Order current patient data by time
       patdat <- patdat[order(patdat$Time),]
       #Perform cubic c spline interpolation on NA values
