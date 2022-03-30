@@ -2,10 +2,9 @@
 % Please edit documentation in R/emd.R
 \name{emd_matrix}
 \alias{emd_matrix}
-\title{Generate an Earth Mover's Distance Matrix for time series data distributions
-pairs out of a preprocessed time series data list.}
+\title{Generate Earth Mover's Distance Matrix}
 \usage{
-emd_matrix(plist, parameter, maxIter)
+emd_matrix(plist, parameter, maxIter, normalize)
 }
 \arguments{
 \item{plist}{List storing patient time series data (also see function: \link{patient_list})}
@@ -13,6 +12,8 @@ emd_matrix(plist, parameter, maxIter)
 \item{parameter}{Parameter of interest to determine Earth Mover's Distances between distributions}
 
 \item{maxIter}{Maximum of iterations to calculate Earth Mover's Distance (default: 500)}
+
+\item{normalize}{Indicates if parameters delivered needs to be normalized or not (TRUE by default)}
 }
 \value{
 Earth Mover's Distance Square Matrix of type matrix

@@ -2,8 +2,7 @@
 % Please edit documentation in R/enrichment.R
 \name{add_enrich}
 \alias{add_enrich}
-\title{Add enrichment data from a csv file, match with Patient ID entries from a
-previously generated time series data list and preprocess for further analysis.}
+\title{Add extended data}
 \usage{
 add_enrich(plist, path)
 }
@@ -16,28 +15,28 @@ add_enrich(plist, path)
 Processed data as object of type data frame; Enrichment data Patient_IDs are matched with Time Series Data List Patient IDs; In case it was indicated, NA values in the enrichment data are filled up by random sampling
 }
 \description{
-Add enrichment data from a csv file, match with Patient ID entries from a
+Add extended data from a csv file, match with Patient ID entries from a
 previously generated time series data list and preprocess for further analysis.
 }
 \details{
-the enrichment csv file should have a column including the Patient ID.
-Additionally, the user specifies the list in which time series data is saved.
+the extended csv file should have a column including the Patient ID.
+Additionally, one specifies the list in which time series data is saved.
 This is advantageous since the function can now do matching, i.e. determine
-which Patient IDs occur in both the enrichment dataset and time series datalist.
-So for a result, any Patient ID that appears in the enrichment dataset but
-does not exist in the time series datalist will be deleted from the enrichment
+which Patient IDs occur in both the extended dataset and time series datalist.
+So for a result, any Patient ID that appears in the extended dataset but
+does not exist in the time series datalist will be deleted from the extended
 dataset, as it cannot be used in any further investigation. Nonetheless,
 Patient IDs from the time series data that do not appear in the enrichment dataset
 will be added to the enrichment dataset, but each new parameter will be featureless,
 so added as NA value.
 
-If the user selects option 1 (leave missing values as NA), no further processing
-of the input occurs. The enrichment data set will be added to the environment as
-a data frame. In this situation, the NA values from the enrichment dataset will be
+If one selects option 1 (leave missing values as NA), no further processing
+of the input occurs. The extended data set will be added to the environment as
+a data frame. In this situation, the NA values from the extended dataset will be
 included in the summary indicating, for example, that a certain cluster has a given
 percentage of missing values. This may also lead to some additional findings, such
 as that a specific parameter considerably enriches a cluster yet many data is absent.
-If the user selects option 2 (sample missing values), the function loops over each
+If the one selects option 2 (sample missing values), the function loops over each
 NA entry and selects a random value from the whole distribution for the parameter
 for which the data is missing. This cycle is repeated until the whole dataset has
 been processed and the data will be added as a data frame to the environment.

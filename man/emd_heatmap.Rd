@@ -4,12 +4,14 @@
 \alias{emd_heatmap}
 \title{Visualize an Earth Mover's Distance Square Matrix as a heatmap}
 \usage{
-emd_heatmap(input, parameter, maxIter)
+emd_heatmap(input, parameter, maxIter, normalize)
 }
 \arguments{
 \item{input}{Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list})}
 
 \item{parameter}{In case list is input, the parameter of interest from time series data list}
+
+\item{normalize}{Indicates if parameter indicated needs to be normalized or not (TRUE by default)}
 
 \item{Iter}{In case input is time series data list, incate maxIter to calculate EMD matrix (also see function: \link{emd_matrix})}
 }

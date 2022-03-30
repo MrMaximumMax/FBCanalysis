@@ -2,8 +2,7 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_list}
 \alias{patient_list}
-\title{Process patient time series data by interpolation options and store data in
-an object of type list.}
+\title{Process patient time series data}
 \usage{
 patient_list(path, GitHub)
 }
@@ -20,6 +19,10 @@ Process patient time series data by interpolation options and store data in
 an object of type list.
 }
 \details{
+It should be outlined that no prior z-normalization is required!
+Within FBCanalysis' functions, the user can indicate if normalization is
+required or not.
+
 Prior to undertaking an analysis using one of the FBC procedures,
 it is necessary to adequately process and prepare the relevant time series data.
 The function then creates an interactive flow using the console in R Studio.

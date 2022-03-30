@@ -4,7 +4,7 @@
 \name{FBCanalysis}
 \alias{FBCanalysis}
 \title{FBCanalysis: A package for developing and evaluating biomedical time series
-data clustering model based on Fluctuation Based Clustering (FBC)}
+data clustering models based on Fluctuation Based Clustering (FBC)}
 \description{
 This R package aims to offer researchers with fast tools for clustering
 patient time series data and confirming the distinction using additional
@@ -46,7 +46,7 @@ removal, and conventional cluster stability measures
 \link{max_fluc}
 }
 
-\section{Clustering to determine heterogeneous groups}{
+\section{Clustering techniques}{
 
 
 \link{clust_matrix}
@@ -69,13 +69,21 @@ removal, and conventional cluster stability measures
 \section{Determine cluster stability upon random data removal}{
 
 
-\link{sim_jaccard_cognate}
+\link{sim_jaccard_global}
 
 \link{sim_jaccard_emd}
 
-\link{jaccard_run_cognate}
+\link{sim_jaccard_emd_2}
+
+\link{jaccard_run_global}
 
 \link{jaccard_run_emd}
+
+\link{jaccard_run_emd_2}
+
+\link{reap_freq}
+
+\link{reap_freq_run}
 }
 
 \section{Cluster stability measure validation}{

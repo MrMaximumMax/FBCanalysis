@@ -2,12 +2,9 @@
 % Please edit documentation in R/enrichment.R
 \name{enr_obs_clust}
 \alias{enr_obs_clust}
-\title{Observe a specific cluster of interest on preporcessed enrichment and time
-series data for overview and p-values. The p-values are calculated by a
-Wilcox Rank Sum test for continuous data and a Fisher's Exact Test for
-categorical enrichment data.}
+\title{Observe a specific cluster of interest}
 \usage{
-enr_obs_clust(ts.dat, enrich, clustno)
+enr_obs_clust(ts.dat, enrich, clustno, numeric, categorical)
 }
 \arguments{
 \item{ts.dat}{Processed data frame storing time series data and cluster assignments (also see function: \link{add_clust2ts})}
@@ -15,27 +12,29 @@ enr_obs_clust(ts.dat, enrich, clustno)
 \item{enrich}{Processed data frame storing enrichment data and cluster assignments (also see function: \link{add_clust2enrich})}
 
 \item{clustno}{Cluster number of interest}
+
+\item{numeric}{Statistical test to be performed on continuous data}
+
+\item{categorical}{Statistical test to be performed on categorical data}
 }
 \value{
 Terminal output presenting summary of time series and enrichment data with corresponding p-values
 }
 \description{
-Observe a specific cluster of interest on preporcessed enrichment and time
-series data for overview and p-values. The p-values are calculated by a
-Wilcox Rank Sum test for continuous data and a Fisher's Exact Test for
-categorical enrichment data.
+Observe a specific cluster of interest of preporcessed extended and time
+series data for overview and p-values.
 }
 \details{
-There are two techniques to compute the p-value for continuous or
-categorical data, according to past work. In order to determine the relevant
-p-value inside a cluster of interest, the data distribution within the cluster
-should be compared to the data distribution outside the cluster. Prior to
-conducting the related probability tests, one data processing step is performed,
-namely the construction of two data distributions, one including only data
-included inside the cluster and another comprising data from outside the cluster,
-for the purpose of comparing them.
+There are five techniques available to compute the p-value for continuous
+or categorical data. In order to determine the relevant p-value inside a cluster
+of interest, the data distribution within the cluster should be compared to the
+data distribution outside the cluster. Prior to conducting the related probability
+tests, one data processing step is performed, namely the construction of two data
+distributions, one including only data included inside the cluster and another
+comprising data from outside the cluster, for the purpose of comparing them.
 
-The Mann-Whitney Test, sometimes referred to as the Wilcoxon rank-sum test (WRS),
+\strong{Mann-Whitney Test} \emph{(numeric = "wt")}
+The Mannn-Whitney Test, sometimes referred to as the Wilcoxon rank-sum test (WRS),
 is used to measure the significance of continuous variables within the observed
 distribution. The WRS is used to test if the central tendency of two independent
 samples is different. When the t-test for independent samples does not meet the
@@ -44,24 +43,50 @@ distributions are equal. H1 is the alternative hypothesis meaning that the
 distributions are not equal. The test is consistent under the broader formulation
 only when the following happens under H1.
 
-The hypergeometric test or Fisher’s exact test (FET) is used to analyse categorical
-variables within the enriched data set. It is a statistical significance test for
-contingency tables that is employed in the study of them. The test is helpful for
-categorical data derived from object classification. It is used to assess the
-importance of associations and inconsistencies between classes. The FET is often
-used in conjunction with a 2 × 2 contingency table that represents two categories
-for a variable, as well as assignment inside or outside of the cluster. The p-value
-is calculated as if the table’s margins are fixed. This results in a hypergeometric
-distribution of the numbers in the table cells under the null hypothesis of
-independence. A hypergeometric distribution is a discrete probability distribution
-that describes the probability of k successes, defined as random draws for which
-the object drawn has a specified feature in n draws without replacement from a
-finite population of size N containing exactly K objects with that feature, where
-each draw is either successful or unsuccessful. The test is only practicable for
+\strong{Analysis of Variance} \emph{(numeric = "anova")}
+A further approach on determining significance for continuous distributions is the
+Analysis of Variance (ANOVA). The perquisites for ANOVA are that samples are
+sampled independently from each other. Additionally, variance homogeneity and
+normal distribution must be given. A independent variable, consisting
+of I categories should be given. H0 indicates that no differences in the means for
+each I is given. It is used to compare two or more independent samples with
+comparable or dissimilar sample sizes.
+
+\strong{Kruskall-Wallis test} \emph{(numeric = "kwt")}
+With several samples are not normally distributed but also small sample sizes
+and outliers, the Kruskall-Wallis test may be preferred. It is used to compare
+two or more independent samples with comparable or dissimilar sample sizes.
+It expands the WRS, which is only used to compare two groups. If the researcher
+can make the assumption that all groups have an identically shaped and scaled
+distribution, except for differences in medians, H0 is that all groups have
+equal medians.
+
+\strong{Fisher’s exact test} \emph{(categorical = "fe")}
+The hypergeometric test or Fisher’s exact test (FET) is used to analyze categorical
+variables within the enriched data set. It is a statistical significance test
+for contingency tables that is employed in the study of them. The test is helpful
+for categorical data derived from object classification. It is used to assess
+the importance of associations and inconsistencies between classes. The FET is
+often used in conjunction with a 2 × 2 contingency table that represents two
+categories for a variable, as well as assignment inside or outside of the cluster.
+The p-value is calculated as if the table’s margins are fixed. This results in
+a hypergeometric distribution of the numbers in the table cells under the null
+hypothesis of independence. A hypergeometric distribution is a discrete probability
+distribution that describes the probability of k successes, defined as random draws
+for which the object drawn has a specified feature in n draws without replacement
+from a finite population of size N containing exactly K objects with that feature,
+where each draw is either successful or unsuccessful. The test is only practicable for
 normal computations in the presence of a 2 × 2 contingency table. However, the
 test’s idea may be extended to the situation of a m × n table in general.
 Statistics programs provide a Monte Carlo approach for approximating the more
 general case.
+
+\strong{Chi-Square test} \emph{(categorical = "chisq")}
+Additionally, one may choose to do a Chi-Square test. This is a valid statistical
+hypothesis test when the test statistic is normally distributed under the null
+hypothesis. According to Pear- son, the difference between predicted and actual
+frequencies in one or more categories of a contingency table is statistically
+significant.
 }
 \examples{
 list <- patient_list(
@@ -73,7 +98,7 @@ enr <- add_enrich(list,
 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
 enr <- add_clust2enrich(enr, clustering)
 ts <- add_clust2ts(list, clustering)
-enr_obs_clust(ts, enr, 1)
+enr_obs_clust(ts, enr, 1, numeric = "anova", categorical = "fe")
 
 }
 \references{
@@ -93,4 +118,11 @@ L Ebert, Michael A Gillette, Amanda Paulovich, Scott L Pomeroy, Todd R Golub,
 Eric S Lander, et al. Gene set enrichment analysis: a knowledge-based approach
 for interpreting genome-wide expression profiles. Proceedings of the National
 Academy of Sciences, 102(43):15545–15550, 2005.
+
+William H Kruskal and W Allen Wallis. Errata: Use of ranks in one-criterion variance
+analysis. Journal of the American statistical Association, 48(264):907–911, 1953.
+
+Kinley Larntz. Small-sample comparisons of exact levels for chi-squared goodness-
+of-fit statistics. Journal of the American Statistical Association,
+73(362):253–263, 1978.
 }

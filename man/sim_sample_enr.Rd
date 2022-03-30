@@ -2,11 +2,9 @@
 % Please edit documentation in R/enrichment.R
 \name{sim_sample_enr}
 \alias{sim_sample_enr}
-\title{Simulate random sampling for NA entries in enrichment data and
-check stability of resulting p-values for the enrichment parameters for an
-indicated number of random sampling simulations.}
+\title{Simulate random sampling in extended data}
 \usage{
-sim_sample_enr(plist, path, clustdat, clustno, n_sim)
+sim_sample_enr(plist, path, clustdat, clustno, n_sim, numeric, categorical)
 }
 \arguments{
 \item{plist}{List storing patient time series data (also see function: \link{patient_list})}
@@ -23,15 +21,15 @@ sim_sample_enr(plist, path, clustdat, clustno, n_sim)
 Object of type list storing the received p-values for each parameter in a vector and boxplot visualizing the received p-values
 }
 \description{
-Simulate random sampling for NA entries in enrichment data and
-check stability of resulting p-values for the enrichment parameters for an
+Simulate random sampling for NA entries in extended data and
+check stability of resulting p-values for the parameters for an
 indicated number of random sampling simulations.
 }
 \details{
 It allows the sampling in NA entries to be repeated for each parameter
-in the enriched data set. The primary objective here is to validate the random
+in the extended data set. The primary objective here is to validate the random
 sampling process for missing data by running many simulations and comparing the
-resultant p-values. An enrichment data frame with NA elements is saved as a
+resultant p-values. An extended data frame with NA elements is saved as a
 simulation foundation. This data frame will always serve as the foundation
 for any subsequent simulations added. Following that, the program runs through
 each NA item in the dataset and generates a random sample of the current
@@ -44,7 +42,7 @@ list <- patient_list(
 GitHub = TRUE)
 #Sampling frequency is supposed to be daily
 path <- 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv'
-test <- sim_sample_enr(list,path,clustering,1,100)
+test <- sim_sample_enr(list,path,clustering,1,100, numeric = "anova", categorical = "fe")
 sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim)
 
 }

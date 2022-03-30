@@ -2,10 +2,9 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_ts_plot}
 \alias{patient_ts_plot}
-\title{Visualize patient time series data from a preprocessed in a time series plot
-for an indicated parameter, either as normalized or non-normalized.}
+\title{Visualize patient data in time series plot}
 \usage{
-patient_ts_plot(plist, Patient_ID, parameter, normalized)
+patient_ts_plot(plist, Patient_ID, parameter, normalize)
 }
 \arguments{
 \item{plist}{List storing patient time series data (also see function: \link{patient_list})}
@@ -14,7 +13,7 @@ patient_ts_plot(plist, Patient_ID, parameter, normalized)
 
 \item{parameter}{Parameter of interest in list element}
 
-\item{normalized}{TRUE/FALSE if z-normalized (TRUE by default)}
+\item{normalize}{TRUE/FALSE if z-normalization is required (TRUE by default)}
 }
 \value{
 Visualized patient time series data in a time series plot for indicated parameter

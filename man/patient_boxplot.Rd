@@ -2,10 +2,9 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_boxplot}
 \alias{patient_boxplot}
-\title{Visualize patient(s) time series from a preprocessed list with in a boxplot,
-either as normalized or non-normalized for an indicated parameter.}
+\title{Visualize patient time series data in boxplot}
 \usage{
-patient_boxplot(plist, patients, parameter, normalized)
+patient_boxplot(plist, patients, parameter, normalize)
 }
 \arguments{
 \item{plist}{List storing patient time series data (also see function: \link{patient_list})}
@@ -14,7 +13,7 @@ patient_boxplot(plist, patients, parameter, normalized)
 
 \item{parameter}{Parameter of interest in list element(s)}
 
-\item{normalized}{TRUE/FALSE if z-normalized (TRUE by default)}
+\item{normalize}{TRUE/FALSE if z-normalization is required (TRUE by default)}
 }
 \value{
 Visualized patient(s) time series data in a boxplot for indicated parameter

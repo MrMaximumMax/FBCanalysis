@@ -2,10 +2,9 @@
 % Please edit documentation in R/emd.R
 \name{max_fluc}
 \alias{max_fluc}
-\title{Determine the pair of maximum fluctuation difference on time series data distribution
-from a preprocessed list or Earth Mover's Distance square matrix.}
+\title{Determine pair of maximum fluctuation difference}
 \usage{
-max_fluc(input, parameter, maxIter)
+max_fluc(input, parameter, maxIter, normalize)
 }
 \arguments{
 \item{input}{Either a list storing time series data or EMD martrix (also see functions: \link{patient_list}, \link{emd_matrix})}
@@ -13,6 +12,8 @@ max_fluc(input, parameter, maxIter)
 \item{parameter}{Parameter of interest from time series data list}
 
 \item{maxIter}{Maximum of iterations to apply for calculation of Earth Mover's Distannce (also see function: \link{emd_matrix})}
+
+\item{normalize}{Indicates if parameters delivered needs to be normalized or not (TRUE by default)}
 }
 \value{
 Console output with Patient_ID pair, corresponding Earth Mover's Distance and visualized boxplot of both time series data distributions

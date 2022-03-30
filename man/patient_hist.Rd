@@ -2,10 +2,9 @@
 % Please edit documentation in R/data_prep_and_process.R
 \name{patient_hist}
 \alias{patient_hist}
-\title{Visualize patient time series data from a preprocessed in a histogram
-for indicated parameter either normalized or non-normalized.}
+\title{Visualize patient time series data in histogram}
 \usage{
-patient_hist(plist, Patient_ID, parameter, normalized)
+patient_hist(plist, Patient_ID, parameter, normalize)
 }
 \arguments{
 \item{plist}{List storing patient time series data (also see function: \link{patient_list})}
@@ -14,7 +13,7 @@ patient_hist(plist, Patient_ID, parameter, normalized)
 
 \item{parameter}{Parameter of interest in list element}
 
-\item{normalized}{TRUE/FALSE if z-normalized (TRUE by default)}
+\item{normalize}{TRUE/FALSE if z-normalization is required (TRUE by default)}
 }
 \value{
 Visualized patient time series data in a histogram for indicated parameter

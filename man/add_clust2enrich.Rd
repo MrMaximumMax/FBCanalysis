@@ -2,8 +2,7 @@
 % Please edit documentation in R/enrichment.R
 \name{add_clust2enrich}
 \alias{add_clust2enrich}
-\title{Add clustering assignments from clustering output to preprocessed enrichment
-data frame.}
+\title{Add clustering assignments to extended data}
 \usage{
 add_clust2enrich(enrich, clustdat)
 }
@@ -13,10 +12,10 @@ add_clust2enrich(enrich, clustdat)
 \item{clustdat}{Object of type list storing clustering data (also see function: \link{clust_matrix})}
 }
 \value{
-Processed enrichment data frame with added column indicating cluster assignments
+Processed data frame with added column indicating cluster assignments
 }
 \description{
-Add clustering assignments from clustering output to preprocessed enrichment
+Add clustering assignments from clustering output to pre-processed extended/enrichment
 data frame.
 }
 \examples{

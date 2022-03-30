@@ -2,10 +2,7 @@
 % Please edit documentation in R/clValid.R
 \name{init_clValid}
 \alias{init_clValid}
-\title{Initialize Cluster Validation Measure Analysis in the context of Fluctuation
-Based Clustering (FBC) analysis. The call initialized a interactive console
-workflow where the user may indicate the clustering techniques of interest
-as well as the cluster numbers of interest.}
+\title{Initialize Cluster Validation Measure Analysis}
 \usage{
 init_clValid()
 }

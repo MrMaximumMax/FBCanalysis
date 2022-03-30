@@ -2,8 +2,7 @@
 % Please edit documentation in R/clValid.R
 \name{clValid_flow}
 \alias{clValid_flow}
-\title{Interactive console workflow to calculate and evaluate cluster validation measures
-which have been determined previously by the call \link{init_clValid}.}
+\title{Cluster validation measure analysis workflow}
 \usage{
 clValid_flow(matrix, par)
 }
