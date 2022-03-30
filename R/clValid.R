@@ -1,5 +1,7 @@
 #Functions for Cluster validation measure analysis
 
+#' Initialize Cluster Validation Measure Analysis
+#'
 #' Initialize Cluster Validation Measure Analysis in the context of Fluctuation
 #' Based Clustering (FBC) analysis. The call initialized a interactive console
 #' workflow where the user may indicate the clustering techniques of interest
@@ -22,7 +24,7 @@ init_clValid <- function() {
   methods <- as.data.frame(c("hierarchical", "kmeans", "diana", "fanny", "som", "modelbased", "sota",
                              "pam", "clara"))
   #Corresponding numbers to methods so that user can choose easily which method(s) to apply
-  num <- as.data.frame(c(1:10))
+  num <- as.data.frame(c(1:9))
   #Combine methods and corresponding numbers
   methods <- cbind(num, methods)
   colnames(methods) <- c("Number", "Clustering method:")
@@ -57,6 +59,8 @@ init_clValid <- function() {
   newList
 }
 
+#' Cluster validation measure analysis workflow
+#'
 #' Interactive console workflow to calculate and evaluate cluster validation measures
 #' which have been determined previously by the call \link{init_clValid}.
 #'

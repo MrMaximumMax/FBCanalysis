@@ -56,13 +56,21 @@
 #'
 #' @section Determine cluster stability upon random data removal:
 #'
-#'  \link{sim_jaccard_cognate}
+#'  \link{sim_jaccard_global}
 #'
 #'  \link{sim_jaccard_emd}
 #'
-#'  \link{jaccard_run_cognate}
+#'  \link{sim_jaccard_emd_2}
+#'
+#'  \link{jaccard_run_global}
 #'
 #'  \link{jaccard_run_emd}
+#'
+#'  \link{jaccard_run_emd_2}
+#'
+#'  \link{reap_freq}
+#'
+#'  \link{reap_freq_run}
 #'
 #' @section Cluster stability measure validation:
 #'
@@ -80,6 +88,9 @@
 #' @name FBCanalysis
 NULL
 #> NULL
+
+#' Process patient time series data
+#'
 #' Process patient time series data by interpolation options and store data in
 #' an object of type list.
 #'
@@ -96,7 +107,11 @@ NULL
 #' @import readr
 #' @import utils
 #'
-#' @details Prior to undertaking an analysis using one of the FBC procedures,
+#' @details It should be outlined that no prior z-normalization is required!
+#' Within FBCanalysis' functions, the user can indicate if normalization is
+#' required or not.
+#'
+#' Prior to undertaking an analysis using one of the FBC procedures,
 #' it is necessary to adequately process and prepare the relevant time series data.
 #' The function then creates an interactive flow using the console in R Studio.
 #' To begin, the method retrieves all csv files in the provided folder, indicating
@@ -227,13 +242,13 @@ patient_list <- function (path, GitHub) {
   #Present the user the possible options fill up missing data and let him decide
   cat("\n\n", "Sample missing values from First quartile", "\t", "(1)", "\n",
       "Sample missing values from Third quartile", "\t", "(2)", "\n\n",
-      "Sample missing values from 5th percentile", "\t", (3), "\n",
-      "Sample missing values from 95th percentile", "\t", (4), "\n\n",
-      "Interpolate missing values and apply L1 Regularization / Lasso Regression (5)", "\n",
-      "Interpolate missing values and apply L2 Regulariztation / Ridge Regression (6)","\n",
-      "Interpolate missing values and apply Elastic Net on Regression and Regularization (7)", "\n\n",
-      "Interpolate missing values by Linear Spline (8)", "\n",
-      "Interpolate missing values by Cubic C2 Spline (9)", "\n\n")
+      "Sample missing values from 5th percentile", "\t", "(3)", "\n",
+      "Sample missing values from 95th percentile", "\t", "(4)", "\n\n",
+      "Interpolate missing values and apply L1 Regularization / Lasso Regression", "\t\t", "(5)", "\n",
+      "Interpolate missing values and apply L2 Regulariztation / Ridge Regression","\t\t", "(6)","\n",
+      "Interpolate missing values and apply Elastic Net on Regression and Regularization","\t", "(7)", "\n\n",
+      "Interpolate missing values by Linear Spline", "\t", "(8)", "\n",
+      "Interpolate missing values by Cubic C2 Spline", "\t", "(9)", "\n\n")
   #Store the option that the user has chosen
   usecase <- readline("Select measure for filling up NA values: ")
   #Extract the individual Patient_IDs from raw.data frame to the filter the
@@ -393,7 +408,7 @@ patient_list <- function (path, GitHub) {
         lookup <- patdat1[,parameters[j]]
         #Extract the top quantile of the data
         top_quantile <- quantile(lookup)[3]
-        lookup <- subset(lookup, lookup => top_quantile)
+        lookup <- subset(lookup, lookup >= top_quantile)
         #Go through each NA entry
         for (k in 1:nrow(patdat2)) {
           #Randomly samople from top quantile
@@ -433,7 +448,7 @@ patient_list <- function (path, GitHub) {
         #Take here bottom quantile instead
         quantile <- quantile(lookup, probs = 0.05)
         #Here smaller than...
-        lookup <- subset(lookup, lookup <= bottom_quantile)
+        lookup <- subset(lookup, lookup <= quantile)
         for (k in 1:nrow(patdat2)) {
           patdat2[k,parameters[j]] <- sample(lookup, 1)
         }
@@ -446,9 +461,9 @@ patient_list <- function (path, GitHub) {
       for (j in 1:length(parameters)) {
         lookup <- patdat1[,parameters[j]]
         #Take here bottom quantile instead
-        bottom_quantile <- quantile(lookup, probs = 0.95)
+        quantile <- quantile(lookup, probs = 0.95)
         #Here larger than...
-        lookup <- subset(lookup, lookup >= bottom_quantile)
+        lookup <- subset(lookup, lookup >= quantile)
         for (k in 1:nrow(patdat2)) {
           patdat2[k,parameters[j]] <- sample(lookup, 1)
         }
@@ -691,13 +706,15 @@ patient_list <- function (path, GitHub) {
   datalist
 }
 
+#' Visualize patient data in time series plot
+#'
 #' Visualize patient time series data from a preprocessed in a time series plot
 #' for an indicated parameter, either as normalized or non-normalized.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in list element
-#' @param normalized TRUE/FALSE if z-normalized (TRUE by default)
+#' @param normalize TRUE/FALSE if z-normalization is required (TRUE by default)
 #'
 #' @return Visualized patient time series data in a time series plot for indicated parameter
 #'
@@ -711,19 +728,19 @@ patient_list <- function (path, GitHub) {
 #' patient_ts_plot(list,"testpat_1","PEF")
 #'
 #' @export
-patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
+patient_ts_plot <- function(plist, Patient_ID, parameter, normalize) {
 
   #Take specific data frame out of list according to specified Patient_ID
   patient_df <- as.data.frame(plist[[Patient_ID]])
 
-  #In case "normalized" is not specified or "normalized = TRUE"
-  if (missing(normalized) || normalized == TRUE) {
+  #In case "normalize" is not specified or "normalize" = TRUE"
+  if (missing(normalize) || normalize == TRUE) {
 
     #Plot time on x-axis and z-normalize specified parameter from data frame on y-axis
     graphics::plot(patient_df$Time,znorm(patient_df[, which(names(patient_df) %in% parameter)]),
          xlab = "Time", ylab = parameter, main = Patient_ID, col = "blue")
 
-    #In case "normalized = FALSE"
+    #In case "normalize" = FALSE"
   } else {
     #Plot time on x-axis and non-normalized specified parameter from data frame on y-axis
     plot(patient_df$Time,patient_df[, which(names(patient_df) %in% parameter)],
@@ -731,13 +748,15 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
   }
 }
 
+#' Visualize patient time series data in boxplot
+#'
 #' Visualize patient(s) time series from a preprocessed list with in a boxplot,
 #' either as normalized or non-normalized for an indicated parameter.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param patients Patient_ID(s) referring to (a) list element; can be single ID or multiple IDs (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in list element(s)
-#' @param normalized TRUE/FALSE if z-normalized (TRUE by default)
+#' @param normalize TRUE/FALSE if z-normalization is required (TRUE by default)
 #'
 #' @return Visualized patient(s) time series data in a boxplot for indicated parameter
 #'
@@ -752,7 +771,7 @@ patient_ts_plot <- function(plist, Patient_ID, parameter, normalized) {
 #' patient_boxplot(list,c("ID_2","testpat_1","testpat_2","a301"), "FEV1")
 #'
 #' @export
-patient_boxplot <- function(plist, patients, parameter, normalized) {
+patient_boxplot <- function(plist, patients, parameter, normalize) {
 
   #In case boxplot for only one patient
   if (length(patients) == 1) {
@@ -761,12 +780,12 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
     #Filter patient data for specified parameter
     dat <- patient_df[, which(names(patient_df) %in% parameter)]
 
-    #In case "normalized" is not specified or "normalized = TRUE"
-    if (missing(normalized) || normalized == TRUE) {
+    #In case "normalize" is not specified or "normalize" = TRUE"
+    if (missing(normalize) || normalize == TRUE) {
       #Use written function to z-normalize data
       dat <- znorm(dat)
     }
-    #Apply boxplot on z-normalized data
+    #Apply boxplot on data
     boxplot(dat, main = patients,ylab = parameter)
 
     #In case boxplot for more than one patient
@@ -776,14 +795,14 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
     #Filter data frame for specified Patient_ID's
     dat <- patient_df %>% dplyr::filter(Patient_ID %in% patients)
 
-    #In case "normalized" not specified or "normalized = TRUE"
-    if (missing(normalized) || normalized == TRUE) {
+    #In case "normalize" not specified or "normalize" = TRUE"
+    if (missing(normalize) || normalize == TRUE) {
       #Filter data frame for specified parameter and z-normalize
       #Apply boxplot of z-normalized data against Patient_ID's
       boxplot(znorm(dat[, which(names(dat) %in% parameter)]) ~ dat$Patient_ID,
               main = "Combined boxplots", ylab = parameter, xlab = NULL)
 
-      #In case "normalized = FALSE"
+      #In case "normalize" = FALSE"
     } else {
       #Apply boxplot of non-normalized data against Patient_ID's
       boxplot(dat[, which(names(dat) %in% parameter)] ~ dat$Patient_ID,
@@ -792,13 +811,15 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
   }
 }
 
+#' Visualize patient time series data in histogram
+#'
 #' Visualize patient time series data from a preprocessed in a histogram
 #' for indicated parameter either normalized or non-normalized.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param Patient_ID Patient_ID referring to a list element (also see function: \link{patient_list})
 #' @param parameter Parameter of interest in list element
-#' @param normalized TRUE/FALSE if z-normalized (TRUE by default)
+#' @param normalize TRUE/FALSE if z-normalization is required (TRUE by default)
 #'
 #' @return Visualized patient time series data in a histogram for indicated parameter
 #'
@@ -812,15 +833,15 @@ patient_boxplot <- function(plist, patients, parameter, normalized) {
 #' patient_hist(list,"testpat_1","PEF")
 #'
 #' @export
-patient_hist <- function(plist, Patient_ID, parameter, normalized) {
+patient_hist <- function(plist, Patient_ID, parameter, normalize) {
 
   #Take data frame out of list for specified Patient_ID
   df <- plist[[Patient_ID]]
   #Filter data for specified parameter
   dat <- df[,parameter]
 
-  #In case "normalized" not specified or "normalized = TRUE"
-  if (missing(normalized) || normalized == TRUE) {
+  #In case "normalize" not specified or "normalize" = TRUE"
+  if (missing(normalize) || normalize == TRUE) {
     #z-normalize the data for specified parameter
     dat <- znorm(dat)
   }

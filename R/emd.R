@@ -1,11 +1,14 @@
 #Generate, process and visualize Earth Mover's Distance data
 
+#' Generate Earth Mover's Distance Matrix
+#'
 #' Generate an Earth Mover's Distance Matrix for time series data distributions
 #' pairs out of a preprocessed time series data list.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
 #' @param parameter Parameter of interest to determine Earth Mover's Distances between distributions
 #' @param maxIter Maximum of iterations to calculate Earth Mover's Distance (default: 500)
+#' @param normalize Indicates if parameters delivered needs to be normalized or not (TRUE by default)
 #'
 #' @return Earth Mover's Distance Square Matrix of type matrix
 #'
@@ -38,7 +41,7 @@
 #' matrix <- emd_matrix(list, "FEV1")
 #'
 #' @export
-emd_matrix <- function (plist, parameter, maxIter) {
+emd_matrix <- function (plist, parameter, maxIter, normalize) {
 
   #Determine number of patients in list
   N <- length(plist)
@@ -56,7 +59,11 @@ emd_matrix <- function (plist, parameter, maxIter) {
     #Take data from first patient out of list
     distr_a <- plist[[i]]
     #Filter patient data for specified parameter and normalize data
+    if (missing(normalize) || normalize == TRUE) {
     norm_a <- as.matrix(as.data.frame(table((distr_a[,parameter] - min(distr_a[,parameter]))/(max(distr_a[,parameter]) - min(distr_a[,parameter])))))
+    } else {
+      norm_a <- as.matrix(as.data.frame(table(distr_a[,parameter])))
+    }
     #Start second for-loop (from 1 to number of patients)
     for (j in c(1:N)) {
       #Check that i and j are not equal to remain diagonal 0's on distance matrix
@@ -64,7 +71,11 @@ emd_matrix <- function (plist, parameter, maxIter) {
         #Take data from second patient out of list
         distr_b <- plist[[j]]
         #Filter patient data for specified parameter and normalize data
+        if (missing(normalize) || normalize == TRUE) {
         norm_b <- as.matrix(as.data.frame(table((distr_b[,parameter] - min(distr_b[,parameter]))/(max(distr_b[,parameter]) - min(distr_b[,parameter])))))
+        } else {
+          norm_b <- as.matrix(as.data.frame(table(distr_b[,parameter])))
+        }
         #In case max. Iterations not specified, default number of iterations on
         #calculating EMD is set to 500
         #In some cases not sufficient (leads to a warning message)
@@ -89,6 +100,7 @@ emd_matrix <- function (plist, parameter, maxIter) {
 #' @param input Earth Mover's Distance Matrix or list storing patient time series data (also see function: \link{patient_list})
 #' @param parameter In case list is input, the parameter of interest from time series data list
 #' @param Iter In case input is time series data list, incate maxIter to calculate EMD matrix (also see function: \link{emd_matrix})
+#' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
 #'
 #' @return Visualized Earth Mover's Distance Matrix as a heatmap
 #'
@@ -101,10 +113,10 @@ emd_matrix <- function (plist, parameter, maxIter) {
 #' emd_heatmap(matrix)
 #'
 #' @export
-emd_heatmap <- function(input, parameter, maxIter) {
+emd_heatmap <- function(input, parameter, maxIter, normalize) {
 
-  #In case input is either of type "matrix" or "double" and no parameter is specified
-  if (missing (maxIter) & missing(parameter) & typeof(input) == "matrix" || typeof(input) == "double") {
+  #In case input is either of type "matrix" or "double" and no parameter/normalize is specified
+  if (missing (normalize) & missing (maxIter) & missing(parameter) & typeof(input) == "matrix" || typeof(input) == "double") {
     #Apply heatmap on input, disable any further functionalities (e.g dendrogram),
     #remain order of matrix data entries and scale font size of legend
     heatmap(input, Colv = NA, Rowv = NA, scale = "column", cexRow = 0.7, cexCol = 0.7)
@@ -117,7 +129,12 @@ emd_heatmap <- function(input, parameter, maxIter) {
     if (missing(maxIter)) {
       Iter <- 5000
     }
-    heatmap((emd_matrix(input, parameter, maxIter = Iter)), Colv = NA, Rowv = NA, scale = "column",
+    if (missing(normalize) || normalize == TRUE) {
+      normal <- TRUE
+    } else {
+      normal <- FALSE
+    }
+    heatmap((emd_matrix(input, parameter, maxIter = Iter, normalize = normal)), Colv = NA, Rowv = NA, scale = "column",
             cexRow = 0.7, cexCol = 0.7)
     #In case type of input is neither "matrix", "double" nor "list", stop and give
     #feedback to user
@@ -126,12 +143,15 @@ emd_heatmap <- function(input, parameter, maxIter) {
   }
 }
 
+#' Determine pair of maximum fluctuation difference
+#'
 #' Determine the pair of maximum fluctuation difference on time series data distribution
 #' from a preprocessed list or Earth Mover's Distance square matrix.
 #'
 #' @param input Either a list storing time series data or EMD martrix (also see functions: \link{patient_list}, \link{emd_matrix})
 #' @param parameter Parameter of interest from time series data list
 #' @param maxIter Maximum of iterations to apply for calculation of Earth Mover's Distannce (also see function: \link{emd_matrix})
+#' @param normalize Indicates if parameters delivered needs to be normalized or not (TRUE by default)
 #'
 #' @return Console output with Patient_ID pair, corresponding Earth Mover's Distance and visualized boxplot of both time series data distributions
 #'
@@ -145,14 +165,19 @@ emd_heatmap <- function(input, parameter, maxIter) {
 #' max_fluc(list, "PEF")
 #'
 #' @export
-max_fluc <- function(input, parameter, maxIter) {
+max_fluc <- function(input, parameter, maxIter, normalize) {
 
+  if (missing(normalize) || normalize == TRUE) {
+    normal <- TRUE
+  } else {
+    normal <- FALSE
+  }
   #In case input is either of type "matrix" or "double" and no parameter is specified
   if (missing (maxIter) & missing(parameter) & typeof(input) == "matrix" || typeof(input) == "double") {
     distmat <- input
   } else {
   #Calculate EMD matrix out of specified list and parameter
-  distmat <- emd_matrix(input, parameter, maxIter = maxIter)
+  distmat <- emd_matrix(input, parameter, maxIter = maxIter, normalize = normal)
   }
   #Determine matrix position where highest EMD was find in distmat
   max_pair <- as.vector(which(distmat==max(distmat), arr.ind = TRUE))

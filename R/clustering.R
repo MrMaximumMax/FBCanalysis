@@ -1,6 +1,8 @@
 #Function to cluster Earth Mover's Distance Matrix
 
-#' Cluster Earth Mover Distance Square Matrix data and record cluster assignments
+#' Cluster Earth Mover's Distance Matrix
+#'
+#' Cluster Earth Mover's Distance Square Matrix data and record cluster assignments
 #' for involved Patient_IDs for a specified clustering technique and number of
 #' clusters.
 #'

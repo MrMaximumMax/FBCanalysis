@@ -1,6 +1,8 @@
-#General functionalities to cluster data and add cluster assignments to ts- and enrichment data
+#General functionalities to cluster data and add cluster assignments to ts- and extended data
 
-#' Add enrichment data from a csv file, match with Patient ID entries from a
+#' Add extended data
+#'
+#' Add extended data from a csv file, match with Patient ID entries from a
 #' previously generated time series data list and preprocess for further analysis.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
@@ -11,24 +13,24 @@
 #' @import utils
 #' @import dplyr
 #'
-#' @details the enrichment csv file should have a column including the Patient ID.
-#' Additionally, the user specifies the list in which time series data is saved.
+#' @details the extended csv file should have a column including the Patient ID.
+#' Additionally, one specifies the list in which time series data is saved.
 #' This is advantageous since the function can now do matching, i.e. determine
-#' which Patient IDs occur in both the enrichment dataset and time series datalist.
-#' So for a result, any Patient ID that appears in the enrichment dataset but
-#' does not exist in the time series datalist will be deleted from the enrichment
+#' which Patient IDs occur in both the extended dataset and time series datalist.
+#' So for a result, any Patient ID that appears in the extended dataset but
+#' does not exist in the time series datalist will be deleted from the extended
 #' dataset, as it cannot be used in any further investigation. Nonetheless,
 #' Patient IDs from the time series data that do not appear in the enrichment dataset
 #' will be added to the enrichment dataset, but each new parameter will be featureless,
 #' so added as NA value.
 #'
-#' If the user selects option 1 (leave missing values as NA), no further processing
-#' of the input occurs. The enrichment data set will be added to the environment as
-#' a data frame. In this situation, the NA values from the enrichment dataset will be
+#' If one selects option 1 (leave missing values as NA), no further processing
+#' of the input occurs. The extended data set will be added to the environment as
+#' a data frame. In this situation, the NA values from the extended dataset will be
 #' included in the summary indicating, for example, that a certain cluster has a given
 #' percentage of missing values. This may also lead to some additional findings, such
 #' as that a specific parameter considerably enriches a cluster yet many data is absent.
-#' If the user selects option 2 (sample missing values), the function loops over each
+#' If the one selects option 2 (sample missing values), the function loops over each
 #' NA entry and selects a random value from the whole distribution for the parameter
 #' for which the data is missing. This cycle is repeated until the whole dataset has
 #' been processed and the data will be added as a data frame to the environment.
@@ -127,13 +129,15 @@ add_enrich <- function(plist, path) {
   dat_new
 }
 
-#' Add clustering assignments from clustering output to preprocessed enrichment
+#' Add clustering assignments to extended data
+#'
+#' Add clustering assignments from clustering output to pre-processed extended/enrichment
 #' data frame.
 #'
 #' @param enrich Preprocessed enrichment data frame (also see function: \link{add_enrich})
 #' @param clustdat Object of type list storing clustering data (also see function: \link{clust_matrix})
 #'
-#' @return Processed enrichment data frame with added column indicating cluster assignments
+#' @return Processed data frame with added column indicating cluster assignments
 #'
 #' @import tibble
 #'
@@ -168,6 +172,8 @@ add_clust2enrich <- function(enrich, clustdat) {
   enrich <- cbind(enrich,new)
 }
 
+#' Add clustering assignments to time series data
+#'
 #' Add clustering assignments from clustering output to time series data list
 #' and store the data in a data frame.
 #'
@@ -221,30 +227,32 @@ add_clust2ts <- function(plist, clustdat) {
   assigned <- do.call(rbind,datalist)
 }
 
-#' Observe a specific cluster of interest on preporcessed enrichment and time
-#' series data for overview and p-values. The p-values are calculated by a
-#' Wilcox Rank Sum test for continuous data and a Fisher's Exact Test for
-#' categorical enrichment data.
+#' Observe a specific cluster of interest
+#'
+#' Observe a specific cluster of interest of preporcessed extended and time
+#' series data for overview and p-values.
 #'
 #' @param ts.dat Processed data frame storing time series data and cluster assignments (also see function: \link{add_clust2ts})
 #' @param enrich Processed data frame storing enrichment data and cluster assignments (also see function: \link{add_clust2enrich})
 #' @param clustno Cluster number of interest
+#' @param numeric Statistical test to be performed on continuous data
+#' @param categorical Statistical test to be performed on categorical data
 #'
 #' @return Terminal output presenting summary of time series and enrichment data with corresponding p-values
 #'
 #' @import arsenal
 #' @import dplyr
 #'
-#' @details There are two techniques to compute the p-value for continuous or
-#' categorical data, according to past work. In order to determine the relevant
-#' p-value inside a cluster of interest, the data distribution within the cluster
-#' should be compared to the data distribution outside the cluster. Prior to
-#' conducting the related probability tests, one data processing step is performed,
-#' namely the construction of two data distributions, one including only data
-#' included inside the cluster and another comprising data from outside the cluster,
-#' for the purpose of comparing them.
+#' @details There are five techniques available to compute the p-value for continuous
+#' or categorical data. In order to determine the relevant p-value inside a cluster
+#' of interest, the data distribution within the cluster should be compared to the
+#' data distribution outside the cluster. Prior to conducting the related probability
+#' tests, one data processing step is performed, namely the construction of two data
+#' distributions, one including only data included inside the cluster and another
+#' comprising data from outside the cluster, for the purpose of comparing them.
 #'
-#' The Mann-Whitney Test, sometimes referred to as the Wilcoxon rank-sum test (WRS),
+#' **Mann-Whitney Test** *(numeric = "wt")*
+#' The Mannn-Whitney Test, sometimes referred to as the Wilcoxon rank-sum test (WRS),
 #' is used to measure the significance of continuous variables within the observed
 #' distribution. The WRS is used to test if the central tendency of two independent
 #' samples is different. When the t-test for independent samples does not meet the
@@ -253,24 +261,50 @@ add_clust2ts <- function(plist, clustdat) {
 #' distributions are not equal. The test is consistent under the broader formulation
 #' only when the following happens under H1.
 #'
-#' The hypergeometric test or Fisher’s exact test (FET) is used to analyse categorical
-#' variables within the enriched data set. It is a statistical significance test for
-#' contingency tables that is employed in the study of them. The test is helpful for
-#' categorical data derived from object classification. It is used to assess the
-#' importance of associations and inconsistencies between classes. The FET is often
-#' used in conjunction with a 2 × 2 contingency table that represents two categories
-#' for a variable, as well as assignment inside or outside of the cluster. The p-value
-#' is calculated as if the table’s margins are fixed. This results in a hypergeometric
-#' distribution of the numbers in the table cells under the null hypothesis of
-#' independence. A hypergeometric distribution is a discrete probability distribution
-#' that describes the probability of k successes, defined as random draws for which
-#' the object drawn has a specified feature in n draws without replacement from a
-#' finite population of size N containing exactly K objects with that feature, where
-#' each draw is either successful or unsuccessful. The test is only practicable for
+#' **Analysis of Variance** *(numeric = "anova")*
+#' A further approach on determining significance for continuous distributions is the
+#' Analysis of Variance (ANOVA). The perquisites for ANOVA are that samples are
+#' sampled independently from each other. Additionally, variance homogeneity and
+#' normal distribution must be given. A independent variable, consisting
+#' of I categories should be given. H0 indicates that no differences in the means for
+#' each I is given. It is used to compare two or more independent samples with
+#' comparable or dissimilar sample sizes.
+#'
+#' **Kruskall-Wallis test** *(numeric = "kwt")*
+#' With several samples are not normally distributed but also small sample sizes
+#' and outliers, the Kruskall-Wallis test may be preferred. It is used to compare
+#' two or more independent samples with comparable or dissimilar sample sizes.
+#' It expands the WRS, which is only used to compare two groups. If the researcher
+#' can make the assumption that all groups have an identically shaped and scaled
+#' distribution, except for differences in medians, H0 is that all groups have
+#' equal medians.
+#'
+#' **Fisher’s exact test** *(categorical = "fe")*
+#' The hypergeometric test or Fisher’s exact test (FET) is used to analyze categorical
+#' variables within the enriched data set. It is a statistical significance test
+#' for contingency tables that is employed in the study of them. The test is helpful
+#' for categorical data derived from object classification. It is used to assess
+#' the importance of associations and inconsistencies between classes. The FET is
+#' often used in conjunction with a 2 × 2 contingency table that represents two
+#' categories for a variable, as well as assignment inside or outside of the cluster.
+#' The p-value is calculated as if the table’s margins are fixed. This results in
+#' a hypergeometric distribution of the numbers in the table cells under the null
+#' hypothesis of independence. A hypergeometric distribution is a discrete probability
+#' distribution that describes the probability of k successes, defined as random draws
+#' for which the object drawn has a specified feature in n draws without replacement
+#' from a finite population of size N containing exactly K objects with that feature,
+#' where each draw is either successful or unsuccessful. The test is only practicable for
 #' normal computations in the presence of a 2 × 2 contingency table. However, the
 #' test’s idea may be extended to the situation of a m × n table in general.
 #' Statistics programs provide a Monte Carlo approach for approximating the more
 #' general case.
+#'
+#' **Chi-Square test** *(categorical = "chisq")*
+#' Additionally, one may choose to do a Chi-Square test. This is a valid statistical
+#' hypothesis test when the test statistic is normally distributed under the null
+#' hypothesis. According to Pear- son, the difference between predicted and actual
+#' frequencies in one or more categories of a contingency table is statistically
+#' significant.
 #'
 #' @references Siegel Sidney. Nonparametric statistics for the behavioral sciences.
 #' The Journal of Nervous and Mental Disease, 125(3):497, 1957.
@@ -289,6 +323,13 @@ add_clust2ts <- function(plist, clustdat) {
 #' for interpreting genome-wide expression profiles. Proceedings of the National
 #' Academy of Sciences, 102(43):15545–15550, 2005.
 #'
+#' William H Kruskal and W Allen Wallis. Errata: Use of ranks in one-criterion variance
+#' analysis. Journal of the American statistical Association, 48(264):907–911, 1953.
+#'
+#' Kinley Larntz. Small-sample comparisons of exact levels for chi-squared goodness-
+#' of-fit statistics. Journal of the American Statistical Association,
+#' 73(362):253–263, 1978.
+#'
 #' @examples
 #' list <- patient_list(
 #' "https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",
@@ -299,16 +340,16 @@ add_clust2ts <- function(plist, clustdat) {
 #' 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv')
 #' enr <- add_clust2enrich(enr, clustering)
 #' ts <- add_clust2ts(list, clustering)
-#' enr_obs_clust(ts, enr, 1)
+#' enr_obs_clust(ts, enr, 1, numeric = "anova", categorical = "fe")
 #'
 #' @export
-enr_obs_clust <- function(ts.dat, enrich, clustno) {
+enr_obs_clust <- function(ts.dat, enrich, clustno, numeric, categorical) {
 
   #Methods only applicable on pre-processed enrichment and time series data
   #from functions: add_clust2enrich & add_clust2ts
 
   #Remove "Patient_ID" column from enrichment data, otherwise they would be
-  #recognized as categorial variable for summary
+  #recognized as categorical variable for summary
   enrich[,"Patient_ID"] <- NULL
   #Split the data so that p-values can be calculated
   #(in cluster = 0 vs. not in cluster = 1)
@@ -320,9 +361,9 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   enrich_new <- rbind(enrich_in,enrich_out)
   #From package "Arsenal"; Creates and calculates a summary of the data by cluster
   #By default: p-values for continuous variables are calculated by Mann-Whitney test
-  #and Hypergeometric test for categorial variable
+  #and Hypergeometric test for categorical variable
   #The tableby() function creates a list where all the data is stored
-  table_enr <- tableby(Cluster ~., data = enrich_new)
+  table_enr <- tableby(Cluster ~., data = enrich_new, numeric.test = numeric, cat.test = categorical)
   #Now this list is transformed to a data frame to print easily the intermediary results
   table_enr <- as.data.frame(summary(table_enr))
   #Remove some reoccuring characters to make it readable
@@ -368,33 +409,16 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   #Now bind them both together again
   ts.dat_new <- rbind(ts.dat_in,ts.dat_out)
   #Make an evaluation by cluster in and out with arsenal functionality
-  table_ts <- tableby(Cluster ~., data = ts.dat_new)
+  table_ts <- tableby(Cluster ~., data = ts.dat_new, numeric.test = numeric)
   #Similar procedure as above (line 978)
   table_ts <- as.data.frame(summary(table_ts))
   table_ts[,1] <- gsub("&nbsp;","",as.character(table_ts[,1]))
+  table_ts <- table_ts[-c(7:9),]
   cola <- as.data.frame(table_ts[,1])
   colb <- as.data.frame(table_ts[,2])
-  #Add empty columns; The terminal output is then more convenient to read
-  colc <- as.data.frame(matrix("",ncol = 2, nrow = nrow(cola)))
-  cold <- as.data.frame(table_ts[,5])
-  table_ts <- cbind(cola,colb,colc,cold)
-  colnames(table_ts) <- c("Parameter", " "," ", "z-norm", "p-value")
-  #add the z-normalized values like
-  #Loop over each parameter
-  for (k in 1:length(parameters)) {
-    #Take the current distribution, meaning for the current parameter inside the cluster
-    current_distribution <- ts.dat_in[,parameters[k]]
-    #Z-normalize the chosen distributions
-    current_distribution <- znorm(current_distribution)
-    #Find the max. of the z-norm. distribution
-    mx <- as.character(round(max(current_distribution), digits = 3))
-    #Find the min. of the z-norm. distribution
-    min <- as.character(round(min(current_distribution), digits = 3))
-    #Combine them in one character (-"-)
-    mxmin <- paste0(min, " - ",mx)
-    #Add the range in the summary table
-    table_ts[(3*k),4] <- mxmin
-  }
+  colc <- as.data.frame(table_ts[,5])
+  table_ts <- cbind(cola,colb,colc)
+  colnames(table_ts) <- c("Parameter", " ", "p-value")
 
   #for summary: number of measurements; number of interpolated data
   #Filter time series data for current cluster and determine length (= number of measurements)
@@ -416,8 +440,10 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
   print(table_enr)
 }
 
-#' Simulate random sampling for NA entries in enrichment data and
-#' check stability of resulting p-values for the enrichment parameters for an
+#' Simulate random sampling in extended data
+#'
+#' Simulate random sampling for NA entries in extended data and
+#' check stability of resulting p-values for the parameters for an
 #' indicated number of random sampling simulations.
 #'
 #' @param plist List storing patient time series data (also see function: \link{patient_list})
@@ -432,9 +458,9 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
 #' @import dplyr
 #'
 #' @details It allows the sampling in NA entries to be repeated for each parameter
-#' in the enriched data set. The primary objective here is to validate the random
+#' in the extended data set. The primary objective here is to validate the random
 #' sampling process for missing data by running many simulations and comparing the
-#' resultant p-values. An enrichment data frame with NA elements is saved as a
+#' resultant p-values. An extended data frame with NA elements is saved as a
 #' simulation foundation. This data frame will always serve as the foundation
 #' for any subsequent simulations added. Following that, the program runs through
 #' each NA item in the dataset and generates a random sample of the current
@@ -447,11 +473,11 @@ enr_obs_clust <- function(ts.dat, enrich, clustno) {
 #' GitHub = TRUE)
 #' #Sampling frequency is supposed to be daily
 #' path <- 'https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/enrich/enrichment.csv'
-#' test <- sim_sample_enr(list,path,clustering,1,100)
+#' test <- sim_sample_enr(list,path,clustering,1,100, numeric = "anova", categorical = "fe")
 #' sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim)
 #'
 #' @export
-sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim) {
+sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim, numeric, categorical) {
 
   #Analogous start as in function: add_enrich()
   #Read csv-file on indicated path; empty fields in csv-file are filled up as NA
@@ -539,7 +565,7 @@ sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim) {
       }
     }
     #Remove "Patient_ID" column from enrichment data, otherwise they would be
-    #recognized as categorial variable for summary
+    #recognized as categorical variable for summary
     dat_new_add[,"Patient_ID"] <- NULL
     #Split the data so that p-values can be calculated
     #(in cluster = 0 vs. not in cluster = 1)
@@ -551,9 +577,9 @@ sim_sample_enr <- function(plist, path, clustdat, clustno, n_sim) {
     enrich_new <- rbind(enrich_in,enrich_out)
     #From package "Arsenal"; Creates and calculates a summary of the data by cluster
     #By default: p-values for continuous variables are calculated by Mann-Whitney test
-    #and Hypergeometric test for categorial variable
+    #and Hypergeometric test for categorical variable
     #The tableby() function creates a list where all the data is stored
-    table_enr <- tableby(Cluster ~., data = enrich_new)
+    table_enr <- tableby(Cluster ~., data = enrich_new, numeric.test = numeric, cat.test = categorical)
     #Now this list is transformed to a data frame to print easily the intermediary results
     table_enr <- as.data.frame(summary(table_enr))
     #Remove some reoccuring characters to make it readable
