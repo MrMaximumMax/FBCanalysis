@@ -35,3 +35,6 @@ knitr::opts_chunk$set(
   The R package aims to offer researchers with fast tools for clustering patient time series data and confirming the distinction using additional metrics such as population parameter enrichment analysis, stability after random data removal, and conventional cluster stability measures.
   
   It is also considerable to apply these data scientific techniques to other model development areas where a distinction in heterogeneous groups due to time series data fluctuations is desired.
+  
+  A detailed reference manual on the package's functionalities can be taken from:
+  https://github.com/MrMaximumMax/FBCanalysis/blob/master/FBCanalysis_0.0.0.9000.pdf
