@@ -525,7 +525,7 @@ GitHub <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)<
 <div class="section level2">
 <h2 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h2>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/jaccard_run_cognate.html">jaccard_run_cognate</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="fu">jaccard_run_cognate</span><span class="op">(</span>
   <span class="va">plist</span>,
   <span class="va">parameter</span>,
   <span class="va">n_simu</span>,
@@ -572,7 +572,7 @@ GitHub <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)<
 <code class="sourceCode R"><span class="va">list</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/patient_list.html">patient_list</a></span><span class="op">(</span>
 <span class="st">"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv"</span>,
 GitHub <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/jaccard_run_cognate.html">jaccard_run_cognate</a></span><span class="op">(</span><span class="va">list</span>,<span class="st">"PEF"</span>,<span class="fl">10</span>,<span class="st">"hierarchical"</span>,<span class="fl">1</span>,<span class="fl">3</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.01</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">jaccard_run_cognate</span><span class="op">(</span><span class="va">list</span>,<span class="st">"PEF"</span>,<span class="fl">10</span>,<span class="st">"hierarchical"</span>,<span class="fl">1</span>,<span class="fl">3</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.01</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div class="section level1">
@@ -877,7 +877,7 @@ GitHub <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)<
 <div class="section level2">
 <h2 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h2>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/sim_jaccard_cognate.html">sim_jaccard_cognate</a></span><span class="op">(</span><span class="va">plist</span>, <span class="va">parameter</span>, <span class="va">removal</span>, <span class="va">n_simu</span>, <span class="va">method</span>, <span class="va">n_clust</span>, <span class="va">Iter</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">sim_jaccard_cognate</span><span class="op">(</span><span class="va">plist</span>, <span class="va">parameter</span>, <span class="va">removal</span>, <span class="va">n_simu</span>, <span class="va">method</span>, <span class="va">n_clust</span>, <span class="va">Iter</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h2>
@@ -917,7 +917,7 @@ GitHub <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)<
 <span class="st">"https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv"</span>,
 GitHub <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#Sampling frequency is supposed to be daily</span>
-<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sim_jaccard_cognate.html">sim_jaccard_cognate</a></span><span class="op">(</span><span class="va">list</span>, <span class="st">"PEF"</span>, <span class="fl">0.05</span>, <span class="fl">10</span>, <span class="st">"hierarchical"</span>, <span class="fl">2</span>, <span class="fl">1000</span><span class="op">)</span></code></pre></div>
+<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">sim_jaccard_cognate</span><span class="op">(</span><span class="va">list</span>, <span class="st">"PEF"</span>, <span class="fl">0.05</span>, <span class="fl">10</span>, <span class="st">"hierarchical"</span>, <span class="fl">2</span>, <span class="fl">1000</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div class="section level1">

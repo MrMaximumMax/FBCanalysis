@@ -67,6 +67,12 @@
     <loc>/reference/jaccard_run_emd.html</loc>
   </url>
   <url>
+    <loc>/reference/jaccard_run_emd_2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/jaccard_run_global.html</loc>
+  </url>
+  <url>
     <loc>/reference/max_fluc.html</loc>
   </url>
   <url>
@@ -82,6 +88,12 @@
     <loc>/reference/patient_ts_plot.html</loc>
   </url>
   <url>
+    <loc>/reference/reap_freq.html</loc>
+  </url>
+  <url>
+    <loc>/reference/reap_freq_run.html</loc>
+  </url>
+  <url>
     <loc>/reference/rnd_dat_rm.html</loc>
   </url>
   <url>
@@ -89,6 +101,12 @@
   </url>
   <url>
     <loc>/reference/sim_jaccard_emd.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sim_jaccard_emd_2.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sim_jaccard_global.html</loc>
   </url>
   <url>
     <loc>/reference/sim_sample_enr.html</loc>
