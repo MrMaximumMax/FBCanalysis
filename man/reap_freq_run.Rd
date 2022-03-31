@@ -28,6 +28,9 @@ reap_freq_run(
 
 \item{range}{Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))}
 
+\item{Iter}{Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+default is 5,000 for this function}
+
 \item{normalize}{Indicates if parameter indicated needs to be normalized or not (TRUE by default)}
 }
 \value{

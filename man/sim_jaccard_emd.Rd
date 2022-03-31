@@ -29,10 +29,10 @@ sim_jaccard_emd(
 
 \item{n_clust}{Number of clusters (also see function: \link{clust_matrix})}
 
-\item{normalize}{Indicates if parameter indicated needs to be normalized or not (TRUE by default)}
-
-\item{Iter}{Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+\item{maxIter}{Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
 default is 5,000 for this function}
+
+\item{normalize}{Indicates if parameter indicated needs to be normalized or not (TRUE by default)}
 }
 \value{
 Object of type matrix storing received Jaccard indices for indicated amount
