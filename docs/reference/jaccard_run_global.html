@@ -96,11 +96,11 @@ steps for a specific cluster of interest.</p>
 <dd><p>Number of clusters</p></dd>
 <dt>range</dt>
 <dd><p>Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))</p></dd>
-<dt>normalize</dt>
-<dd><p>Indicates if parameter indicated needs to be normalized or not (TRUE by default)</p></dd>
-<dt>Iter</dt>
+<dt>maxIter</dt>
 <dd><p>Maximum iterations to determine Earth Mover's Distances (also see function: <a href="emd_matrix.html">emd_matrix</a>);
 default is 5,000 for this function</p></dd>
+<dt>normalize</dt>
+<dd><p>Indicates if parameter indicated needs to be normalized or not (TRUE by default)</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -189,7 +189,7 @@ Thorax, 73(2):107–115, 2018.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Interpolate missing values by Cubic C2 Spline 	 (9) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Select measure for filling up NA values: </span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in `[.data.frame`(raw.data, , "Patient_ID"):</span> undefined columns selected</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in patient_list("https://raw.githubusercontent.com/MrMaximumMax/FBCanalysis/master/demo/phys/data.csv",     GitHub = TRUE):</span> object 'answer_a' not found</span>
 <span class="r-in"><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">jaccard_run_global</span><span class="op">(</span><span class="va">list</span>,<span class="st">"PEF"</span>,<span class="fl">10</span>,<span class="st">"hierarchical"</span>,<span class="fl">1</span>,<span class="fl">3</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>,<span class="fl">0.01</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in plist[[i]]:</span> object of type 'builtin' is not subsettable</span>
