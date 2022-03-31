@@ -58,7 +58,7 @@ rnd_dat_rm <- function(plist, removal) {
 #' @param n_simu Number of simulations
 #' @param method Clustering method (also see function: \link{clust_matrix})
 #' @param n_clust Number of clusters (also see function: \link{clust_matrix})
-#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+#' @param maxIter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
 #' default is 5,000 for this function
 #' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
 #'
@@ -184,7 +184,7 @@ sim_jaccard_global <- function(plist, parameter, removal, n_simu, method, n_clus
 #' @param n_simu Number of simulations
 #' @param method Clustering method (also see function: \link{clust_matrix})
 #' @param n_clust Number of clusters (also see function: \link{clust_matrix})
-#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+#' @param maxIter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
 #' default is 5,000 for this function
 #' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
 #'
@@ -349,7 +349,7 @@ sim_jaccard_emd <- function(plist, parameter, removal, n_simu, method, n_clust, 
 #' @param clust_num Cluster of interest
 #' @param n_clust Number of clusters
 #' @param range Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))
-#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+#' @param maxIter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
 #' default is 5,000 for this function
 #' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
 #'
@@ -438,7 +438,7 @@ jaccard_run_global <- function(plist, parameter, n_simu, method, clust_num, n_cl
 #' @param clust_num Cluster of interest
 #' @param n_clust Number of clusters
 #' @param range Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))
-#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+#' @param maxIter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
 #' default is 5,000 for this function
 #' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
 #'
@@ -650,6 +650,8 @@ reap_freq <- function(plist, parameter, removal, n_simu, method, n_clust, Iter, 
 #' @param n_clust Number of clusters
 #' @param range Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))
 #' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
+#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+#' default is 5,000 for this function
 #'
 #' @return List storing vectors with reappearance frequencies for each simulation run
 #' for each removal amount indicated as well as illustrated results in a boxplot
@@ -717,7 +719,7 @@ reap_freq_run <- function(plist, parameter, n_simu, method, n_clust, range, Iter
 #' @param n_simu Number of simulations
 #' @param method Clustering method (also see function: \link{clust_matrix})
 #' @param n_clust Number of clusters (also see function: \link{clust_matrix})
-#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+#' @param maxIter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
 #' default is 5,000 for this function
 #' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
 #'
@@ -875,7 +877,7 @@ sim_jaccard_emd_2 <- function(plist, parameter, removal, n_simu, method, n_clust
 #' @param clust_num Cluster of interest
 #' @param n_clust Number of clusters
 #' @param range Range to simulate random data removal (e.g. c(0.1,0.2,0.5,0.7,0.8))
-#' @param Iter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
+#' @param maxIter Maximum iterations to determine Earth Mover's Distances (also see function: \link{emd_matrix});
 #' default is 5,000 for this function
 #' @param normalize Indicates if parameter indicated needs to be normalized or not (TRUE by default)
 #'
