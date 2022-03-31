@@ -251,6 +251,15 @@ patient_list <- function (path, GitHub) {
       "Interpolate missing values by Cubic C2 Spline", "\t", "(9)", "\n\n")
   #Store the option that the user has chosen
   usecase <- readline("Select measure for filling up NA values: ")
+  if (usecase == 5 || usecase == 6 || usecase == 7) {
+    cat("\n\n")
+    answer_a <- readline("Leave-one-out validation (1 = yes/2 = no)?: ")
+  }
+
+  if (answer_a == "2") {
+    cat("\n\n")
+    answer_b <- as.numeric(readline("How many data points to train?: "))
+  }
   #Extract the individual Patient_IDs from raw.data frame to the filter the
   #raw.data by Patient_ID and process the time series distributions according
   #to the previously specified criteria
@@ -261,7 +270,7 @@ patient_list <- function (path, GitHub) {
   #data will be stored
   datalist <- list()
   #In case the user has chosen Interpolation/Regularizatio by Elastic Net
-  if (usecase == 5) {
+  if (usecase == 7) {
     cat("\n\n")
     #Let user decide which Alpha value to use for Elastic Net
     Alpha_for_elastic_net <<- as.numeric(readline("Please indicate your alpha value for elastic net (between 0 and 1): "))
@@ -270,6 +279,7 @@ patient_list <- function (path, GitHub) {
     #not find the assigned alpha value anymore when alpha is not added to the
     #environment; debugging could not resolve this so far
   }
+
   #Initialize a progress bar
   pb <- txtProgressBar(min = 0, max = n, style = 3)
   #Go through each Patient_ID from the raw.data df
@@ -487,8 +497,12 @@ patient_list <- function (path, GitHub) {
       patdat[,"Seq"] <- 1:nrow(patdat)
       #Filter for existing data = Training data
       patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
+      if(answer_a == "1") {
       #Polynomial degress to try out are number of data points - 1
       pol_degrees <- length(complete.cases(patdat))-1
+      } else {
+        pol_degrees <- answer_b
+      }
       #Loop through each parameters individually and find out best polynomial
       #degree and lambda for regularized model
       for (j in 1:length(parameters)) {
@@ -572,7 +586,11 @@ patient_list <- function (path, GitHub) {
       patdat <- patdat[order(patdat$Time),]
       patdat[,"Seq"] <- 1:nrow(patdat)
       patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
-      pol_degrees <- length(complete.cases(patdat))-1
+      if(answer_a == "1") {
+        pol_degrees <- length(complete.cases(patdat))-1
+      } else {
+        pol_degrees <- answer_b
+      }
       for (j in 1:length(parameters)) {
         current_par <- parameters[j]
         regularization_mat <- matrix(0, nrow = pol_degrees, ncol = 2)
@@ -622,11 +640,15 @@ patient_list <- function (path, GitHub) {
     #Similar remarks as in line 338; The only difference here is that
     #now glmnet uses the indicated alpha for elastic net that has been added to
     #the environment (see line 338); Besides this, the approach is similar
-    if (usecase == 7) {
+    if (usecase == "7") {
       patdat <- patdat[order(patdat$Time),]
       patdat[,"Seq"] <- 1:nrow(patdat)
       patdat1 <- dplyr::filter(patdat, Interpolated == FALSE)
-      pol_degrees <- length(complete.cases(patdat))-1
+      if(answer_a == 1) {
+        pol_degrees <- length(complete.cases(patdat))-1
+      } else {
+        pol_degrees <- answer_b
+      }
       for (j in 1:length(parameters)) {
         current_par <- parameters[j]
         regularization_mat <- matrix(0, nrow = pol_degrees, ncol = 2)
