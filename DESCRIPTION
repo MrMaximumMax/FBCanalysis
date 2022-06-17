@@ -1,6 +1,6 @@
 Package: FBCanalysis
 Title: Develop and evaluate time series data models based on fluctuation based clustering
-Version: 0.9.0
+Version: 0.99.0
 Date: 2020-03-16
 Authors@R: 
     person("Maximilian", "Koehler", , "maximilian.a.koehler@gmail.com", role = c("aut", "cre"))
