@@ -39,3 +39,6 @@ Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
+biocViews:
+    Clustering,
+    Regression
